@@ -13,27 +13,56 @@
     />
   </head>
   <body>
-    <div class="main">
-      <div class="center">
-        <div class="welcome-text">
-          <h1 class="hometitle">Welcome to</h1>
-          <h1 class="hometitle rainbow-text">
-            &nbsp
-            <span>T</span>
-            <span>i</span>
-            <span>c</span>
-            <span>k</span>
-            <span>i</span>
-            <span>n</span>
-            <span>o</span>
-            <span>!</span>
+    <div>
+      <!-- Navbar -->
+      <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+          <div class="ms-1">
+            <img
+              src="https://logos-world.net/wp-content/uploads/2022/04/Habbo-Symbol.png"
+              width="50"
+              height="30"
+              class="d-inline-block align-top"
+              alt=""
+            />
+            Tickino
+          </div>
+        </a>
+        <div
+          class="d-flex gap-4 justify-content-center align-items-center navbar-brand navbar-dark"
+        >
+          <h5 class="m-0">Welcome, John!</h5>
+          <a href="login.html" class="btn btn-primary">Logout</a>
+        </div>
+      </nav>
+      <!-- End of Navbar -->
+      <div
+        class="container-fluid mt-5 d-flex flex-column justify-content-center align-items-center h-100"
+      >
+        <div class="d-flex">
+          <h1 class="display-1"><strong>Welcome to&nbsp;</strong></h1>
+          <h1 class="display-1 rainbow-text">
+            <span><strong>T</strong></span>
+            <span><strong>i</strong></span>
+            <span><strong>c</strong></span>
+            <span><strong>k</strong></span>
+            <span><strong>i</strong></span>
+            <span><strong>n</strong></span>
+            <span><strong>o</strong></span>
+            <span><strong>!</strong></span>
           </h1>
         </div>
-        <p class="hometext">Your favourite ticket management system.</p>
+        <p class="hometext">Your favourite ticketing management system.</p>
 
-        <div class="column">
-          <a href="form.html" class="btn btn-primary btn-lg">Create ticket</a>
-          <a href="list.html" class="btn btn-primary btn-lg">View tickets</a>
+        <div class="row">
+          <div class="col">
+            <a href="form.html" class="btn text-nowrap btn-primary btn-lg"
+              >Create ticket</a
+            >
+          </div>
+          <div class="col">
+            <a href="list.html" class="btn btn-primary btn-lg">View tickets</a>
+          </div>
         </div>
       </div>
     </div>

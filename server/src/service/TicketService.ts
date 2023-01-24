@@ -46,3 +46,7 @@ class TicketService implements ITicketService {
     return true;
   }
 }
+
+export default function makeTicketService(): ITicketService {
+  return new TicketService();
+}

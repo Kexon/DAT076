@@ -28,8 +28,8 @@ class TicketService implements ITicketService {
   async getTicketsByAssigneeId(id: number): Promise<Ticket[]> {
     return this.tickets.filter((ticket) => ticket.assigneeid === id);
   }
-  async getTicketsByStatus(status: string): Promise<Ticket[]> {
-    return this.tickets.filter((ticket) => ticket.status === status);
+  async getTicketsByStatus(open: boolean): Promise<Ticket[]> {
+    return this.tickets.filter((ticket) => ticket.open === open);
   }
   async addNewTicket(ticket: Ticket): Promise<Ticket> {
     this.tickets.push(ticket);

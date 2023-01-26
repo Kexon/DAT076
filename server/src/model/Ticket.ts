@@ -1,8 +1,11 @@
-export default interface Ticket {
+export interface Ticket {
   id: number;
   title: string;
   description: string;
   open: boolean;
-  authorid: number;
-  assigneeid?: number;
+  authorId: number;
+  assigneeId?: number;
 }
+
+// creates a sub-interface of Ticket with id, open removed
+export interface NewTicket extends Omit<Ticket, "id" | "open"> {}

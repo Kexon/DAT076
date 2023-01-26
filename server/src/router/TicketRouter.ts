@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import makeTicketService from "../service/TicketService";
-import Ticket from "../model/Ticket";
+import { Ticket, NewTicket } from "../model/Ticket";
 
 const ticketService = makeTicketService();
 export const ticketRouter = express.Router();
@@ -66,15 +66,12 @@ ticketRouter.post(
         res.status(400).send("Invalid request");
         return;
       }
-      const tickets = await ticketService.getAllTickets();
-      const ticket: Ticket = {
-        id: tickets.length,
+      const newTicket: NewTicket = {
         title: req.body.title,
         description: req.body.description,
-        open: true,
-        authorid: 1,
+        authorId: 1,
       };
-      await ticketService.addNewTicket(ticket);
+      const ticket: Ticket = await ticketService.addNewTicket(newTicket);
       res.status(201).send(ticket);
     } catch (e: any) {
       res.status(500).send(e.message);

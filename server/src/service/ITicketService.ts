@@ -1,4 +1,4 @@
-import Ticket from "../model/Ticket";
+import { Ticket, NewTicket } from "../model/Ticket";
 
 export default interface ITicketService {
   getAllTickets(): Promise<Ticket[]>;
@@ -6,7 +6,7 @@ export default interface ITicketService {
   getTicketsByAuthorId(id: number): Promise<Ticket[]>;
   getTicketsByAssigneeId(id: number): Promise<Ticket[]>;
   getTicketsByStatus(open: boolean): Promise<Ticket[]>;
-  addNewTicket(ticket: Ticket): Promise<Ticket>;
+  addNewTicket(ticket: NewTicket): Promise<Ticket>;
   updateTicket(ticket: Ticket): Promise<Ticket>;
   deleteTicketById(id: number): Promise<boolean>;
 }

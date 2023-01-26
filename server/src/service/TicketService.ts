@@ -1,4 +1,4 @@
-import Ticket from "../model/Ticket";
+import { Ticket, NewTicket } from "../model/Ticket";
 import ITicketService from "./ITicketService";
 
 class TicketService implements ITicketService {
@@ -23,17 +23,25 @@ class TicketService implements ITicketService {
     return ticket;
   }
   async getTicketsByAuthorId(id: number): Promise<Ticket[]> {
-    return this.tickets.filter((ticket) => ticket.authorid === id);
+    return this.tickets.filter((ticket) => ticket.authorId === id);
   }
   async getTicketsByAssigneeId(id: number): Promise<Ticket[]> {
-    return this.tickets.filter((ticket) => ticket.assigneeid === id);
+    return this.tickets.filter((ticket) => ticket.assigneeId === id);
   }
   async getTicketsByStatus(open: boolean): Promise<Ticket[]> {
     return this.tickets.filter((ticket) => ticket.open === open);
   }
-  async addNewTicket(ticket: Ticket): Promise<Ticket> {
-    this.tickets.push(ticket);
-    return ticket;
+  async addNewTicket(ticket: NewTicket): Promise<Ticket> {
+    const newTicket: Ticket = {
+      id:
+        this.tickets.length > 0
+          ? this.tickets[this.tickets.length - 1].id + 1
+          : 0,
+      open: true,
+      ...ticket,
+    };
+    this.tickets.push(newTicket);
+    return newTicket;
   }
   async updateTicket(ticket: Ticket): Promise<Ticket> {
     const index = this.tickets.findIndex((t) => t.id === ticket.id);

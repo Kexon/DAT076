@@ -33,10 +33,7 @@ class TicketService implements ITicketService {
   }
   async addNewTicket(ticket: NewTicket): Promise<Ticket> {
     const newTicket: Ticket = {
-      id:
-        this.tickets.length > 0
-          ? this.tickets[this.tickets.length - 1].id + 1
-          : 0,
+      id: Date.now(),
       open: true,
       ...ticket,
     };

@@ -1,13 +1,18 @@
-/* import { Task } from "./model/task";
+import supertest from "supertest";
+import { app } from "../../start";
 
-const request = SuperTest.default(app);
+const request = supertest(app);
 
-test("End-to-end test", async () => {
-    const desc = "Test description";
-    const res1 = await request.post("/task").send({description : desc});
-    expect(res1.statusCode).toEqual(201);
-    expect(res1.body.description).toEqual(desc);
-    const res2 = await request.get("/task");
-    expect(res2.statusCode).toEqual(200);
-    expect(res2.body.map((task : Task) => task.description)).toContain(desc);
-}); */
+test("Test that the tickets endpoint exists and return status code 200", async () => {
+  const res = await request.get("/tickets");
+  expect(res.status).toEqual(200);
+});
+
+test("Test that a ticket gets posted with correct title and description", async () => {
+  const res = await request
+    .post("/tickets")
+    .send({ title: "title", description: "desc" });
+  expect(res.status).toEqual(201);
+  expect(res.body.title).toEqual("title");
+  expect(res.body.description).toEqual("desc");
+});

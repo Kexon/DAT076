@@ -32,7 +32,7 @@ ticketRouter.get(
   "/:id",
   async (
     req: Request<{ id: string }, {}, {}>,
-    res: Response<Ticket[] | string>
+    res: Response<Ticket | string>
   ) => {
     try {
       const id = parseInt(req.params.id);
@@ -42,7 +42,7 @@ ticketRouter.get(
       }
       const ticket = await ticketService.getTicketById(id);
       if (ticket.length > 0) {
-        res.status(200).send(ticket);
+        res.status(200).send(ticket[0]);
       } else {
         res.status(404).send("Ticket not found");
       }

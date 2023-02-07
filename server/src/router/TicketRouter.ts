@@ -5,6 +5,13 @@ import { Ticket, NewTicket } from "../model/Ticket";
 const ticketService = makeTicketService();
 export const ticketRouter = express.Router();
 
+/*
+ * req is the request object from express and res is the response object.
+ * The Request object has three different types of parameters: path parameters, query parameters, and body parameters.
+ * Path parameters are parameters that are part of the path of the request URL.
+ * Query parameters are parameters that are part of the query string of the request URL.
+ * Body parameters are parameters that are part of the body of the request.
+ */
 ticketRouter.get(
   "/",
   async (

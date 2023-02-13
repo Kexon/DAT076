@@ -1,6 +1,5 @@
 import './App.css';
-import TicketListPage from './pages/admin/tickets/AdminTicketsPage';
-import TicketFormPage from './pages/client/TicketFormPage';
+import NavBar from './components/NavBar';
 
 function App() {
   /*
@@ -9,9 +8,8 @@ function App() {
    * fixed set of screen sizes instead of trying to accommodate a fully fluid viewport.
    */
   return (
-    <div>
-      <TicketFormPage />
-      <TicketListPage />
+    <div className="">
+      <NavBar />
     </div>
   );
 }

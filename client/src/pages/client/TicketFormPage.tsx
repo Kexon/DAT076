@@ -1,10 +1,29 @@
+import { useState } from 'react';
+
 export default function TicketFormPage() {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+    // eslint-disable-next-line no-console
+    console.log(title);
+  };
+
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    setDescription(event.target.value);
+    // eslint-disable-next-line no-console
+    console.log(description);
+  };
+
   return (
     <div className="container mx-auto h-screen border-2">
       <div className="flex h-max justify-center">
         <form className="bg bg-color=5 bg-blue flex w-full flex-col items-center gap-2 bg-slate-200 p-5 lg:w-3/4 xl:w-2/3">
           <div>
-            <p className="text-3xl font-bold text-gray-800">Ticket</p>
+            <p className="text-3xl font-bold text-gray-800">Create ticket</p>
           </div>
           <div className="w-full border-2">
             <label
@@ -17,6 +36,7 @@ export default function TicketFormPage() {
                 id="title"
                 type="text"
                 placeholder="Title"
+                onChange={() => handleTitleChange}
               />
             </label>
           </div>
@@ -31,6 +51,7 @@ export default function TicketFormPage() {
                 id="description"
                 placeholder="Description"
                 rows={5}
+                onChange={() => handleDescriptionChange}
               />
             </label>
           </div>

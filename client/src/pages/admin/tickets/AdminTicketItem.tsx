@@ -1,4 +1,4 @@
-import Ticket from '../../../classes/Ticket';
+import Ticket from '../../../model/Ticket';
 
 export default function AdminTicketItem({
   id,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Ticket from '../../../classes/Ticket';
+import Ticket from '../../../model/Ticket';
 import AdminTicketItem from './AdminTicketItem';
 
 /*

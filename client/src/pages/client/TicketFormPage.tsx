@@ -6,16 +6,34 @@ export default function TicketFormPage() {
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    // eslint-disable-next-line no-console
-    console.log(title);
   };
 
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setDescription(event.target.value);
-    // eslint-disable-next-line no-console
-    console.log(description);
+  };
+
+  /*
+   * This should be moved to a service file!
+   * and the fetch should be replaced with an axios call?
+   * I'm not sure if we are going to use axios or fetch
+   */
+  const handleSubmitForm = () => {
+    fetch('http://localhost:8080/ticket', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, description }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -59,6 +77,7 @@ export default function TicketFormPage() {
             <button
               className="w-32 rounded bg-orange-600 py-2 px-4 text-xl font-bold text-white hover:bg-orange-700"
               type="button"
+              onClick={handleSubmitForm}
             >
               Submit
             </button>

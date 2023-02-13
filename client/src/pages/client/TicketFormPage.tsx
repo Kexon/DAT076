@@ -36,7 +36,7 @@ export default function TicketFormPage() {
                 id="title"
                 type="text"
                 placeholder="Title"
-                onChange={() => handleTitleChange}
+                onChange={handleTitleChange}
               />
             </label>
           </div>
@@ -51,7 +51,7 @@ export default function TicketFormPage() {
                 id="description"
                 placeholder="Description"
                 rows={5}
-                onChange={() => handleDescriptionChange}
+                onChange={handleDescriptionChange}
               />
             </label>
           </div>

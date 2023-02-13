@@ -31,12 +31,13 @@ export default function TicketListPage() {
           <div>
             <p className="text-3xl font-bold text-gray-800">Tickets</p>
           </div>
-          <div className="w-full border-2">
-            <div className="grid grid-flow-col grid-cols-4 text-lg font-semibold">
+          <div className="flex w-full flex-col gap-y-2 border-4">
+            <div className="grid grid-flow-col grid-cols-5 text-lg font-semibold">
               <p>ID</p>
               <p>Title</p>
               <p>Description</p>
               <p className="text-right">Status</p>
+              <p>&#10240;</p>
             </div>
             {tickets.map((ticket) => (
               <AdminTicketItem

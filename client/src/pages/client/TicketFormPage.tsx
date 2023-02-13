@@ -37,7 +37,7 @@ export default function TicketFormPage() {
   };
 
   return (
-    <div className="container mx-auto h-screen border-2">
+    <div className="container mx-auto h-screen">
       <div className="flex h-max justify-center">
         <form className="bg bg-color=5 bg-blue flex w-full flex-col items-center gap-2 bg-slate-200 p-5 lg:w-3/4 xl:w-2/3">
           <div>

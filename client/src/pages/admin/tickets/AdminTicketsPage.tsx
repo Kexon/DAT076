@@ -1,7 +1,9 @@
-import { Button, Card } from 'flowbite-react';
+import { Button, Card, Select, TextInput } from 'flowbite-react';
+import { HiSearch } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import Ticket from '../../../model/Ticket';
 import AdminTicketItem from './AdminTicketItem';
+import isMobile from '../../../utils/Utilities';
 
 /*
  * I dislike the name on this function, but I'm not sure what to call it.
@@ -34,17 +36,38 @@ export default function TicketListPage() {
               Tickets
             </h1>
           </div>
-          <Button.Group className="justify-center">
-            <Button color="gray" className="w-20">
-              All
-            </Button>
-            <Button color="gray" className="w-20">
-              Open
-            </Button>
-            <Button color="gray" className="w-20">
-              Closed
-            </Button>
-          </Button.Group>
+          <div className="flex justify-between gap-2">
+            {isMobile() ? (
+              <div id="select">
+                <Select id="countries" required={false}>
+                  <option>All</option>
+                  <option>Open</option>
+                  <option>Closed</option>
+                </Select>
+              </div>
+            ) : (
+              <Button.Group className="justify-center">
+                <Button color="gray" className="w-16">
+                  All
+                </Button>
+                <Button color="gray" className="w-16">
+                  Open
+                </Button>
+                <Button color="gray" className="w-16">
+                  Closed
+                </Button>
+              </Button.Group>
+            )}
+            <div>
+              <TextInput
+                id="searchid"
+                type="searchtype"
+                rightIcon={HiSearch}
+                placeholder="Ticket ID"
+                required={false}
+              />
+            </div>
+          </div>
           <div className="-mb-4 hidden w-full flex-col border-b-2 border-slate-500 sm:flex">
             <div className="grid grid-flow-col grid-cols-10 gap-x-1 text-lg font-semibold">
               <p className="col-span-3 ml-2 md:col-span-2">ID</p>

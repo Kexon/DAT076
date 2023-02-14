@@ -1,4 +1,4 @@
-import { Card } from 'flowbite-react';
+import { Button, Card } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import Ticket from '../../../model/Ticket';
 import AdminTicketItem from './AdminTicketItem';
@@ -31,19 +31,28 @@ export default function TicketListPage() {
         <Card className="h-fit w-full">
           <h1 className="text-3xl font-bold text-gray-800">Tickets</h1>
         </Card>
-        <Card className="w-full">
-          <div className="-mb-4 flex w-full flex-col border-b-2 border-slate-500">
+        <Card className="w-full ">
+          <Button.Group className="justify-center">
+            <Button color="gray" className="w-20">
+              All
+            </Button>
+            <Button color="gray" className="w-20">
+              Open
+            </Button>
+            <Button color="gray" className="w-20">
+              Closed
+            </Button>
+          </Button.Group>
+          <div className="-mb-4 hidden w-full flex-col border-b-2 border-slate-500 sm:flex">
             <div className="grid grid-flow-col grid-cols-10 gap-x-1 text-lg font-semibold">
               <p className="col-span-3 ml-2 md:col-span-2">ID</p>
               <p className="col-span-1 hidden md:flex">User</p>
-              <p className="col-span-5 sm:col-span-4">Title</p>
+              <p className="col-span-4">Title</p>
               <p className="col-span-2 text-center">Status</p>
-              <p className="col-span-1 mr-2 hidden text-right sm:inline">
-                Date
-              </p>
+              <p className="col-span-1 mr-2 inline text-right">Date</p>
             </div>
           </div>
-          <div className="flex w-full flex-col divide-y-2 divide-slate-300">
+          <div className="flex w-full flex-col divide-y-2 divide-slate-100">
             {tickets.map((ticket) => (
               <AdminTicketItem
                 title={ticket.title}

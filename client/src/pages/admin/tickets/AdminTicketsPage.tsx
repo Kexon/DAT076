@@ -58,6 +58,21 @@ export default function TicketListPage() {
     }
   };
 
+  /* Either we want to search ticketid by exact id.
+   * Or we want to search ticketid by partial id, with the id being correct from the start.
+   * Or how it is right now: enter number 80, and you will get id with xx80xx in it
+   */
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (value === '') {
+      setTickets(allTickets);
+    } else {
+      setTickets(
+        allTickets.filter((ticket) => ticket.id.toString().includes(value)),
+      );
+    }
+  };
+
   return (
     <div className="flex h-max justify-center">
       <div className="bg bg-color=5 bg-blue flex w-full flex-col items-center gap-2 p-5">
@@ -119,6 +134,7 @@ export default function TicketListPage() {
                 rightIcon={HiSearch}
                 placeholder="Ticket ID"
                 required={false}
+                onChange={handleSearch}
               />
             </div>
           </div>

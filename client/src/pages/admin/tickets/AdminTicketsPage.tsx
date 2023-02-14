@@ -13,19 +13,50 @@ import isMobile from '../../../utils/Utilities';
  * it's easier in my opinion to differentiate whether this file is a page or a component
  */
 export default function TicketListPage() {
+  const [allTickets, setAllTickets] = useState<Ticket[]>([]);
   const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [activeButtonIndex, setActiveButtonIndex] = useState<string>('All');
 
   useEffect(() => {
+    /* Move this to service */
     fetch('http://localhost:8080/ticket')
       .then((response) => response.json())
       .then((data) => {
+        setAllTickets(data);
         setTickets(data);
-        console.log(data);
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
+
+  /* Move some of tis content this to service */
+  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    if (value === 'Open') {
+      setTickets(allTickets.filter((ticket) => ticket.open));
+      setActiveButtonIndex(value);
+    } else if (value === 'Closed') {
+      setTickets(allTickets.filter((ticket) => !ticket.open));
+      setActiveButtonIndex(value);
+    } else {
+      setTickets(allTickets);
+      setActiveButtonIndex(value);
+    }
+  };
+
+  const handleSortButton = (status: string) => {
+    if (status === 'Open') {
+      setTickets(allTickets.filter((ticket) => ticket.open));
+      setActiveButtonIndex(status);
+    } else if (status === 'Closed') {
+      setTickets(allTickets.filter((ticket) => !ticket.open));
+      setActiveButtonIndex(status);
+    } else {
+      setTickets(allTickets);
+      setActiveButtonIndex(status);
+    }
+  };
 
   return (
     <div className="flex h-max justify-center">
@@ -39,7 +70,12 @@ export default function TicketListPage() {
           <div className="flex justify-between gap-2">
             {isMobile() ? (
               <div id="select">
-                <Select id="countries" required={false}>
+                <Select
+                  id="countries"
+                  required={false}
+                  onChange={handleSort}
+                  value={activeButtonIndex}
+                >
                   <option>All</option>
                   <option>Open</option>
                   <option>Closed</option>
@@ -47,13 +83,31 @@ export default function TicketListPage() {
               </div>
             ) : (
               <Button.Group className="justify-center">
-                <Button color="gray" className="w-16">
+                <Button
+                  color="gray"
+                  className={
+                    activeButtonIndex === 'All' ? 'bg-slate-100' : 'bg-white'
+                  }
+                  onClick={() => handleSortButton('All')}
+                >
                   All
                 </Button>
-                <Button color="gray" className="w-16">
+                <Button
+                  color="gray"
+                  className={
+                    activeButtonIndex === 'Open' ? 'bg-slate-100' : 'bg-white'
+                  }
+                  onClick={() => handleSortButton('Open')}
+                >
                   Open
                 </Button>
-                <Button color="gray" className="w-16">
+                <Button
+                  color="gray"
+                  className={
+                    activeButtonIndex === 'Closed' ? 'bg-slate-100' : 'bg-white'
+                  }
+                  onClick={() => handleSortButton('Closed')}
+                >
                   Closed
                 </Button>
               </Button.Group>

@@ -84,6 +84,7 @@ export default function TicketListPage() {
           </div>
           <div className="flex justify-between gap-2">
             {isMobile() ? (
+              /* MOBILE VIEW */
               <div id="select">
                 <Select
                   id="countries"
@@ -97,6 +98,7 @@ export default function TicketListPage() {
                 </Select>
               </div>
             ) : (
+              /* DESKTOP VIEW */
               <Button.Group className="justify-center">
                 <Button
                   color="gray"
@@ -138,6 +140,7 @@ export default function TicketListPage() {
               />
             </div>
           </div>
+          {/* DESKTOP VIEW */}
           <div className="-mb-4 hidden w-full flex-col border-b-2 border-slate-500 sm:flex">
             <div className="grid grid-flow-col grid-cols-10 gap-x-1 text-lg font-semibold">
               <p className="col-span-3 ml-2 md:col-span-2">ID</p>
@@ -147,6 +150,7 @@ export default function TicketListPage() {
               <p className="col-span-1 mr-2 inline text-right">Date</p>
             </div>
           </div>
+          {/* END OF DESKTOP VIEW */}
           <div className="flex w-full flex-col divide-y-2 divide-slate-100">
             {tickets.map((ticket) => (
               <AdminTicketItem

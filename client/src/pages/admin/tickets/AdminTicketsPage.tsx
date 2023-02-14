@@ -28,10 +28,12 @@ export default function TicketListPage() {
   return (
     <div className="flex h-max justify-center">
       <div className="bg bg-color=5 bg-blue flex w-full flex-col items-center gap-2 p-5">
-        <Card className="h-fit w-full">
-          <h1 className="text-3xl font-bold text-gray-800">Tickets</h1>
-        </Card>
-        <Card className="w-full ">
+        <Card className="w-full justify-center">
+          <div className="flex justify-center">
+            <h1 className="w-fit border-b-2 border-slate-200 text-center text-3xl font-bold text-gray-800">
+              Tickets
+            </h1>
+          </div>
           <Button.Group className="justify-center">
             <Button color="gray" className="w-20">
               All

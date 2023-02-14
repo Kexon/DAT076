@@ -5,7 +5,7 @@ import Ticket from '../../../model/Ticket';
 export default function AdminTicketItem({ id, title, open }: Ticket) {
   return (
     <Link
-      to={`/admin/tickets/${id}`}
+      to={`/ticket/${id}`}
       className=" grid grid-flow-col grid-cols-10 items-center gap-x-1 py-2 hover:bg-slate-300"
       type="button"
     >

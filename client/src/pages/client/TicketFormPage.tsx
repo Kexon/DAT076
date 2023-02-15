@@ -1,16 +1,16 @@
-import { Button, Label, Textarea, TextInput, Toast } from 'flowbite-react';
-import { useState } from 'react';
-import { HiX } from 'react-icons/hi';
+import { Button, Label, Textarea, TextInput } from 'flowbite-react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Ticket } from '../../model/Ticket';
+import ApiService from '../../services/ApiService';
 
 export default function TicketFormPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [validTitle, setValidTitle] = useState(true);
   const [validDescription, setValidDescription] = useState(true);
   const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -43,24 +43,22 @@ export default function TicketFormPage() {
       setValidDescription(false);
       return;
     }
-
-    fetch('http://localhost:8080/ticket', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title, description }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setTicket(data);
-      })
-      .catch((error) => {
-        console.error(error);
-        setErrorMessage(error);
-      });
+    setSubmitted(true);
   };
+
+  useEffect(() => {
+    const createTicket = async () => {
+      if (title.trim().length <= 0 || description.trim().length <= 0) return;
+
+      const data = await ApiService.createTicket({
+        title,
+        description,
+        authorId: 1,
+      });
+      setTicket(data);
+    };
+    createTicket();
+  }, [submitted]);
 
   return (
     <div className="mx-auto h-screen">
@@ -74,6 +72,9 @@ export default function TicketFormPage() {
               <Label htmlFor="title" value="Title" />
             </div>
             <TextInput
+              className={
+                validTitle === false ? 'rounded-lg border-2 border-red-500' : ''
+              }
               id="title"
               type="text"
               placeholder="Title"
@@ -90,13 +91,21 @@ export default function TicketFormPage() {
           </div>
           <div>
             <div className="mb-2 block">
-              <Label value="Description" />
+              <Label value="Description" htmlFor="description" />
             </div>
             <Textarea
-              className="focus:shadow-outline h-28 w-full resize-none appearance-none rounded border py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-64"
+              className="focus:shadow-outline border-1 h-28 w-full resize-none appearance-none rounded py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-64"
               id="description"
               placeholder="Description"
               onChange={handleDescriptionChange}
+              required
+              helperText={
+                <>
+                  <span className="font-medium">Alright!</span> Username
+                  available!
+                </>
+              }
+              color="failure"
             />{' '}
           </div>
           {!validDescription && (
@@ -110,7 +119,7 @@ export default function TicketFormPage() {
           <div className="flex w-full justify-end">
             <Button
               className="w-full bg-blue-500 lg:w-1/5"
-              disabled={!title || !description}
+              disabled={!title || !description || submitted}
               onClick={handleSubmitForm}
               type="submit"
             >
@@ -118,17 +127,6 @@ export default function TicketFormPage() {
               {ticket && <Navigate to={`/ticket/${ticket.id}`} />}
             </Button>
           </div>
-          {errorMessage && (
-            <div className="flex w-full justify-center">
-              <Toast>
-                <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-                  <HiX className="h-5 w-5" />
-                </div>
-                <div className="ml-3 text-sm font-normal">{errorMessage} </div>
-                <Toast.Toggle />
-              </Toast>
-            </div>
-          )}
         </form>
       </div>
     </div>

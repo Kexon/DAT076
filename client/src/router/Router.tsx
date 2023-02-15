@@ -12,7 +12,7 @@ const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: 'createticket', element: <TicketFormPage /> },
       { path: 'admin', element: <AdminTicketsPage /> },
-      { path: 'tickets/:id', element: <ViewTicket /> },
+      { path: 'ticket/:id', element: <ViewTicket /> },
     ],
   },
 ]);

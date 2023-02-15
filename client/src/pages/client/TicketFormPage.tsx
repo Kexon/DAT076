@@ -1,17 +1,27 @@
+import { Button, Label, Textarea, TextInput, Toast } from 'flowbite-react';
 import { useState } from 'react';
+import { HiX } from 'react-icons/hi';
+import { Navigate } from 'react-router-dom';
+import Ticket from '../../model/Ticket';
 
 export default function TicketFormPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [validTitle, setValidTitle] = useState(true);
+  const [validDescription, setValidDescription] = useState(true);
+  const [ticket, setTicket] = useState<Ticket | null>(null);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    if (event.target.value.trim().length > 0) setValidTitle(true);
   };
 
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setDescription(event.target.value);
+    if (event.target.value.trim().length > 0) setValidDescription(true);
   };
 
   /*
@@ -20,6 +30,20 @@ export default function TicketFormPage() {
    * I'm not sure if we are going to use axios or fetch
    */
   const handleSubmitForm = () => {
+    if (title.trim().length <= 0 && description.trim().length <= 0) {
+      setValidTitle(false);
+      setValidDescription(false);
+      return;
+    }
+    if (title.trim().length <= 0) {
+      setValidTitle(false);
+      return;
+    }
+    if (description.trim().length <= 0) {
+      setValidDescription(false);
+      return;
+    }
+
     fetch('http://localhost:8080/ticket', {
       method: 'POST',
       headers: {
@@ -30,58 +54,81 @@ export default function TicketFormPage() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        setTicket(data);
       })
       .catch((error) => {
         console.error(error);
+        setErrorMessage(error);
       });
   };
 
   return (
     <div className="mx-auto h-screen">
       <div className="flex h-max justify-center">
-        <form className="bg bg-color=5 bg-blue flex w-full flex-col items-center gap-2 bg-slate-200 p-5 lg:w-3/4 xl:w-2/3">
+        <form
+          className=" flex w-full flex-col gap-4 p-4 lg:w-3/4 xl:w-2/3"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <div>
-            <p className="text-3xl font-bold text-gray-800">Create ticket</p>
+            <div className="mb-2 block">
+              <Label htmlFor="title" value="Title" />
+            </div>
+            <TextInput
+              id="title"
+              type="text"
+              placeholder="Title"
+              onChange={handleTitleChange}
+            />
+            {!validTitle && (
+              <div className="">
+                <p className="text-md italic text-red-500">
+                  {' '}
+                  Title is required{' '}
+                </p>
+              </div>
+            )}
           </div>
-          <div className="w-full border-2">
-            <label
-              className="mb-2 block text-xl font-bold text-gray-700"
-              htmlFor="title"
-            >
-              Title:
-              <input
-                className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none"
-                id="title"
-                type="text"
-                placeholder="Title"
-                onChange={handleTitleChange}
-              />
-            </label>
+          <div>
+            <div className="mb-2 block">
+              <Label value="Description" />
+            </div>
+            <Textarea
+              className="focus:shadow-outline h-28 w-full resize-none appearance-none rounded border py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-64"
+              id="description"
+              placeholder="Description"
+              onChange={handleDescriptionChange}
+            />{' '}
           </div>
-          <div className="w-full border-2">
-            <label
-              className="mb-2 block text-xl font-bold text-gray-700"
-              htmlFor="description"
-            >
-              Description:
-              <textarea
-                className="focus:shadow-outline w-full resize-none appearance-none rounded border py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none"
-                id="description"
-                placeholder="Description"
-                rows={5}
-                onChange={handleDescriptionChange}
-              />
-            </label>
-          </div>
+          {!validDescription && (
+            <div className="">
+              <p className="text-md italic text-red-500">
+                {' '}
+                Description is required{' '}
+              </p>
+            </div>
+          )}
           <div className="flex w-full justify-end">
-            <button
-              className="w-32 rounded bg-orange-600 py-2 px-4 text-xl font-bold text-white hover:bg-orange-700"
-              type="button"
+            <Button
+              className="w-full bg-blue-500 lg:w-1/5"
+              disabled={!title || !description}
               onClick={handleSubmitForm}
+              type="submit"
             >
               Submit
-            </button>
+              {ticket && <Navigate to={`/ticket/${ticket.id}`} />}
+            </Button>
           </div>
+          {errorMessage && (
+            <div className="flex w-full justify-center">
+              <Toast>
+                <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+                  <HiX className="h-5 w-5" />
+                </div>
+                <div className="ml-3 text-sm font-normal">{errorMessage} </div>
+                <Toast.Toggle />
+              </Toast>
+            </div>
+          )}
         </form>
       </div>
     </div>

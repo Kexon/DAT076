@@ -6,7 +6,7 @@ export default function Root() {
   return (
     <>
       <NavBar />
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
         <Outlet />
       </div>
     </>

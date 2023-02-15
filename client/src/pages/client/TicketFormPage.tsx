@@ -90,7 +90,7 @@ export default function TicketFormPage() {
           </div>
           <div>
             <div className="mb-2 block">
-              <Label value="Description" />
+              <Label htmlFor="description" value="Description" />
             </div>
             <Textarea
               className="focus:shadow-outline h-28 w-full resize-none appearance-none rounded border py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-64"

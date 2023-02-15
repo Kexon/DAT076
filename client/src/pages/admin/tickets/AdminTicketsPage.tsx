@@ -1,9 +1,10 @@
 import { Button, Card, Select, TextInput } from 'flowbite-react';
 import { HiSearch } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
-import Ticket from '../../../model/Ticket';
+import { Ticket } from '../../../model/Ticket';
 import AdminTicketItem from './AdminTicketItem';
 import isMobile from '../../../utils/Utilities';
+import ApiService from '../../../services/ApiService';
 
 /*
  * I dislike the name on this function, but I'm not sure what to call it.
@@ -18,16 +19,12 @@ export default function TicketListPage() {
   const [activeButtonIndex, setActiveButtonIndex] = useState<string>('All');
 
   useEffect(() => {
-    /* Move this to service */
-    fetch('http://localhost:8080/ticket')
-      .then((response) => response.json())
-      .then((data) => {
-        setAllTickets(data);
-        setTickets(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const getTickets = async () => {
+      const data = await ApiService.getTickets();
+      setAllTickets(data);
+      setTickets(data);
+    };
+    getTickets();
   }, []);
 
   /* Move some of tis content this to service */

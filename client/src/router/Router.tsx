@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import AdminTicketsPage from '../pages/admin/tickets/AdminTicketsPage';
-import ViewTicket from '../pages/admin/tickets/ViewTicket';
+import TicketPage from '../pages/admin/tickets/TicketPage';
 import TicketFormPage from '../pages/client/TicketFormPage';
 import Home from '../pages/Home';
 import Root from '../Root';
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: 'createticket', element: <TicketFormPage /> },
       { path: 'admin', element: <AdminTicketsPage /> },
-      { path: 'ticket/:id', element: <ViewTicket /> },
+      { path: 'ticket/:id', element: <TicketPage /> },
     ],
   },
 ]);

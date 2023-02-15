@@ -1,6 +1,6 @@
 import { Badge } from 'flowbite-react';
 import { Link } from 'react-router-dom';
-import Ticket from '../../../model/Ticket';
+import { Ticket } from '../../../model/Ticket';
 import isMobile from '../../../utils/Utilities';
 
 export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {

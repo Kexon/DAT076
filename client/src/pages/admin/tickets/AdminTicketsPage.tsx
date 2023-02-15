@@ -103,7 +103,7 @@ export default function TicketListPage() {
                 <Button
                   color="gray"
                   className={
-                    activeButtonIndex === 'All' ? 'bg-slate-100' : 'bg-white'
+                    activeButtonIndex === 'All' ? 'bg-gray-200' : 'bg-white'
                   }
                   onClick={() => handleSortButton('All')}
                 >
@@ -112,7 +112,7 @@ export default function TicketListPage() {
                 <Button
                   color="gray"
                   className={
-                    activeButtonIndex === 'Open' ? 'bg-slate-100' : 'bg-white'
+                    activeButtonIndex === 'Open' ? 'bg-gray-200' : 'bg-white'
                   }
                   onClick={() => handleSortButton('Open')}
                 >
@@ -121,7 +121,7 @@ export default function TicketListPage() {
                 <Button
                   color="gray"
                   className={
-                    activeButtonIndex === 'Closed' ? 'bg-slate-100' : 'bg-white'
+                    activeButtonIndex === 'Closed' ? 'bg-gray-200' : 'bg-white'
                   }
                   onClick={() => handleSortButton('Closed')}
                 >

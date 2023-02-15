@@ -13,14 +13,14 @@ const isMobile = () => {
 
   useEffect(() => {
     const media = window.matchMedia(`(max-width: ${640}px)`);
-    media.addListener(updateTarget);
+    media.addEventListener('change', updateTarget);
 
     // Check on mount (callback is not called until a change occurs)
     if (media.matches) {
       setTargetReached(true);
     }
 
-    return () => media.removeListener(updateTarget);
+    return () => media.removeEventListener('change', updateTarget);
   }, []);
 
   return targetReached;

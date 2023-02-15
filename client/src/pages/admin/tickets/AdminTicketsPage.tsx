@@ -153,13 +153,7 @@ export default function TicketListPage() {
           {/* END OF DESKTOP VIEW */}
           <div className="flex w-full flex-col divide-y-2 divide-slate-100">
             {tickets.map((ticket) => (
-              <AdminTicketItem
-                title={ticket.title}
-                id={ticket.id}
-                description={ticket.description}
-                open={ticket.open}
-                authorId={ticket.authorId}
-              />
+              <AdminTicketItem key={ticket.id} ticket={ticket} />
             ))}
           </div>
         </Card>

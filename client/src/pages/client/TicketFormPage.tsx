@@ -2,7 +2,7 @@ import { Button, Label, Textarea, TextInput, Toast } from 'flowbite-react';
 import { useState } from 'react';
 import { HiX } from 'react-icons/hi';
 import { Navigate } from 'react-router-dom';
-import Ticket from '../../model/Ticket';
+import { Ticket } from '../../model/Ticket';
 
 export default function TicketFormPage() {
   const [title, setTitle] = useState('');

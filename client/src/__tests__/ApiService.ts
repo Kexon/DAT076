@@ -6,7 +6,7 @@ import axios, {
 } from 'axios';
 import { Ticket } from '../model/Ticket';
 import ApiService from '../services/ApiService';
-import MockTicket from './MockTicket';
+import MockTicket from '../utils/MockTicket';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;

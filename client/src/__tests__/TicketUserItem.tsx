@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import TicketUserItem from '../pages/admin/tickets/TicketUserItem';
-import MockTicket from './MockTicket';
+import MockTicket from '../utils/MockTicket';
 
 test('the id should be displayed', () => {
   render(<TicketUserItem ticket={MockTicket} />, { wrapper: BrowserRouter });

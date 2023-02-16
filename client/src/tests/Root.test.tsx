@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { Ticket } from './model/Ticket';
-import AdminTicketItem from './pages/admin/tickets/AdminTicketItem';
-import TicketFormPage from './pages/client/TicketFormPage';
+import { Ticket } from '../model/Ticket';
+import AdminTicketItem from '../pages/admin/tickets/AdminTicketItem';
+import TicketFormPage from '../pages/client/TicketFormPage';
 
 /*test('renders learn react link', () => {
   render(<Root />);

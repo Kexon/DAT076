@@ -1,14 +1,13 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { Ticket } from '../model/Ticket';
 import axios, {
   AxiosResponse,
   AxiosResponseHeaders,
   InternalAxiosRequestConfig,
 } from 'axios';
-import TicketListPage from '../pages/admin/tickets/AdminTicketsPage';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-import ApiService from '../services/ApiService';
 import { BrowserRouter } from 'react-router-dom';
+import { Ticket } from '../model/Ticket';
+import TicketListPage from '../pages/admin/tickets/AdminTicketsPage';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;

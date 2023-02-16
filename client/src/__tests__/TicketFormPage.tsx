@@ -1,8 +1,6 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import axios from 'axios';
 import TicketFormPage from '../pages/client/TicketFormPage';
-import MockTicket from '../utils/MockTicket';
 
 // Mock jest and set the type
 /* jest.mock('axios');

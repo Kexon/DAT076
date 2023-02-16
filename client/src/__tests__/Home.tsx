@@ -1,7 +1,6 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Home from '../pages/Home';
-import { screen } from '@testing-library/react';
 
 test('The buttons on the home page should appear on screen', () => {
   render(<Home />, { wrapper: BrowserRouter });

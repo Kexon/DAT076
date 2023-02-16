@@ -14,7 +14,7 @@ test('Ticket should show up on screen', () => {
   const newTicket: Ticket = {
     id: 1,
     title: 'Ticket',
-    description: 'Ticket',
+    description: 'ticket description',
     open: true,
     authorId: 1,
   };
@@ -34,11 +34,15 @@ test('Ticket should be created', async () => {
   expect(submitButton).toBeInTheDocument();
 
   fireEvent.change(titleInput, { target: { value: 'New ticket' } });
-  fireEvent.change(descriptionInput, { target: { value: 'New ticket' } });
+  fireEvent.change(descriptionInput, { target: { value: 'ticket desc' } });
   fireEvent.click(submitButton);
 
+  // Wait for the ticket to be created
   await waitFor(() => {
-    const titleElement = screen.getByText('New ticket');
-    expect(titleElement).toBeInTheDocument();
+    // Expect that the ticket details are displayed on the page
+    const ticketTitle = screen.getByText('New ticket');
+    const ticketDescription = screen.getByText('ticket desc');
+    expect(ticketTitle).toBeInTheDocument();
+    expect(ticketDescription).toBeInTheDocument();
   });
 });

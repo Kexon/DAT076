@@ -9,9 +9,13 @@ export default class ApiService {
     return data;
   }
 
-  static async getTicket(id: number): Promise<Ticket> {
-    const { data } = await axios.get<Ticket>(`${API_URL}/ticket/${id}`);
-    return data;
+  static async getTicket(id: number): Promise<Ticket | undefined> {
+    try {
+      const { data } = await axios.get<Ticket>(`${API_URL}/ticket/${id}`);
+      return data;
+    } catch (error) {
+      return undefined;
+    }
   }
 
   static async createTicket(ticket: NewTicket): Promise<Ticket> {

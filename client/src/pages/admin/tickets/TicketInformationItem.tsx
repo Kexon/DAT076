@@ -6,7 +6,7 @@ interface Props {
 
 export default function TicketInformationItem({ ticket }: Props) {
   return (
-    <div className="col-span-4 mt-2 max-w-screen-xl rounded-md bg-slate-100 p-3 shadow-lg">
+    <div className="col-span-4 mt-2 max-w-screen-xl rounded-md  p-3 shadow-lg">
       <div className="flex flex-col">
         <h1
           className="break-words text-sm font-bold lg:text-xl
@@ -18,7 +18,7 @@ export default function TicketInformationItem({ ticket }: Props) {
       </div>
       <div className="mt-5">
         <div
-          className="rounded-sm bg-white p-2 shadow-lg
+          className="rounded-sm bg-slate-100 p-2 shadow-lg
 
 "
         >

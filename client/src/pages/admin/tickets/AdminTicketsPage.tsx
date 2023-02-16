@@ -27,7 +27,6 @@ export default function TicketListPage() {
     getTickets();
   }, []);
 
-  /* Move some of tis content this to service */
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     if (value === 'Open') {
@@ -100,7 +99,7 @@ export default function TicketListPage() {
                 <Button
                   color="gray"
                   className={
-                    activeButtonIndex === 'All' ? 'bg-gray-200' : 'bg-white'
+                    activeButtonIndex === 'All' ? 'bg-gray-100' : 'bg-white'
                   }
                   onClick={() => handleSortButton('All')}
                 >
@@ -109,7 +108,7 @@ export default function TicketListPage() {
                 <Button
                   color="gray"
                   className={
-                    activeButtonIndex === 'Open' ? 'bg-gray-200' : 'bg-white'
+                    activeButtonIndex === 'Open' ? 'bg-gray-100' : 'bg-white'
                   }
                   onClick={() => handleSortButton('Open')}
                 >
@@ -118,7 +117,7 @@ export default function TicketListPage() {
                 <Button
                   color="gray"
                   className={
-                    activeButtonIndex === 'Closed' ? 'bg-gray-200' : 'bg-white'
+                    activeButtonIndex === 'Closed' ? 'bg-gray-100' : 'bg-white'
                   }
                   onClick={() => handleSortButton('Closed')}
                 >

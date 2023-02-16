@@ -18,4 +18,12 @@ export default class ApiService {
     const { data } = await axios.post<Ticket>(`${API_URL}/ticket`, ticket);
     return data;
   }
+
+  static async closeTicket(id: number): Promise<void> {
+    await axios.patch(`${API_URL}/ticket/${id}`, { open: false });
+  }
+
+  static async openTicket(id: number): Promise<void> {
+    await axios.patch(`${API_URL}/ticket/${id}`, { open: true });
+  }
 }

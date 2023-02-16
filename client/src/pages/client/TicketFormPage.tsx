@@ -1,16 +1,17 @@
-import { Button, Label, Textarea, TextInput, Toast } from 'flowbite-react';
-import { useState } from 'react';
-import { HiX } from 'react-icons/hi';
-import { Navigate } from 'react-router-dom';
+import { Button, Label, Spinner, Textarea, TextInput } from 'flowbite-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Ticket } from '../../model/Ticket';
+import ApiService from '../../services/ApiService';
 
 export default function TicketFormPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [validTitle, setValidTitle] = useState(true);
   const [validDescription, setValidDescription] = useState(true);
   const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -43,92 +44,128 @@ export default function TicketFormPage() {
       setValidDescription(false);
       return;
     }
-
-    fetch('http://localhost:8080/ticket', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title, description }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setTicket(data);
-      })
-      .catch((error) => {
-        console.error(error);
-        setErrorMessage(error);
-      });
+    setSubmitted(true);
   };
 
+  useEffect(() => {
+    const createTicket = async () => {
+      if (title.trim().length <= 0 || description.trim().length <= 0) return;
+
+      const data = await ApiService.createTicket({
+        title,
+        description,
+        authorId: 1,
+      });
+      setTicket(data);
+    };
+    createTicket();
+  }, [submitted]);
+
+  useEffect(() => {
+    if (ticket) navigate(`/ticket/${ticket.id}`);
+  }, [ticket?.id]);
+
   return (
-    <div className="mx-auto h-screen">
+    <div className="mx-auto h-max">
       <div className="flex h-max justify-center">
         <form
           className=" flex w-full flex-col gap-4 p-4 lg:w-3/4 xl:w-2/3"
           onSubmit={(e) => e.preventDefault()}
         >
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="title" value="Title" />
-            </div>
-            <TextInput
-              id="title"
-              type="text"
-              placeholder="Title"
-              onChange={handleTitleChange}
-            />
-            {!validTitle && (
-              <div className="">
-                <p className="text-md italic text-red-500">
-                  {' '}
-                  Title is required{' '}
-                </p>
+          {validTitle && (
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="title" value="Title" />
               </div>
+              <TextInput
+                id="title"
+                type="text"
+                placeholder="Title"
+                required
+                onChange={handleTitleChange}
+                color="gray"
+                disabled={submitted}
+              />
+            </div>
+          )}
+
+          {!validTitle && (
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="title" value="Title" />
+              </div>
+              <TextInput
+                id="title"
+                type="text"
+                placeholder="Title"
+                required
+                onChange={handleTitleChange}
+                helperText={
+                  <span className="font-medium">Title is required!</span>
+                }
+                color="failure"
+              />
+            </div>
+          )}
+
+          {validDescription && (
+            <div>
+              <div className="mb-2 block">
+                <Label value="Description" htmlFor="description" />
+              </div>
+              <Textarea
+                className="focus:shadow-outline border-1 h-28 w-full resize-none appearance-none rounded py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-64"
+                id="description"
+                placeholder="Description"
+                onChange={handleDescriptionChange}
+                required
+                color="gray"
+                disabled={submitted}
+              />{' '}
+            </div>
+          )}
+
+          {!validDescription && (
+            <div>
+              <div className="mb-2 block">
+                <Label value="Description" htmlFor="description" />
+              </div>
+              <Textarea
+                className="focus:shadow-outline border-1 h-28 w-full resize-none appearance-none rounded py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-64"
+                id="description"
+                placeholder="Description"
+                onChange={handleDescriptionChange}
+                required
+                helperText={
+                  <span className="font-medium">Description is required!</span>
+                }
+                color="failure"
+              />{' '}
+            </div>
+          )}
+
+          <div className="flex w-full justify-end">
+            {!submitted && (
+              <Button
+                className="w-full bg-blue-500 lg:w-1/4"
+                disabled={!title || !description} // Possibly change this to only check if the form is submitted
+                onClick={handleSubmitForm}
+                type="submit"
+              >
+                Submit
+              </Button>
+            )}
+            {submitted && (
+              <Button
+                className="w-full bg-blue-500 lg:w-1/4"
+                disabled={submitted} // Possibly change this to only check if the form is submitted
+                type="submit"
+              >
+                <Spinner />
+                <span className="pl-3">Submitting...</span>
+              </Button>
             )}
           </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="description" value="Description" />
-            </div>
-            <Textarea
-              className="focus:shadow-outline h-28 w-full resize-none appearance-none rounded border py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-64"
-              id="description"
-              placeholder="Description"
-              onChange={handleDescriptionChange}
-            />{' '}
-          </div>
-          {!validDescription && (
-            <div className="">
-              <p className="text-md italic text-red-500">
-                {' '}
-                Description is required{' '}
-              </p>
-            </div>
-          )}
-          <div className="flex w-full justify-end">
-            <Button
-              className="w-full bg-blue-500 lg:w-1/5"
-              disabled={!title || !description}
-              onClick={handleSubmitForm}
-              type="submit"
-            >
-              Submit
-              {ticket && <Navigate to={`/ticket/${ticket.id}`} />}
-            </Button>
-          </div>
-          {errorMessage && (
-            <div className="flex w-full justify-center">
-              <Toast>
-                <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-                  <HiX className="h-5 w-5" />
-                </div>
-                <div className="ml-3 text-sm font-normal">{errorMessage} </div>
-                <Toast.Toggle />
-              </Toast>
-            </div>
-          )}
         </form>
       </div>
     </div>

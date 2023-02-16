@@ -27,6 +27,11 @@ export default function TicketListPage() {
     getTickets();
   }, []);
 
+  /*
+   * handleSort and handleSortButton are the same function, but one is for the select element
+   * and the other is for the buttons. Both of these should just call the same function
+   *
+   */
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     if (value === 'Open') {

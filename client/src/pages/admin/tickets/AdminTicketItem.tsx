@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { Ticket } from '../../../model/Ticket';
 import isMobile from '../../../utils/Utilities';
 
-export default function AdminTicketItem({ id, title, open }: Ticket) {
+export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
+  const { id, title, open } = ticket;
   return (
     <div>
       {isMobile() ? (

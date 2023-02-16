@@ -32,3 +32,35 @@ test('Ticket should be created', async () => {
     // how do we check if the ticket is created? can't seem to get the url from useparams
   });
 }); */
+
+test('submit button should be disabled when title & description is not filled in', async () => {
+  render(<TicketFormPage />, { wrapper: BrowserRouter });
+  expect(screen.getByText(/Submit/i).closest('button')).toBeDisabled();
+});
+
+test('submit button should be enabled when title & description is filled in', async () => {
+  render(<TicketFormPage />, { wrapper: BrowserRouter });
+  const titleInput = screen.getByLabelText(/Title/i);
+  const descriptionInput = screen.getByLabelText(/Description/i);
+  fireEvent.change(titleInput, { target: { value: 'Test Ticket' } });
+  fireEvent.change(descriptionInput, {
+    target: { value: 'This is a test ticket' },
+  });
+  expect(screen.getByText(/Submit/i).closest('button')).toBeEnabled();
+});
+
+test('submit button should be disabled when title is not filled in', async () => {
+  render(<TicketFormPage />, { wrapper: BrowserRouter });
+  const descriptionInput = screen.getByLabelText(/Description/i);
+  fireEvent.change(descriptionInput, {
+    target: { value: 'This is a test ticket' },
+  });
+  expect(screen.getByText(/Submit/i).closest('button')).toBeDisabled();
+});
+
+test('submit button should be disabled when description is not filled in', async () => {
+  render(<TicketFormPage />, { wrapper: BrowserRouter });
+  const titleInput = screen.getByLabelText(/Title/i);
+  fireEvent.change(titleInput, { target: { value: 'Test Ticket' } });
+  expect(screen.getByText(/Submit/i).closest('button')).toBeDisabled();
+});

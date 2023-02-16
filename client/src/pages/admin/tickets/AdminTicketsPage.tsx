@@ -27,7 +27,6 @@ export default function TicketListPage() {
     getTickets();
   }, []);
 
-  /* Move some of tis content this to service */
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     if (value === 'Open') {

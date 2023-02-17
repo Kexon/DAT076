@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import TicketFormPage from '../pages/client/TicketFormPage';
+import TicketFormPage from '../pages/user/TicketFormPage';
 
 // Mock jest and set the type
 /* jest.mock('axios');

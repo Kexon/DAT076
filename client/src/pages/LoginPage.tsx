@@ -3,6 +3,10 @@ import { MdEmail, MdPassword } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 export default function LoginPage() {
+  const onSubmit = () => {
+    console.log('submit');
+  };
+
   return (
     <main>
       <div className="mx-1 flex flex-col gap-2 lg:mx-0">
@@ -14,7 +18,10 @@ export default function LoginPage() {
             Enter your login credentials below to sign in.
           </p>
         </div>
-        <form className="m-auto mt-8 flex w-full flex-col gap-4 rounded-lg p-3 shadow-md md:max-w-lg">
+        <form
+          className="m-auto mt-8 flex w-full flex-col gap-4 rounded-lg p-3 shadow-md md:max-w-lg"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <div>
             <div className="mb-2 block">
               <Label htmlFor="username" value="Email/Username" />
@@ -38,7 +45,11 @@ export default function LoginPage() {
               rightIcon={MdPassword}
             />
           </div>
-          <Button type="submit" gradientDuoTone="greenToBlue">
+          <Button
+            onClick={onSubmit}
+            type="submit"
+            gradientDuoTone="greenToBlue"
+          >
             Submit
           </Button>
         </form>

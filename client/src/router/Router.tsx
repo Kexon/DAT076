@@ -15,7 +15,7 @@ const router = createBrowserRouter([
       { path: 'admin', element: <AdminTicketsPage /> },
       { path: 'ticket/:id', element: <TicketPage /> },
       // Maybe dashboard should be a child element of user?
-      { path: 'user', element: <Navigate to="user/dashboard" /> }, // Not sure if a good way to redirect
+      { path: 'user', element: <Navigate to="/user/dashboard" /> }, // Not sure if a good way to redirect
       { path: 'user/dashboard', element: <UserPage /> },
     ],
   },

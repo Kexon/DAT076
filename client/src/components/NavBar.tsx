@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default function NavBar() {
   return (
     <nav
-      className="w-vw flex h-12 items-center justify-between bg-gradient-to-r from-cyan-500 to-blue-500 shadow-md
+      className="w-vw mb-5 flex h-12 items-center justify-between bg-gradient-to-r from-cyan-500 to-blue-500 shadow-md lg:mb-10
 "
     >
       <Link

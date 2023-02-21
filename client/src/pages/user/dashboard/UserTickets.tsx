@@ -14,7 +14,7 @@ export default function UserPage() {
     getTickets();
   }, []);
   return (
-    <Card className="divide-slate-400 sm:flex-1">
+    <Card className="sm:flex-1">
       <h2 className="text-lg font-medium">My tickets</h2>
       <div className="flex flex-col flex-wrap">
         {tickets.map((ticket) => (

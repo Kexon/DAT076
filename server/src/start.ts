@@ -7,6 +7,10 @@ import session from "express-session";
 
 export const app = express();
 
+if (!process.env.SECRET_KEY) {
+  throw new Error("Secret key not found");
+}
+
 app.use(
   session({
     secret: process.env.SECRET_KEY,

@@ -25,11 +25,6 @@ export default function TicketFormPage() {
     if (event.target.value.trim().length > 0) setValidDescription(true);
   };
 
-  /*
-   * This should be moved to a service file!
-   * and the fetch should be replaced with an axios call?
-   * I'm not sure if we are going to use axios or fetch
-   */
   const handleSubmitForm = () => {
     if (title.trim().length <= 0 && description.trim().length <= 0) {
       setValidTitle(false);

@@ -15,11 +15,13 @@ export default function UserPage() {
   }, []);
   return (
     <Card className="sm:flex-1">
-      <h2 className="text-lg font-medium">My tickets</h2>
-      <div className="flex flex-col flex-wrap">
-        {tickets.map((ticket) => (
-          <UserPageTicket ticket={ticket} />
-        ))}
+      <div className="flex h-full w-full flex-col justify-start gap-6">
+        <h2 className="text-lg font-medium">My tickets</h2>
+        <div className="flex flex-col flex-wrap">
+          {tickets.map((ticket) => (
+            <UserPageTicket key={ticket.id} ticket={ticket} />
+          ))}
+        </div>
       </div>
     </Card>
   );

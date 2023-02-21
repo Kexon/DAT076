@@ -1,4 +1,6 @@
-import { Card } from 'flowbite-react';
+import { Button, Card, Label, TextInput } from 'flowbite-react';
+import { useState } from 'react';
+import UserPageSettings from './UserPageSettings';
 import UserTickets from './UserTickets';
 
 export default function UserPage() {
@@ -6,9 +8,7 @@ export default function UserPage() {
     <div>
       <Card className="text-3xl font-semibold">Greetings username</Card>
       <div className="flex flex-col sm:flex-row">
-        <Card className="sm:flex-1">
-          <h2 className="text-lg font-medium">Account</h2>
-        </Card>
+        <UserPageSettings />
         <UserTickets />
       </div>
     </div>

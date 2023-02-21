@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import makeTicketService from "../service/TicketService";
+import makeTicketService from "../service/ticket/TicketService";
 import { Ticket, NewTicket } from "../model/Ticket";
 
 const ticketService = makeTicketService();

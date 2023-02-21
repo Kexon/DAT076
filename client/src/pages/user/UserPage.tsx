@@ -17,11 +17,11 @@ export default function UserPage() {
 
   return (
     <div>
-      <Card className="text-3xl font-semibold">Greetings Traveler.</Card>
-      <div className="grid grid-flow-row sm:grid-flow-col">
-        <Card className="col-span-1 w-full">Account Settings</Card>
-        <Card className="col-span-1 divide-slate-400">
-          <h2 className="text-lg font-medium">Account tickets</h2>
+      <Card className="text-3xl font-semibold">Greetings username</Card>
+      <div className="flex flex-col sm:flex-row">
+        <Card className="sm:flex-1">Account Settings</Card>
+        <Card className="divide-slate-400 sm:flex-1">
+          <h2 className="text-lg font-medium">My tickets</h2>
           <div className="flex flex-col flex-wrap">
             {tickets.map((ticket) => (
               <UserPageTicket ticket={ticket} />

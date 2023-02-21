@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Ticket } from '../../model/Ticket';
 import ApiService from '../../services/ApiService';
 import AdminTicketItem from '../admin/tickets/AdminTicketItem';
-import UserPageTicket from './UserPageTicket';
+import UserPageTicket from './UserPageTicketItem';
 
 export default function UserPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);

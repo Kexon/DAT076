@@ -1,7 +1,7 @@
 import { Card } from 'flowbite-react';
 import { useState, useEffect } from 'react';
-import { Ticket } from '../../model/Ticket';
-import ApiService from '../../services/ApiService';
+import { Ticket } from '../../../model/Ticket';
+import ApiService from '../../../services/ApiService';
 import UserPageTicket from './UserTicketItem';
 
 export default function UserPage() {

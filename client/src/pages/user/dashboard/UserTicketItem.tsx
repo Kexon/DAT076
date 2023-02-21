@@ -1,7 +1,7 @@
 import { Badge } from 'flowbite-react';
 import { HiOutlineMail } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
-import { Ticket } from '../../model/Ticket';
+import { Ticket } from '../../../model/Ticket';
 
 export default function UserPageTicket({ ticket }: { ticket: Ticket }) {
   const { title, open, description } = ticket;

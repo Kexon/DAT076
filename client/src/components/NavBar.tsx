@@ -21,12 +21,13 @@ export default function NavBar() {
         >
           <CiSettings className="h-7 w-7" />
         </button>
-        <button
+        <Link
           type="button"
           className="transition ease-in-out hover:scale-120 hover:text-gray-200"
+          to="/user"
         >
           <CgProfile className="h-7 w-7" />
-        </button>
+        </Link>
       </div>
     </nav>
   );

@@ -8,7 +8,7 @@ export default function UserPage() {
     <div>
       <Card className="mt-20 p-4">
         <div className="flex flex-col gap-10">
-          <h1 className="text-3xl font-semibold">Greetings username</h1>
+          <h1 className="text-3xl font-semibold">Account panel</h1>
           <div className="flex flex-col gap-20 sm:flex-row">
             <UserPageSettings />
             <UserTickets />

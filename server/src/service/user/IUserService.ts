@@ -10,7 +10,7 @@ export default interface IUserService {
   register(username: string, password: string): Promise<UserInfo | undefined>;
   changePassword(
     userId: string,
-    currentPassword: string,
-    newPassword: string
+    newPassword: string,
+    currentPassword: string
   ): Promise<UserInfo | undefined>;
 }

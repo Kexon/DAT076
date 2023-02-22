@@ -45,8 +45,8 @@ class UserService implements IUserService {
    * */
   async changePassword(
     userId: string,
-    currentPassword: string,
-    newPassword: string
+    newPassword: string,
+    currentPassword: string
   ): Promise<UserInfo | undefined> {
     const user = users.get(userId);
     if (user && user.password === currentPassword) {

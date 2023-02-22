@@ -4,7 +4,7 @@ import TicketPage from '../pages/admin/tickets/TicketPage';
 import TicketFormPage from '../pages/user/TicketFormPage';
 import Home from '../pages/Home';
 import Root from '../Root';
-import SignUpPage from '../pages/user/SignUpPage';
+import SignUpPage from '../pages/SignUpPage';
 
 const router = createBrowserRouter([
   {

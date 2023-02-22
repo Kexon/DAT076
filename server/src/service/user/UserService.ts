@@ -37,6 +37,25 @@ class UserService implements IUserService {
     return { id: newUser.id, username: newUser.username };
   }
 
+  /*
+   * Do we really need to return the user here?
+   * Also do we perform user is logged in here or the router?
+   * CHATGPT: Overall, checking for user authentication at the router level is a
+   * good first step in securing your changepassword service, but it's not the only step.
+   * */
+  async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string
+  ): Promise<UserInfo | undefined> {
+    const user = users.get(userId);
+    if (user && user.password === currentPassword) {
+      user.password = newPassword;
+      return { id: user.id, username: user.username };
+    }
+    return undefined;
+  }
+
   private async getIdByUsername(username: string): Promise<string | undefined> {
     for (const user of users.values())
       if (user.username === username) return user.id;

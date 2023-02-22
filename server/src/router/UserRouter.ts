@@ -180,3 +180,18 @@ userRouter.patch(
     }
   }
 );
+
+userRouter.post("/logout", async (req, res: Response<string>) => {
+  if (!req.session.user) {
+    res.status(401).send("You are not logged in");
+    return;
+  }
+  req.session.destroy((err) => {
+    if (err) {
+      res.status(500).send("Failed to log out");
+      return;
+    }
+    res.status(200).send("Successfully logged out");
+    return;
+  });
+});

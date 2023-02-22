@@ -42,11 +42,18 @@ ticketRouter.get(
     res: Response<Ticket | string>
   ) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
+      const id = req.params.id;
+      if (id.trim().length === 0) {
         res.status(400).send("Invalid id");
         return;
       }
+      /*       
+      // This piece of code below was used when the id was a number
+      if (isNaN(id)) {
+        res.status(400).send("Invalid id");
+        return; 
+      }
+        */
       const ticket = await ticketService.getTicketById(id);
       if (ticket.length > 0) {
         res.status(200).send(ticket[0]);
@@ -76,7 +83,7 @@ ticketRouter.post(
       const newTicket: NewTicket = {
         title: req.body.title,
         description: req.body.description,
-        authorId: 1,
+        authorId: "1",
       };
       const ticket: Ticket = await ticketService.addNewTicket(newTicket);
       res.status(201).send(ticket);
@@ -97,11 +104,16 @@ ticketRouter.patch(
     res: Response<Ticket | string>
   ) => {
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
+      const id = req.params.id;
+      if (id.trim().length === 0) {
         res.status(400).send("Invalid id");
         return;
       }
+      // This piece of code below was used when the id was a number
+      /*if (isNaN(id)) {
+        res.status(400).send("Invalid id");
+        return;
+      } */
       let changedParams = 0;
       const ticket = await ticketService.getTicketById(id);
       if (ticket.length > 0) {

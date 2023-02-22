@@ -23,10 +23,10 @@ class TicketService implements ITicketService {
 
     return ticket;
   }
-  async getTicketsByAuthorId(authorId: number): Promise<Ticket[]> {
+  async getTicketsByAuthorId(authorId: string): Promise<Ticket[]> {
     return this.tickets.filter((ticket) => ticket.authorId === authorId);
   }
-  async getTicketsByAssigneeId(assigneeId: number): Promise<Ticket[]> {
+  async getTicketsByAssigneeId(assigneeId: string): Promise<Ticket[]> {
     return this.tickets.filter((ticket) => ticket.assigneeId === assigneeId);
   }
   async getTicketsByStatus(open: boolean): Promise<Ticket[]> {

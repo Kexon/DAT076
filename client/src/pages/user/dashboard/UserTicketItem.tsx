@@ -14,9 +14,9 @@ export default function UserPageTicket({ ticket }: { ticket: Ticket }) {
       <div className="flex w-10 items-center justify-center">
         <HiOutlineMail size={36} className="text-gray-300" />
       </div>
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col justify-center">
         <div className="flex justify-between gap-1">
-          <h1 className="flex-1 truncate font-semibold">{title}</h1>
+          <h3 className="flex-1 truncate text-base font-semibold">{title}</h3>
           <div className="flex items-center gap-2">
             <Badge
               color={open ? 'success' : 'failure'}

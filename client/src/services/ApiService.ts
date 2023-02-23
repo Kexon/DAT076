@@ -1,17 +1,15 @@
-import axios from 'axios';
 import { Ticket, NewTicket } from '../model/Ticket';
-
-const API_URL = 'http://localhost:8080';
+import axiosInstance from '../utils/AxiosInstance';
 
 export default class ApiService {
   static async getTickets(): Promise<Ticket[]> {
-    const { data } = await axios.get<Ticket[]>(`${API_URL}/ticket`);
+    const { data } = await axiosInstance.get<Ticket[]>('/ticket');
     return data;
   }
 
   static async getTicket(id: number): Promise<Ticket | undefined> {
     try {
-      const { data } = await axios.get<Ticket>(`${API_URL}/ticket/${id}`);
+      const { data } = await axiosInstance.get<Ticket>(`/ticket/${id}`);
       return data;
     } catch (error) {
       return undefined;
@@ -19,15 +17,15 @@ export default class ApiService {
   }
 
   static async createTicket(ticket: NewTicket): Promise<Ticket> {
-    const { data } = await axios.post<Ticket>(`${API_URL}/ticket`, ticket);
+    const { data } = await axiosInstance.post<Ticket>('/ticket', ticket);
     return data;
   }
 
   static async closeTicket(id: number): Promise<void> {
-    await axios.patch(`${API_URL}/ticket/${id}`, { open: false });
+    await axiosInstance.patch(`/ticket/${id}`, { open: false });
   }
 
   static async openTicket(id: number): Promise<void> {
-    await axios.patch(`${API_URL}/ticket/${id}`, { open: true });
+    await axiosInstance.patch(`/ticket/${id}`, { open: true });
   }
 }

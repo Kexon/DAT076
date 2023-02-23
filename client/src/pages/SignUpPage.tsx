@@ -85,7 +85,7 @@ export default function SignUpPage() {
 
       <div className="flex h-max justify-center">
         <form
-          className="flex w-full flex-col gap-4 p-4 lg:w-3/4 xl:w-2/3"
+          className="flex w-full flex-col gap-4 rounded-lg p-4 shadow-md md:max-w-lg"
           onSubmit={(e) => e.preventDefault()}
         >
           <div>
@@ -113,6 +113,7 @@ export default function SignUpPage() {
               rightIcon={MdPassword}
               id="password"
               type="password"
+              placeholder="********"
               color={validPassword ? 'gray' : 'failure'}
               helperText={validPassword ? '' : 'Password is required'}
               onChange={handlePasswordChange}
@@ -129,6 +130,7 @@ export default function SignUpPage() {
               rightIcon={MdPassword}
               id="repeat-password"
               type="password"
+              placeholder="********"
               onChange={handleRepeatPasswordChange}
               color={equalPasswords && validRepeatPassword ? 'gray' : 'failure'}
               helperText={
@@ -141,28 +143,26 @@ export default function SignUpPage() {
             />
           </div>
 
-          <div className="flex justify-end">
-            {!submitted && (
-              <Button
-                className="w-full bg-blue-500 lg:w-1/3"
-                type="submit"
-                onClick={handleSubmit}
-              >
-                Register new account
-              </Button>
-            )}
-            {/* Change to wait until the user is created? instead of submitted */}
-            {submitted && <Navigate to="/" replace />}
-            {submitted && (
-              <Button
-                className="w-full bg-blue-500 lg:w-1/3"
-                disabled={submitted}
-                type="submit"
-              >
-                <Spinner />
-              </Button>
-            )}
-          </div>
+          {!submitted && (
+            <Button
+              type="submit"
+              gradientDuoTone="greenToBlue"
+              onClick={handleSubmit}
+            >
+              Register new account
+            </Button>
+          )}
+          {/* Change to wait until the user is created? instead of submitted */}
+          {submitted && <Navigate to="/" replace />}
+          {submitted && (
+            <Button
+              gradientDuoTone="greenToBlue"
+              disabled={submitted}
+              type="submit"
+            >
+              <Spinner />
+            </Button>
+          )}
         </form>
       </div>
     </div>

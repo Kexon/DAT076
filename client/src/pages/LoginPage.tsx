@@ -1,22 +1,17 @@
 import { Button, Label, TextInput } from 'flowbite-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MdEmail, MdPassword } from 'react-icons/md';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthProvider';
 
 export default function LoginPage() {
   const { user, login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
 
   const onSubmit = () => {
     login(username, password);
   };
-
-  useEffect(() => {
-    if (user?.id) navigate('/');
-  }, [user?.id]);
 
   return (
     <main>
@@ -74,6 +69,7 @@ export default function LoginPage() {
             Sign Up
           </Link>
         </div>
+        {user && <Navigate to="/" replace />}
       </div>
     </main>
   );

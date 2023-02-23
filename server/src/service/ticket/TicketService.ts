@@ -1,5 +1,6 @@
-import { Ticket, NewTicket } from "../model/Ticket";
+import { Ticket, NewTicket } from "../../model/Ticket";
 import ITicketService from "./ITicketService";
+import { v4 as uuidv4 } from "uuid";
 
 class TicketService implements ITicketService {
   tickets: Array<Ticket> = [];
@@ -12,9 +13,9 @@ class TicketService implements ITicketService {
    *  This method returns a single ticket wrapped in an array.
    *  If it cannot find a ticket with the given id, it returns an empty array.
    */
-  async getTicketById(id: number): Promise<Ticket[]> {
+  async getTicketById(ticketId: string): Promise<Ticket[]> {
     const ticket: Array<Ticket> = [];
-    const foundTicket = this.tickets.find((ticket) => ticket.id === id);
+    const foundTicket = this.tickets.find((ticket) => ticket.id === ticketId);
 
     if (foundTicket) {
       ticket.push(foundTicket);
@@ -22,18 +23,18 @@ class TicketService implements ITicketService {
 
     return ticket;
   }
-  async getTicketsByAuthorId(id: number): Promise<Ticket[]> {
-    return this.tickets.filter((ticket) => ticket.authorId === id);
+  async getTicketsByAuthorId(authorId: string): Promise<Ticket[]> {
+    return this.tickets.filter((ticket) => ticket.authorId === authorId);
   }
-  async getTicketsByAssigneeId(id: number): Promise<Ticket[]> {
-    return this.tickets.filter((ticket) => ticket.assigneeId === id);
+  async getTicketsByAssigneeId(assigneeId: string): Promise<Ticket[]> {
+    return this.tickets.filter((ticket) => ticket.assigneeId === assigneeId);
   }
   async getTicketsByStatus(open: boolean): Promise<Ticket[]> {
     return this.tickets.filter((ticket) => ticket.open === open);
   }
   async addNewTicket(ticket: NewTicket): Promise<Ticket> {
     const newTicket: Ticket = {
-      id: Date.now(),
+      id: uuidv4(),
       open: true,
       ...ticket,
     };
@@ -41,12 +42,12 @@ class TicketService implements ITicketService {
     return newTicket;
   }
   async updateTicket(ticket: Ticket): Promise<Ticket> {
-    const index = this.tickets.findIndex((t) => t.id === ticket.id);
+    const index = this.tickets.findIndex((ticket) => ticket.id === ticket.id);
     this.tickets[index] = ticket;
     return ticket;
   }
-  async deleteTicketById(id: number): Promise<boolean> {
-    const index = this.tickets.findIndex((t) => t.id === id);
+  async deleteTicketById(ticketId: string): Promise<boolean> {
+    const index = this.tickets.findIndex((t) => t.id === ticketId);
     this.tickets.splice(index, 1);
     return true;
   }

@@ -1,10 +1,10 @@
 export interface Ticket {
-  id: number;
+  id: string;
   title: string;
   description: string;
   open: boolean;
-  authorId: number;
-  assigneeId?: number;
+  authorId: string;
+  assigneeId?: string;
 }
 
 // creates a sub-interface of Ticket with id, open removed

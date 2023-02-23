@@ -34,7 +34,8 @@ export default function SignUpPage() {
     if (event.target.value.trim().length > 0) setValidRepeatPassword(true);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (username.trim().length <= 0) {
       setValidUsername(false);
       return;
@@ -69,7 +70,7 @@ export default function SignUpPage() {
       <div className="flex h-max justify-center">
         <form
           className="flex w-full flex-col gap-4 rounded-lg p-4 shadow-md md:max-w-lg"
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={(e) => handleSubmit(e)}
         >
           <div>
             <div className="mb-2 block">
@@ -127,11 +128,7 @@ export default function SignUpPage() {
           </div>
 
           {!submitted && (
-            <Button
-              type="submit"
-              gradientDuoTone="greenToBlue"
-              onClick={handleSubmit}
-            >
+            <Button type="submit" gradientDuoTone="greenToBlue">
               Register new account
             </Button>
           )}

@@ -4,17 +4,46 @@ import TicketPage from '../pages/admin/tickets/TicketPage';
 import TicketFormPage from '../pages/user/TicketFormPage';
 import Home from '../pages/Home';
 import Root from '../Root';
-import SignUpPage from '../pages/SignUpPage';
+import RequireAuth from '../RequireAuth';
+import LoginPage from '../pages/LoginPage';
 
 const router = createBrowserRouter([
   {
     element: <Root />,
     children: [
-      { path: '/', element: <Home /> },
-      { path: 'createticket', element: <TicketFormPage /> },
-      { path: 'admin', element: <AdminTicketsPage /> },
-      { path: 'ticket/:id', element: <TicketPage /> },
-      { path: 'signup', element: <SignUpPage /> },
+      {
+        path: '/',
+        element: (
+          <RequireAuth>
+            <Home />
+          </RequireAuth>
+        ),
+      },
+      { path: 'login', element: <LoginPage /> },
+      {
+        path: 'createticket',
+        element: (
+          <RequireAuth>
+            <TicketFormPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'admin',
+        element: (
+          <RequireAuth>
+            <AdminTicketsPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'ticket/:id',
+        element: (
+          <RequireAuth>
+            <TicketPage />
+          </RequireAuth>
+        ),
+      },
     ],
   },
 ]);

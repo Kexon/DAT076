@@ -5,7 +5,7 @@ test("If a ticket is added to the list then it should be in the list", async () 
   const newTicket: NewTicket = {
     title: "Test title",
     description: "Test description",
-    authorId: 1,
+    authorId: "1",
   };
 
   const ticketService = makeTicketService();
@@ -18,7 +18,7 @@ test("Test if ticket can be acquired by id", async () => {
   const newTicket: NewTicket = {
     title: "Test title",
     description: "Test description",
-    authorId: 1,
+    authorId: "1",
   };
 
   const ticketService = makeTicketService();

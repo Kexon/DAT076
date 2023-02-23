@@ -18,6 +18,10 @@ ticketRouter.get(
     req: Request<{ open: string }, {}, {}>,
     res: Response<Array<Ticket> | String>
   ) => {
+    if (!req.session.user) {
+      res.status(401).send("You are not logged in");
+      return;
+    }
     try {
       if (Object.keys(req.query).length === 0) {
         const tickets = await ticketService.getAllTickets();
@@ -41,12 +45,23 @@ ticketRouter.get(
     req: Request<{ id: string }, {}, {}>,
     res: Response<Ticket | string>
   ) => {
+    if (!req.session.user) {
+      res.status(401).send("You are not logged in");
+      return;
+    }
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
+      const id = req.params.id;
+      if (id.trim().length === 0) {
         res.status(400).send("Invalid id");
         return;
       }
+      /*       
+      // This piece of code below was used when the id was a number
+      if (isNaN(id)) {
+        res.status(400).send("Invalid id");
+        return; 
+      }
+        */
       const ticket = await ticketService.getTicketById(id);
       if (ticket.length > 0) {
         res.status(200).send(ticket[0]);
@@ -65,6 +80,10 @@ ticketRouter.post(
     req: Request<{}, {}, { title: string; description: string }>,
     res: Response<Ticket | string>
   ) => {
+    if (!req.session.user) {
+      res.status(401).send("You are not logged in");
+      return;
+    }
     try {
       if (
         typeof req.body.title != "string" ||
@@ -76,7 +95,7 @@ ticketRouter.post(
       const newTicket: NewTicket = {
         title: req.body.title,
         description: req.body.description,
-        authorId: 1,
+        authorId: req.session.user.id,
       };
       const ticket: Ticket = await ticketService.addNewTicket(newTicket);
       res.status(201).send(ticket);
@@ -96,14 +115,29 @@ ticketRouter.patch(
     >,
     res: Response<Ticket | string>
   ) => {
+    if (!req.session.user) {
+      res.status(401).send("You are not logged in");
+      return;
+    }
     try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
+      const id = req.params.id;
+      if (id.trim().length === 0) {
         res.status(400).send("Invalid id");
         return;
       }
+      // This piece of code below was used when the id was a number
+      /*if (isNaN(id)) {
+        res.status(400).send("Invalid id");
+        return;
+      } */
       let changedParams = 0;
       const ticket = await ticketService.getTicketById(id);
+      if (req.session.user.id !== ticket[0].authorId) {
+        // only the author can edit the ticket
+        // change this to allow admins to edit tickets in the future
+        res.status(403).send("You are not the author of this ticket");
+        return;
+      }
       if (ticket.length > 0) {
         if (typeof req.body.title == "string") {
           ticket[0].title = req.body.title;

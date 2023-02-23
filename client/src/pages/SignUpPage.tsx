@@ -1,15 +1,19 @@
 import { Label, TextInput, Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
-import { MdEmail, MdPassword } from 'react-icons/md';
+import { MdOutlineAccountCircle, MdPassword } from 'react-icons/md';
+import { Navigate } from 'react-router-dom';
 
 export default function SignUpPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [equalPasswords, setEqualPasswords] = useState(true);
   const [validUsername, setValidUsername] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
   const [validRepeatPassword, setValidRepeatPassword] = useState(true);
-  const [submitted, setSubmitted] = useState(false);
+  const [errorMessageRepeatPassword, setErrorMessageRepeatPassword] =
+    useState('');
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -25,25 +29,10 @@ export default function SignUpPage() {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRepeatPassword(event.target.value);
-    if (event.target.value.trim().length > 0) setValidPassword(true);
+    if (event.target.value.trim().length > 0) setValidRepeatPassword(true);
   };
 
-  /*
-   * Add a function to handle the form submission here
-   * when createUser is implemented in the backend
-   */
-
   const handleSubmit = () => {
-    if (
-      username.trim().length <= 0 &&
-      password.trim().length <= 0 &&
-      repeatPassword.trim().length <= 0
-    ) {
-      setValidUsername(false);
-      setValidPassword(false);
-      setValidRepeatPassword(false);
-      return;
-    }
     if (username.trim().length <= 0) {
       setValidUsername(false);
       return;
@@ -54,6 +43,12 @@ export default function SignUpPage() {
     }
     if (repeatPassword.trim().length <= 0) {
       setValidRepeatPassword(false);
+      setErrorMessageRepeatPassword('Please repeat your password');
+      return;
+    }
+    if (password !== repeatPassword) {
+      setEqualPasswords(false);
+      setErrorMessageRepeatPassword('Passwords do not match');
       return;
     }
     setSubmitted(true);
@@ -61,15 +56,10 @@ export default function SignUpPage() {
 
   /*
    * This should be moved to a service file!
+   * And it should be an axios call instead of fetch
    */
   useEffect(() => {
     const createUser = async () => {
-      if (
-        username.trim().length <= 0 ||
-        password.trim().length <= 0 ||
-        repeatPassword.trim().length <= 0
-      )
-        return;
       const response = await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -92,6 +82,7 @@ export default function SignUpPage() {
           Enter your credentials to create a new account.
         </p>
       </div>
+
       <div className="flex h-max justify-center">
         <form
           className="flex w-full flex-col gap-4 p-4 lg:w-3/4 xl:w-2/3"
@@ -99,14 +90,16 @@ export default function SignUpPage() {
         >
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="email2" value="Your email" />
+              <Label htmlFor="username" value="Your username" />
             </div>
             <TextInput
-              id="email2"
-              type="email"
-              placeholder="Enter your email"
-              rightIcon={MdEmail}
+              id="username"
+              type="text"
+              placeholder="Enter your username"
+              rightIcon={MdOutlineAccountCircle}
               onChange={handleUsernameChange}
+              color={validUsername ? 'gray' : 'failure'}
+              helperText={validUsername ? '' : 'Username is required'}
               required
               shadow
             />
@@ -114,12 +107,14 @@ export default function SignUpPage() {
 
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="password2" value="Your password" />
+              <Label htmlFor="password" value="Your password" />
             </div>
             <TextInput
               rightIcon={MdPassword}
-              id="password2"
+              id="password"
               type="password"
+              color={validPassword ? 'gray' : 'failure'}
+              helperText={validPassword ? '' : 'Password is required'}
               onChange={handlePasswordChange}
               required
               shadow
@@ -135,6 +130,12 @@ export default function SignUpPage() {
               id="repeat-password"
               type="password"
               onChange={handleRepeatPasswordChange}
+              color={equalPasswords && validRepeatPassword ? 'gray' : 'failure'}
+              helperText={
+                equalPasswords && validRepeatPassword
+                  ? ''
+                  : `${errorMessageRepeatPassword}`
+              }
               required
               shadow
             />
@@ -143,15 +144,15 @@ export default function SignUpPage() {
           <div className="flex justify-end">
             {!submitted && (
               <Button
-                className="w-full lg:w-1/3"
+                className="w-full bg-blue-500 lg:w-1/3"
                 type="submit"
-                disabled={!username || !password || !repeatPassword}
                 onClick={handleSubmit}
               >
                 Register new account
               </Button>
             )}
-
+            {/* Change to wait until the user is created? instead of submitted */}
+            {submitted && <Navigate to="/" replace />}
             {submitted && (
               <Button
                 className="w-full bg-blue-500 lg:w-1/3"

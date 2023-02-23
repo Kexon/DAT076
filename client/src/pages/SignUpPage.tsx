@@ -1,7 +1,8 @@
 import { Label, TextInput, Button, Spinner } from 'flowbite-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MdOutlineAccountCircle, MdPassword } from 'react-icons/md';
 import { Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks/AuthProvider';
 
 export default function SignUpPage() {
   const [username, setUsername] = useState('');
@@ -14,6 +15,7 @@ export default function SignUpPage() {
   const [validRepeatPassword, setValidRepeatPassword] = useState(true);
   const [errorMessageRepeatPassword, setErrorMessageRepeatPassword] =
     useState('');
+  const { user, register } = useAuth();
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -51,28 +53,9 @@ export default function SignUpPage() {
       setErrorMessageRepeatPassword('Passwords do not match');
       return;
     }
+    register(username, password);
     setSubmitted(true);
   };
-
-  /*
-   * This should be moved to a service file!
-   * And it should be an axios call instead of fetch
-   */
-  useEffect(() => {
-    const createUser = async () => {
-      const response = await fetch('/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-      if (response.ok) {
-        console.log('User created');
-      } else {
-        console.log('User not created');
-      }
-    };
-    createUser();
-  }, [submitted]);
 
   return (
     <div className="mx-auto h-max">
@@ -152,8 +135,7 @@ export default function SignUpPage() {
               Register new account
             </Button>
           )}
-          {/* Change to wait until the user is created? instead of submitted */}
-          {submitted && <Navigate to="/" replace />}
+          {user && <Navigate to="/" replace />}
           {submitted && (
             <Button
               gradientDuoTone="greenToBlue"

@@ -4,8 +4,9 @@ import UserService from '../services/UserService';
 
 interface AuthContextProps {
   user?: UserInfo;
-  login: (username: string, password: string) => Promise<void>;
   loading: boolean;
+  login: (username: string, password: string) => Promise<void>;
+  register: (username: string, password: string) => Promise<void>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -26,8 +27,15 @@ export function AuthProvider({ children }: Props) {
     setLoading(false);
   };
 
+  const register = async (username: string, password: string) => {
+    setLoading(true);
+    const newUser = await UserService.register(username, password);
+    setUser(newUser);
+    setLoading(false);
+  };
+
   // eslint-disable-next-line react/jsx-no-constructed-context-values
-  const value = { login, user, loading };
+  const value = { login, register, user, loading };
 
   useEffect(() => {
     const getUser = async () => {

@@ -5,18 +5,61 @@ import TicketFormPage from '../pages/user/TicketFormPage';
 import Home from '../pages/Home';
 import Root from '../Root';
 import UserPage from '../pages/user/dashboard/UserPage';
+import RequireAuth from '../RequireAuth';
+import LoginPage from '../pages/LoginPage';
+import SignUpPage from '../pages/SignUpPage';
 
 const router = createBrowserRouter([
   {
     element: <Root />,
     children: [
-      { path: '/', element: <Home /> },
-      { path: 'createticket', element: <TicketFormPage /> },
-      { path: 'admin', element: <AdminTicketsPage /> },
-      { path: 'ticket/:id', element: <TicketPage /> },
+      {
+        path: '/',
+        element: (
+          <RequireAuth>
+            <Home />
+          </RequireAuth>
+        ),
+      },
+      { path: 'login', element: <LoginPage /> },
+      {
+        path: 'createticket',
+        element: (
+          <RequireAuth>
+            <TicketFormPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'admin',
+        element: (
+          <RequireAuth>
+            <AdminTicketsPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'ticket/:id',
+        element: (
+          <RequireAuth>
+            <TicketPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: '/signup',
+        element: <SignUpPage />,
+      },
       // Maybe dashboard should be a child element of user?
       { path: 'user', element: <Navigate to="/user/dashboard" /> }, // Not sure if a good way to redirect
-      { path: 'user/dashboard', element: <UserPage /> },
+      {
+        path: 'user/dashboard',
+        element: (
+          <RequireAuth>
+            <UserPage />
+          </RequireAuth>
+        ),
+      },
     ],
   },
 ]);

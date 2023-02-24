@@ -1,14 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import NavBar from './components/NavBar';
+import { AuthProvider } from './hooks/AuthProvider';
 
 export default function Root() {
   return (
-    <>
-      <NavBar />
-      <div className="mx-auto max-w-4xl">
-        <Outlet />
-      </div>
-    </>
+    <AuthProvider>
+      <>
+        <NavBar />
+        <div className="mx-auto max-w-4xl">
+          <Outlet />
+        </div>
+      </>
+    </AuthProvider>
   );
 }

@@ -143,7 +143,7 @@ export default function TicketFormPage() {
             {!submitted && (
               <Button
                 className="w-full bg-blue-500 lg:w-1/4"
-                disabled={!title || !description} // Possibly change this to only check if the form is submitted
+                disabled={!title || !description}
                 onClick={handleSubmitForm}
                 type="submit"
               >
@@ -153,7 +153,7 @@ export default function TicketFormPage() {
             {submitted && (
               <Button
                 className="w-full bg-blue-500 lg:w-1/4"
-                disabled={submitted} // Possibly change this to only check if the form is submitted
+                disabled={submitted}
                 type="submit"
               >
                 <Spinner />

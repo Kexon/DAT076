@@ -43,14 +43,14 @@ export default function UserPage() {
               <Sidebar.Items>
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
-                    href="#"
+                    href="#info"
                     icon={HiChartPie}
                     onClick={() => setActiveTab('info')}
                   >
                     Dashboard
                   </Sidebar.Item>
                   <Sidebar.Item
-                    href="#"
+                    href="#tickets"
                     icon={HiInbox}
                     label="3"
                     onClick={() => setActiveTab('tickets')}
@@ -68,7 +68,7 @@ export default function UserPage() {
                     href="#"
                     icon={HiUser}
                     label="Admin"
-                    className="accent-slate-500"
+                    className="label"
                   >
                     Users
                   </Sidebar.Item>
@@ -79,7 +79,7 @@ export default function UserPage() {
                     icon={HiCog}
                     onClick={() => setActiveTab('settings')}
                   >
-                    Change Settings
+                    Settings
                   </Sidebar.Item>
                   <Sidebar.Item href="#" icon={HiArrowSmRight}>
                     Sign out
@@ -90,7 +90,10 @@ export default function UserPage() {
           </div>
         </div>
       </div>
-      <div className="flex flex-1 flex-col gap-10 rounded-lg px-6 pb-6 pt-2 shadow-md">
+      <div className="">
+        <hr className="mt-4 h-[360px] w-px bg-gray-200 dark:bg-gray-700" />
+      </div>
+      <div className="flex flex-1 flex-col gap-10 rounded-lg px-6 pb-6 pt-2 ">
         <div className="flex">{renderComponent()}</div>
       </div>
     </div>

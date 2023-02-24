@@ -16,18 +16,20 @@ export default function NavBar() {
           tickino
         </Link>
         <div className="flex gap-x-3 pr-3 text-white">
-          <button
+          <Link
             type="button"
             className="transition ease-in-out hover:scale-120 hover:text-gray-200"
+            to="/user/settings"
           >
             <CiSettings className="h-7 w-7" />
-          </button>
-          <button
+          </Link>
+          <Link
             type="button"
             className="transition ease-in-out hover:scale-120 hover:text-gray-200"
+            to="/user"
           >
             <CgProfile className="h-7 w-7" />
-          </button>
+          </Link>
         </div>
       </div>
     </nav>

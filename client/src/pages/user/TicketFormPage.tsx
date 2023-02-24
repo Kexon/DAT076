@@ -56,60 +56,58 @@ export default function TicketFormPage() {
   }, [submitted]);
 
   return (
-    <div className="mx-auto h-max">
-      <div className="flex h-max justify-center">
-        <form
-          className=" flex w-full flex-col gap-4 p-4 lg:w-3/4 xl:w-2/3"
-          onSubmit={(e) => handleSubmitForm(e)}
-        >
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="title" value="Title" />
-            </div>
-            <TextInput
-              id="title"
-              type="text"
-              placeholder="Title"
-              required
-              onChange={handleTitleChange}
-              color={validTitle ? 'gray' : 'failure'}
-              helperText={validTitle ? '' : 'Title is required'}
-              disabled={submitted}
-            />
+    <div className="flex h-full w-full justify-center">
+      <form
+        className="flex w-full flex-col gap-4"
+        onSubmit={(e) => handleSubmitForm(e)}
+      >
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="title" value="Title" />
           </div>
-          <div>
-            <div className="mb-2 block">
-              <Label value="Description" htmlFor="description" />
-            </div>
-            <Textarea
-              className="focus:shadow-outline border-1 h-28 w-full resize-none appearance-none rounded py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-64"
-              id="description"
-              placeholder="Description"
-              onChange={handleDescriptionChange}
-              required
-              color={validDescription ? 'gray' : 'failure'}
-              helperText={validDescription ? '' : 'Description is required'}
-              disabled={submitted}
-            />{' '}
+          <TextInput
+            id="title"
+            type="text"
+            placeholder="Title"
+            required
+            onChange={handleTitleChange}
+            color={validTitle ? 'gray' : 'failure'}
+            helperText={validTitle ? '' : 'Title is required'}
+            disabled={submitted}
+          />
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label value="Description" htmlFor="description" />
           </div>
-          {!submitted && (
-            <Button gradientDuoTone="greenToBlue" type="submit">
-              Submit
-            </Button>
-          )}
-          {ticket && <Navigate to={`/ticket/${ticket.id}`} />}
-          {submitted && (
-            <Button
-              gradientDuoTone="greenToBlue"
-              disabled={submitted}
-              type="submit"
-            >
-              <Spinner />
-              <span className="pl-3">Submitting...</span>
-            </Button>
-          )}
-        </form>
-      </div>
+          <Textarea
+            className="focus:shadow-outline border-1 h-28 w-full resize-none appearance-none rounded py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-64"
+            id="description"
+            placeholder="Description"
+            onChange={handleDescriptionChange}
+            required
+            color={validDescription ? 'gray' : 'failure'}
+            helperText={validDescription ? '' : 'Description is required'}
+            disabled={submitted}
+          />{' '}
+        </div>
+        {!submitted && (
+          <Button gradientDuoTone="greenToBlue" type="submit">
+            Submit
+          </Button>
+        )}
+        {ticket && <Navigate to={`/ticket/${ticket.id}`} />}
+        {submitted && (
+          <Button
+            gradientDuoTone="greenToBlue"
+            disabled={submitted}
+            type="submit"
+          >
+            <Spinner />
+            <span className="pl-3">Submitting...</span>
+          </Button>
+        )}
+      </form>
     </div>
   );
 }

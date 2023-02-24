@@ -14,9 +14,9 @@ export default function UserPage() {
     const getTickets = async () => {
       const data = await ApiService.getTickets();
       setTickets(data);
+      setRefresh(false);
     };
     getTickets();
-    setRefresh(false);
   }, [refresh]);
 
   const handleRefresh = () => {

@@ -8,6 +8,7 @@ import UserPage from '../pages/user/dashboard/UserPage';
 import RequireAuth from '../RequireAuth';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
+import UserPageSettings from '../pages/user/dashboard/UserPageSettings';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
         element: (
           <RequireAuth>
             <UserPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'user/settings',
+        element: (
+          <RequireAuth>
+            <UserPageSettings />
           </RequireAuth>
         ),
       },

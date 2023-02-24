@@ -9,6 +9,7 @@ import {
   HiArrowSmRight,
   HiTable,
   HiCog,
+  HiPencil,
 } from 'react-icons/hi';
 import TicketFormPage from '../TicketFormPage';
 import UserPageInfo from './UserPageInfo';
@@ -43,6 +44,16 @@ export default function UserPage() {
               <Sidebar.Items>
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
+                    href="#createticket"
+                    icon={HiPencil}
+                    onClick={() => setActiveTab('createticket')}
+                    className="text-lg font-semibold"
+                  >
+                    Create ticket
+                  </Sidebar.Item>
+                </Sidebar.ItemGroup>
+                <Sidebar.ItemGroup>
+                  <Sidebar.Item
                     href="#info"
                     icon={HiChartPie}
                     onClick={() => setActiveTab('info')}
@@ -56,13 +67,6 @@ export default function UserPage() {
                     onClick={() => setActiveTab('tickets')}
                   >
                     My tickets
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="#"
-                    icon={HiShoppingBag}
-                    onClick={() => setActiveTab('createticket')}
-                  >
-                    Create ticket
                   </Sidebar.Item>
                   <Sidebar.Item
                     href="#"

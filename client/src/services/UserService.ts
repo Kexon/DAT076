@@ -21,4 +21,15 @@ export default class UserService {
     });
     return data;
   }
+
+  static async register(
+    username: string,
+    password: string,
+  ): Promise<UserInfo | undefined> {
+    const { data } = await axiosInstance.post<UserInfo>('/user', {
+      username,
+      password,
+    });
+    return data;
+  }
 }

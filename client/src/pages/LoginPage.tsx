@@ -1,22 +1,18 @@
 import { Button, Label, TextInput } from 'flowbite-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MdEmail, MdPassword } from 'react-icons/md';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthProvider';
 
 export default function LoginPage() {
   const { user, login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
 
-  const onSubmit = () => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     login(username, password);
   };
-
-  useEffect(() => {
-    if (user?.id) navigate('/');
-  }, [user?.id]);
 
   return (
     <main>
@@ -31,7 +27,7 @@ export default function LoginPage() {
         </div>
         <form
           className="m-auto mt-8 flex w-full flex-col gap-4 rounded-lg p-3 shadow-md md:max-w-lg"
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={(e) => onSubmit(e)}
         >
           <div>
             <div className="mb-2 block">
@@ -58,11 +54,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button
-            onClick={onSubmit}
-            type="submit"
-            gradientDuoTone="greenToBlue"
-          >
+          <Button type="submit" gradientDuoTone="greenToBlue">
             Submit
           </Button>
         </form>
@@ -74,6 +66,7 @@ export default function LoginPage() {
             Sign Up
           </Link>
         </div>
+        {user && <Navigate to="/" replace />}
       </div>
     </main>
   );

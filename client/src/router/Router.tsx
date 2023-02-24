@@ -6,6 +6,7 @@ import Home from '../pages/Home';
 import Root from '../Root';
 import RequireAuth from '../RequireAuth';
 import LoginPage from '../pages/LoginPage';
+import SignUpPage from '../pages/SignUpPage';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
             <TicketPage />
           </RequireAuth>
         ),
+      },
+      {
+        path: '/signup',
+        element: <SignUpPage />,
       },
     ],
   },

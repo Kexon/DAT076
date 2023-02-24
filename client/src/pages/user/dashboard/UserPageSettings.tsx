@@ -82,79 +82,81 @@ export default function UserPageSettings() {
   }, [submitted]);
 
   return (
-    <div className="flex h-full w-full flex-col justify-start gap-4">
-      <h2 className=" text-lg font-medium">Account</h2>
-      <form
-        /* This onSubmit line is required, in order to prevent the page from reloading when the form is submitted. */
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="password1" value="Change password *" />
-            <TextInput
-              id="password1"
-              type="password"
-              onChange={handlePassword1Change}
-              value={password1}
-              required
-              helperText={
-                !newPasswordValid && (
-                  <p className="text-red-500">{newPasswordError}</p>
-                )
-              }
-            />
+    <Card className="mt-20 md:mx-32">
+      <div className="flex h-full w-full flex-col justify-start gap-8">
+        <h2 className="text-xl font-medium">Account settings</h2>
+        <form
+          /* This onSubmit line is required, in order to prevent the page from reloading when the form is submitted. */
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="password1" value="Change password *" />
+              <TextInput
+                id="password1"
+                type="password"
+                onChange={handlePassword1Change}
+                value={password1}
+                required
+                helperText={
+                  !newPasswordValid && (
+                    <p className="text-red-500">{newPasswordError}</p>
+                  )
+                }
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="password2" value="Repeat password *" />
+              <TextInput
+                id="password2"
+                type="password"
+                onChange={handlePassword2Change}
+                value={password2}
+                required
+                helperText={
+                  !newPasswordValid && (
+                    <p className="text-red-500">{newPasswordError}</p>
+                  )
+                }
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="password3" value="Current password *" />
+              <TextInput
+                id="password3"
+                type="password"
+                onChange={handlePassword3Change}
+                value={currentPassword}
+                required
+                helperText={
+                  !correctPassword && (
+                    <p className="text-red-500">Password is wrong!</p>
+                  )
+                }
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="ml-1 text-sm font-medium text-green-500">
+                {success ? 'Password successfully changed!' : ''}
+              </p>
+              <Button
+                type="submit"
+                className="w-32"
+                onClick={handleSubmit}
+                disabled={submitted}
+              >
+                {!submitted ? (
+                  'Submit'
+                ) : (
+                  <div className="flex gap-2">
+                    <Spinner /> Submitted
+                  </div>
+                )}
+              </Button>
+            </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="password2" value="Repeat password *" />
-            <TextInput
-              id="password2"
-              type="password"
-              onChange={handlePassword2Change}
-              value={password2}
-              required
-              helperText={
-                !newPasswordValid && (
-                  <p className="text-red-500">{newPasswordError}</p>
-                )
-              }
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="password3" value="Current password *" />
-            <TextInput
-              id="password3"
-              type="password"
-              onChange={handlePassword3Change}
-              value={currentPassword}
-              required
-              helperText={
-                !correctPassword && (
-                  <p className="text-red-500">Password is wrong!</p>
-                )
-              }
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="ml-1 text-sm font-medium text-green-500">
-              {success ? 'Password successfully changed!' : ''}
-            </p>
-            <Button
-              type="submit"
-              className="w-32"
-              onClick={handleSubmit}
-              disabled={submitted}
-            >
-              {!submitted ? (
-                'Submit'
-              ) : (
-                <div className="flex gap-2">
-                  <Spinner /> Submitted
-                </div>
-              )}
-            </Button>
-          </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </Card>
   );
 }

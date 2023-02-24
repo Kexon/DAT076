@@ -1,4 +1,4 @@
-import { Button, Card, Label, Sidebar, TextInput } from 'flowbite-react';
+import { Badge, Button, Card, Label, Sidebar, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import {
   HiChartPie,
@@ -34,8 +34,8 @@ export default function UserPage() {
   };
 
   return (
-    <div>
-      <Card className="mt-20 p-4">
+    <div className="mt-32 flex">
+      <div className="flex flex-col">
         <h1 className="pl-5 text-3xl font-semibold">Account panel</h1>
         <div className="flex gap-1">
           <div className="w-fit ">
@@ -64,7 +64,12 @@ export default function UserPage() {
                   >
                     Create ticket
                   </Sidebar.Item>
-                  <Sidebar.Item href="#" icon={HiUser}>
+                  <Sidebar.Item
+                    href="#"
+                    icon={HiUser}
+                    label="Admin"
+                    className="accent-slate-500"
+                  >
                     Users
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>
@@ -83,14 +88,11 @@ export default function UserPage() {
               </Sidebar.Items>
             </Sidebar>
           </div>
-          <div>
-            <hr className="h-full w-px bg-gray-200 dark:bg-gray-700" />
-          </div>
-          <div className="flex flex-1 flex-col gap-10 px-6">
-            <div className="flex">{renderComponent()}</div>
-          </div>
         </div>
-      </Card>
+      </div>
+      <div className="flex flex-1 flex-col gap-10 rounded-lg px-6 pb-6 pt-2 shadow-md">
+        <div className="flex">{renderComponent()}</div>
+      </div>
     </div>
   );
 }

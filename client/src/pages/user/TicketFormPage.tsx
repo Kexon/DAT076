@@ -58,7 +58,7 @@ export default function TicketFormPage() {
   return (
     <div className="flex h-full w-full justify-center">
       <form
-        className="flex w-full flex-col gap-4 p-4"
+        className="flex w-full flex-col gap-4"
         onSubmit={(e) => handleSubmitForm(e)}
       >
         <div>

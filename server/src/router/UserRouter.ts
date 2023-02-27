@@ -1,13 +1,20 @@
 import express, { Request, Response } from "express";
-import makeUserService from "../service/user/UserService";
 import { UserInfo, UserLevel } from "../model/User";
+import IUserService from "../service/user/IUserService";
+import makeUserDBService from "../service/user/UserDBService";
+import makeUserService from "../service/user/UserService";
 
 interface UserRequest {
   username: string;
   password: string;
 }
 
-const userService = makeUserService();
+const USE_DB = true;
+let userService: IUserService;
+
+if (USE_DB) userService = makeUserDBService();
+else userService = makeUserService();
+
 export const userRouter = express.Router();
 
 userRouter.get(
@@ -33,7 +40,11 @@ userRouter.get(
 );
 
 userRouter.get("/", async (req, res: Response<UserInfo | string>) => {
-  const user = await userService.getUser(req.session.user?.id || "");
+  if (!req.session.user) {
+    res.status(401).send("You are not logged in");
+    return;
+  }
+  const user = await userService.getUser(req.session.user.id);
   if (!user) {
     res.status(401).send(`Failed to get user`);
     return;

@@ -36,7 +36,7 @@ export default function UserPage() {
 
   return (
     <div className="mt-32 flex">
-      <div className="flex flex-col">
+      <div className="hidden flex-col md:flex">
         <h1 className="pl-5 text-3xl font-semibold">Account panel</h1>
         <div className="flex gap-1">
           <div className="w-fit ">

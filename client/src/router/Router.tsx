@@ -16,11 +16,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: (
-          <RequireAuth>
-            <Home />
-          </RequireAuth>
-        ),
+        element: <Navigate to="/user/dashboard" />,
       },
       { path: 'login', element: <LoginPage /> },
       {

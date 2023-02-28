@@ -1,13 +1,20 @@
 import express, { Request, Response } from "express";
+import { USE_DB } from "../../settings";
+import { UserInfo, UserLevel } from "../model/User";
+import IUserService from "../service/user/IUserService";
+import makeUserDBService from "../service/user/UserDBService";
 import makeUserService from "../service/user/UserService";
-import { UserInfo } from "../model/User";
 
 interface UserRequest {
   username: string;
   password: string;
 }
 
-const userService = makeUserService();
+let userService: IUserService;
+
+if (USE_DB) userService = makeUserDBService();
+else userService = makeUserService();
+
 export const userRouter = express.Router();
 
 userRouter.get(
@@ -33,7 +40,11 @@ userRouter.get(
 );
 
 userRouter.get("/", async (req, res: Response<UserInfo | string>) => {
-  const user = await userService.getUser(req.session.user?.id || "");
+  if (!req.session.user) {
+    res.status(401).send("You are not logged in");
+    return;
+  }
+  const user = await userService.getUser(req.session.user.id);
   if (!user) {
     res.status(401).send(`Failed to get user`);
     return;
@@ -174,10 +185,62 @@ userRouter.patch(
       res.status(401).send("Wrong password entered");
       return;
     } else {
-      req.session.user = updatedUser;
       res.status(200).send("Password successfully changed.");
       return;
     }
+  }
+);
+
+userRouter.patch(
+  "/:id",
+  async (
+    req: Request<
+      { id: string },
+      {},
+      { newPassword?: string; level?: UserLevel }
+    >,
+    res: Response<UserInfo | string>
+  ) => {
+    if (!req.session.user || req.session.user.level !== UserLevel.SUPER_ADMIN) {
+      // only super admins are allowed to use this endpoint
+      res.status(401).send(`Authentication failed.`);
+      return;
+    }
+    if (!req.body.newPassword && !req.body.level) {
+      // user is required to change either password or level
+      res.status(400).send(`Bad PATCH call to ${req.originalUrl}`);
+      return;
+    }
+    let user = await userService.getUser(req.params.id);
+    if (!user) {
+      res.status(401).send(`User does not exist`);
+      return;
+    }
+    if (req.body.newPassword) {
+      const updatedUser = await userService.changePassword(
+        user.id,
+        req.body.newPassword
+      );
+      if (!updatedUser) {
+        res.status(401).send("Failed to change password");
+        return;
+      }
+    }
+    if (req.body.level) {
+      const success = await userService.setUserLevel(
+        req.session.id,
+        user.id,
+        req.body.level
+      );
+      if (!success) {
+        res.status(401).send("Failed to change user level");
+        return;
+      }
+      user.level = req.body.level;
+    }
+    res
+      .status(200)
+      .send({ id: user.id, username: user.username, level: user.level });
   }
 );
 

@@ -1,4 +1,4 @@
-import { UserInfo } from "../../model/User";
+import { UserInfo, UserLevel } from "../../model/User";
 
 export default interface IUserService {
   /*
@@ -11,6 +11,11 @@ export default interface IUserService {
   changePassword(
     userId: string,
     newPassword: string,
-    currentPassword: string
-  ): Promise<UserInfo | undefined>;
+    currentPassword?: string
+  ): Promise<boolean>;
+  setUserLevel(
+    userId: string,
+    userIdToSet: string,
+    level: UserLevel
+  ): Promise<boolean>;
 }

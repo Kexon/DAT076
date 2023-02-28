@@ -6,9 +6,9 @@ import {
   HiArrowSmRight,
   HiCog,
   HiPencil,
-  HiHome,
 } from 'react-icons/hi';
 import { useAuth } from '../../../hooks/AuthProvider';
+import { UserLevel } from '../../../model/User';
 import AdminTicketsPage from '../../admin/tickets/AdminTicketsPage';
 import TicketFormPage from '../TicketFormPage';
 import UserPageInfo from './UserPageInfo';
@@ -16,15 +16,14 @@ import UserPageSettings from './UserPageSettings';
 import UserTickets from './UserTickets';
 
 export default function UserPage() {
-  const [activeTab, setActiveTab] = useState('info');
-  const { logout } = useAuth();
+  const [activeTab, setActiveTab] = useState('');
+  const { user, logout } = useAuth();
+  const isAdmin = user && user.level >= UserLevel.ADMIN;
 
   const renderComponent = () => {
     switch (activeTab) {
       case 'info':
         return <UserPageInfo />;
-      case 'tickets':
-        return <UserTickets />;
       case 'settings':
         return <UserPageSettings />;
       case 'createticket':
@@ -32,7 +31,7 @@ export default function UserPage() {
       case 'alltickets':
         return <AdminTicketsPage />;
       default:
-        return <UserPageInfo />;
+        return <UserTickets />;
     }
   };
 
@@ -50,12 +49,12 @@ export default function UserPage() {
               <Sidebar.Items>
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
-                    href="#info"
-                    icon={HiHome}
-                    onClick={() => setActiveTab('info')}
-                    className={activeTab === 'info' ? 'bg-blue-100' : ''}
+                    href="#tickets"
+                    icon={HiInbox}
+                    onClick={() => setActiveTab('tickets')}
+                    className={activeTab === '' ? 'bg-blue-100' : ''}
                   >
-                    Dashboard
+                    My tickets
                   </Sidebar.Item>
                   <Sidebar.Item
                     href="#createticket"
@@ -68,33 +67,30 @@ export default function UserPage() {
                     Create ticket
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>
-                <Sidebar.ItemGroup>
-                  <Sidebar.Item
-                    href="#tickets"
-                    icon={HiInbox}
-                    onClick={() => setActiveTab('tickets')}
-                    className={activeTab === 'tickets' ? 'bg-blue-100' : ''}
-                  >
-                    My tickets
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="#"
-                    icon={HiUser}
-                    label="Admin"
-                    className={activeTab === 'alltickets' ? 'bg-blue-100' : ''}
-                    onClick={() => setActiveTab('alltickets')}
-                  >
-                    All tickets
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="#"
-                    icon={HiUser}
-                    label="Admin"
-                    className="label"
-                  >
-                    Users
-                  </Sidebar.Item>
-                </Sidebar.ItemGroup>
+
+                {isAdmin && (
+                  <Sidebar.ItemGroup>
+                    <Sidebar.Item
+                      href="#"
+                      icon={HiUser}
+                      label="Admin"
+                      className={
+                        activeTab === 'alltickets' ? 'bg-blue-100' : ''
+                      }
+                      onClick={() => setActiveTab('alltickets')}
+                    >
+                      All tickets
+                    </Sidebar.Item>
+                    <Sidebar.Item
+                      href="#"
+                      icon={HiUser}
+                      label="Admin"
+                      className="label"
+                    >
+                      Users
+                    </Sidebar.Item>
+                  </Sidebar.ItemGroup>
+                )}
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
                     href="#"

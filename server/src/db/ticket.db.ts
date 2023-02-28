@@ -26,4 +26,9 @@ const ticketSchema: Schema = new Schema<Ticket>({
   },
 });
 
+// creates a virtual id field that is the string representation of the _id field
+ticketSchema.set("toJSON", {
+  virtuals: true,
+});
+
 export const ticketModel = conn.model<Ticket>("Ticket", ticketSchema);

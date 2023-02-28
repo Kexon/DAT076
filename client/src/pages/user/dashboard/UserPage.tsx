@@ -1,13 +1,9 @@
-import { Badge, Button, Card, Label, Sidebar, TextInput } from 'flowbite-react';
+import { Sidebar } from 'flowbite-react';
 import { useState } from 'react';
 import {
-  HiChartPie,
-  HiViewBoards,
   HiInbox,
   HiUser,
-  HiShoppingBag,
   HiArrowSmRight,
-  HiTable,
   HiCog,
   HiPencil,
   HiHome,

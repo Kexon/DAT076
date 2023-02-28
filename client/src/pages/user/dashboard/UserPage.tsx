@@ -8,6 +8,7 @@ import {
   HiPencil,
   HiHome,
 } from 'react-icons/hi';
+import { useAuth } from '../../../hooks/AuthProvider';
 import AdminTicketsPage from '../../admin/tickets/AdminTicketsPage';
 import TicketFormPage from '../TicketFormPage';
 import UserPageInfo from './UserPageInfo';
@@ -16,6 +17,7 @@ import UserTickets from './UserTickets';
 
 export default function UserPage() {
   const [activeTab, setActiveTab] = useState('info');
+  const { logout } = useAuth();
 
   const renderComponent = () => {
     switch (activeTab) {
@@ -34,6 +36,11 @@ export default function UserPage() {
     }
   };
 
+  const handleSignOut = () => {
+    logout();
+    window.location.href = '/';
+  };
+
   return (
     <div className="mt-32 flex">
       <div className="hidden flex-col md:flex">
@@ -47,6 +54,7 @@ export default function UserPage() {
                     href="#info"
                     icon={HiHome}
                     onClick={() => setActiveTab('info')}
+                    className={activeTab === 'info' ? 'bg-blue-100' : ''}
                   >
                     Dashboard
                   </Sidebar.Item>
@@ -54,7 +62,9 @@ export default function UserPage() {
                     href="#createticket"
                     icon={HiPencil}
                     onClick={() => setActiveTab('createticket')}
-                    className="text-lg font-semibold"
+                    className={`text-lg font-semibold ${
+                      activeTab === 'createticket' ? 'bg-blue-100' : ''
+                    }`}
                   >
                     Create ticket
                   </Sidebar.Item>
@@ -64,6 +74,7 @@ export default function UserPage() {
                     href="#tickets"
                     icon={HiInbox}
                     onClick={() => setActiveTab('tickets')}
+                    className={activeTab === 'tickets' ? 'bg-blue-100' : ''}
                   >
                     My tickets
                   </Sidebar.Item>
@@ -71,7 +82,7 @@ export default function UserPage() {
                     href="#"
                     icon={HiUser}
                     label="Admin"
-                    className="label"
+                    className={activeTab === 'alltickets' ? 'bg-blue-100' : ''}
                     onClick={() => setActiveTab('alltickets')}
                   >
                     All tickets
@@ -90,10 +101,15 @@ export default function UserPage() {
                     href="#"
                     icon={HiCog}
                     onClick={() => setActiveTab('settings')}
+                    className={activeTab === 'settings' ? 'bg-blue-100' : ''}
                   >
                     Settings
                   </Sidebar.Item>
-                  <Sidebar.Item href="#" icon={HiArrowSmRight}>
+                  <Sidebar.Item
+                    href="#"
+                    icon={HiArrowSmRight}
+                    onClick={handleSignOut}
+                  >
                     Sign out
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>

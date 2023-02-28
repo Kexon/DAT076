@@ -7,6 +7,7 @@ interface AuthContextProps {
   loading: boolean;
   login: (username: string, password: string) => Promise<void>;
   register: (username: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -34,8 +35,15 @@ export function AuthProvider({ children }: Props) {
     setLoading(false);
   };
 
+  const logout = async () => {
+    setLoading(true);
+    await UserService.logout();
+    setUser(undefined);
+    setLoading(false);
+  };
+
   // eslint-disable-next-line react/jsx-no-constructed-context-values
-  const value = { login, register, user, loading };
+  const value = { login, register, logout, user, loading };
 
   useEffect(() => {
     const getUser = async () => {

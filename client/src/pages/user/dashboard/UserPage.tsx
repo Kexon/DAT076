@@ -38,7 +38,6 @@ export default function UserPage() {
 
   const handleSignOut = () => {
     logout();
-    window.location.href = '/';
   };
 
   return (

@@ -83,7 +83,7 @@ export default function UserPageSettings() {
       >
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="password1" value="Change password *" />
+            <Label htmlFor="password1" value="New password *" />
             <TextInput
               id="password1"
               type="password"

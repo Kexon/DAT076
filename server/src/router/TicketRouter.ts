@@ -4,6 +4,7 @@ import { Ticket, NewTicket } from "../model/Ticket";
 import { USE_DB } from "../../settings";
 import ITicketService from "../service/ticket/ITicketService";
 import makeTicketDBService from "../service/ticket/TicketDBService";
+import { UserLevel } from "../model/User";
 
 let ticketService: ITicketService;
 if (USE_DB) ticketService = makeTicketDBService();
@@ -142,10 +143,12 @@ ticketRouter.patch(
         res.status(404).send("Ticket not found");
         return;
       }
-      if (req.session.user.id !== ticket.authorId) {
-        // only the author can edit the ticket
-        // change this to allow admins to edit tickets in the future
-        res.status(403).send("You are not the author of this ticket");
+      if (
+        req.session.user.id !== ticket.authorId ||
+        req.session.user.level < UserLevel.ADMIN
+      ) {
+        // only the author or admin can edit the ticket
+        res.status(403).send("You do not have permission to edit this ticket");
         return;
       }
       if (typeof req.body.title == "string") {

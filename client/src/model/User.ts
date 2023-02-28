@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-export interface User {
-  id: string;
-  username: string;
-  password: string;
+export enum UserLevel {
+  USER = 1,
+  ADMIN = 2,
+  SUPER_ADMIN = 3,
 }
 
-export interface NewUser extends Omit<User, 'id'> {}
-export interface UserInfo extends Omit<User, 'password'> {}
+export interface UserInfo {
+  id: string;
+  username: string;
+  level: UserLevel;
+}
+
+export interface NewUser extends Omit<UserInfo, 'id'> {}

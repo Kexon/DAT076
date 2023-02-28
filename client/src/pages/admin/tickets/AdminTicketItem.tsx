@@ -1,10 +1,23 @@
 import { Badge } from 'flowbite-react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Ticket } from '../../../model/Ticket';
+import { UserInfo } from '../../../model/User';
+import UserService from '../../../services/UserService';
 import isMobile from '../../../utils/Utilities';
 
 export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
   const { id, title, open } = ticket;
+  const [user, setUser] = useState<UserInfo>();
+  useEffect(() => {
+    const getUser = async () => {
+      if (ticket) {
+        const data = await UserService.getUserById(ticket.authorId);
+        setUser(data);
+      }
+    };
+    getUser();
+  }, [ticket?.id]);
   return (
     <div>
       {isMobile() ? (
@@ -42,7 +55,7 @@ export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
           <p className="col-span-3 ml-2 h-6 truncate text-left md:col-span-2">
             {id}
           </p>
-          <p className="col-span-1 hidden md:flex">User</p>
+          <p className="col-span-1 hidden md:flex">{user?.username}</p>
           <p className="col-span-5 h-6 truncate text-left sm:col-span-4">
             {title}
           </p>

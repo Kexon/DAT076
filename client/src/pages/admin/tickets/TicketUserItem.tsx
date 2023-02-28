@@ -1,22 +1,32 @@
 import { Avatar, Button } from 'flowbite-react';
 import { useState } from 'react';
+import { useAuth } from '../../../hooks/AuthProvider';
 import { Ticket } from '../../../model/Ticket';
-import { UserInfo } from '../../../model/User';
+import { UserInfo, UserLevel } from '../../../model/User';
 import ApiService from '../../../services/ApiService';
 
 interface Props {
   ticket?: Ticket;
-  user?: UserInfo;
+  ticketOwner?: UserInfo;
 }
 
-export default function TicketUserItem({ ticket, user }: Props) {
-  if (!ticket) return <div>Loading...</div>;
+export default function TicketUserItem({ ticket, ticketOwner }: Props) {
+  if (!ticket || !ticketOwner) return <div>Loading...</div>;
+  const { user } = useAuth();
 
   const [isTicketOpen, setIsTicketOpen] = useState<boolean>(ticket.open);
   const onTicketButtonClick = () => {
     setIsTicketOpen((ticketStatus) => !ticketStatus);
     if (isTicketOpen) ApiService.closeTicket(ticket.id);
     else ApiService.openTicket(ticket.id);
+  };
+
+  const canEditTicket = () => {
+    if (user) {
+      if (user.level >= UserLevel.ADMIN) return true;
+      if (user.id === ticket.authorId) return true;
+    }
+    return false;
   };
 
   return (
@@ -40,14 +50,24 @@ export default function TicketUserItem({ ticket, user }: Props) {
           <Avatar rounded size="lg" />
           <div className="flex">
             <h1 className="text-lg font-thin">Created by&nbsp; </h1>
-            <h1 className="text-lg font-bold">{user?.username}</h1>
+            <h1 className="text-lg font-bold">{ticketOwner?.username}</h1>
           </div>
           {!isTicketOpen ? (
-            <Button color="success" size="xs" onClick={onTicketButtonClick}>
+            <Button
+              color="success"
+              className={!canEditTicket() ? 'hidden' : ''}
+              size="xs"
+              onClick={onTicketButtonClick}
+            >
               Open ticket
             </Button>
           ) : (
-            <Button color="failure" size="xs" onClick={onTicketButtonClick}>
+            <Button
+              className={!canEditTicket() ? 'hidden' : ''}
+              color="failure"
+              size="xs"
+              onClick={onTicketButtonClick}
+            >
               Close ticket
             </Button>
           )}

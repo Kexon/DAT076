@@ -132,22 +132,26 @@ ticketRouter.patch(
         res.status(400).send("Invalid id");
         return;
       }
-      // This piece of code below was used when the id was a number
-      /*if (isNaN(id)) {
-        res.status(400).send("Invalid id");
-        return;
-      } */
       let changedParams = 0;
       const ticket = await ticketService.getTicketById(id);
       if (!ticket) {
         res.status(404).send("Ticket not found");
         return;
       }
-      if (
-        req.session.user.id !== ticket.authorId ||
-        req.session.user.level < UserLevel.ADMIN
-      ) {
-        // only the author or admin can edit the ticket
+      const canUserEditTicket = () => {
+        if (req.session.user) {
+          if (req.session.user.level >= UserLevel.ADMIN) return true; // admins can edit any ticket
+          if (req.session.user.id === ticket.authorId) return true; // users can edit their own tickets
+        }
+        return false;
+      };
+
+      if (!ticket) {
+        res.status(404).send("Ticket not found");
+        return;
+      }
+
+      if (!canUserEditTicket()) {
         res.status(403).send("You do not have permission to edit this ticket");
         return;
       }

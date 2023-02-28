@@ -11,7 +11,7 @@ import TicketUserItem from './TicketUserItem';
 
 export default function TicketPage() {
   const [ticket, setTicket] = useState<Ticket>();
-  const [user, setUser] = useState<UserInfo>();
+  const [ticketOwner, setTicketOwner] = useState<UserInfo>();
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
 
@@ -31,18 +31,18 @@ export default function TicketPage() {
     const getUser = async () => {
       if (ticket) {
         const data = await UserService.getUserById(ticket.authorId);
-        setUser(data);
+        setTicketOwner(data);
       }
     };
     getUser();
   }, [ticket?.id]);
 
-  if (!loading && !ticket && !user) return <div>Ticket not found.</div>;
+  if (!loading && !ticket && !ticketOwner) return <div>Ticket not found.</div>;
 
   return (
     <div className="grid-cols-6 gap-4 md:grid">
       <TicketInformationItem ticket={ticket} />
-      <TicketUserItem ticket={ticket} user={user} />
+      <TicketUserItem ticket={ticket} ticketOwner={ticketOwner} />
     </div>
   );
 }

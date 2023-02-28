@@ -1,8 +1,14 @@
 import express, { Request, Response } from "express";
 import makeTicketService from "../service/ticket/TicketService";
 import { Ticket, NewTicket } from "../model/Ticket";
+import { USE_DB } from "../../settings";
+import ITicketService from "../service/ticket/ITicketService";
+import makeTicketDBService from "../service/ticket/TicketDBService";
 
-const ticketService = makeTicketService();
+let ticketService: ITicketService;
+if (USE_DB) ticketService = makeTicketDBService();
+else ticketService = makeTicketService();
+
 export const ticketRouter = express.Router();
 
 /*
@@ -63,8 +69,8 @@ ticketRouter.get(
       }
         */
       const ticket = await ticketService.getTicketById(id);
-      if (ticket.length > 0) {
-        res.status(200).send(ticket[0]);
+      if (ticket) {
+        res.status(200).send(ticket);
       } else {
         res.status(404).send("Ticket not found");
       }
@@ -132,34 +138,34 @@ ticketRouter.patch(
       } */
       let changedParams = 0;
       const ticket = await ticketService.getTicketById(id);
-      if (req.session.user.id !== ticket[0].authorId) {
+      if (!ticket) {
+        res.status(404).send("Ticket not found");
+        return;
+      }
+      if (req.session.user.id !== ticket.authorId) {
         // only the author can edit the ticket
         // change this to allow admins to edit tickets in the future
         res.status(403).send("You are not the author of this ticket");
         return;
       }
-      if (ticket.length > 0) {
-        if (typeof req.body.title == "string") {
-          ticket[0].title = req.body.title;
-          changedParams++;
-        }
-        if (typeof req.body.description == "string") {
-          ticket[0].description = req.body.description;
-          changedParams++;
-        }
-        if (typeof req.body.open == "boolean") {
-          ticket[0].open = req.body.open;
-          changedParams++;
-        }
-        if (changedParams !== Object.keys(req.body).length) {
-          res.status(400).send("Invalid request");
-          return;
-        }
-        await ticketService.updateTicket(ticket[0]);
-        res.status(200).send(ticket[0]);
-      } else {
-        res.status(404).send("Ticket not found");
+      if (typeof req.body.title == "string") {
+        ticket.title = req.body.title;
+        changedParams++;
       }
+      if (typeof req.body.description == "string") {
+        ticket.description = req.body.description;
+        changedParams++;
+      }
+      if (typeof req.body.open == "boolean") {
+        ticket.open = req.body.open;
+        changedParams++;
+      }
+      if (changedParams !== Object.keys(req.body).length) {
+        res.status(400).send("Invalid request");
+        return;
+      }
+      await ticketService.updateTicket(ticket);
+      res.status(200).send(ticket);
     } catch (e: any) {
       res.status(500).send(e.message);
     }

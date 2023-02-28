@@ -11,6 +11,15 @@ export default class UserService {
     }
   }
 
+  static async getUserById(id: string): Promise<UserInfo | undefined> {
+    try {
+      const { data } = await axiosInstance.get<UserInfo>(`/user/${id}`);
+      return data;
+    } catch (error) {
+      return undefined;
+    }
+  }
+
   static async login(
     username: string,
     password: string,

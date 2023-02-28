@@ -75,89 +75,83 @@ export default function TicketListPage() {
   };
 
   return (
-    <div className="flex h-max justify-center">
-      <div className="bg bg-color=5 bg-blue flex w-full flex-col items-center gap-2 p-5">
-        <Card className="w-full justify-center">
-          <div className="flex justify-center">
-            <h1 className="w-fit border-b-2 border-slate-200 text-center text-3xl font-bold text-gray-800">
-              Tickets
-            </h1>
+    <div className="flex h-full w-full flex-col justify-center gap-4">
+      <div className="flex justify-center">
+        <h1 className="text-center text-lg font-medium">Tickets</h1>
+      </div>
+      <div className="flex w-full justify-between gap-2">
+        {isMobile() ? (
+          /* MOBILE VIEW */
+          <div id="select">
+            <Select
+              id="countries"
+              required={false}
+              onChange={handleSort}
+              value={activeButtonIndex}
+            >
+              <option>All</option>
+              <option>Open</option>
+              <option>Closed</option>
+            </Select>
           </div>
-          <div className="flex justify-between gap-2">
-            {isMobile() ? (
-              /* MOBILE VIEW */
-              <div id="select">
-                <Select
-                  id="countries"
-                  required={false}
-                  onChange={handleSort}
-                  value={activeButtonIndex}
-                >
-                  <option>All</option>
-                  <option>Open</option>
-                  <option>Closed</option>
-                </Select>
-              </div>
-            ) : (
-              /* DESKTOP VIEW */
-              <Button.Group className="justify-center">
-                <Button
-                  color="gray"
-                  className={
-                    activeButtonIndex === 'All' ? 'bg-gray-100' : 'bg-white'
-                  }
-                  onClick={() => handleSortButton('All')}
-                >
-                  All
-                </Button>
-                <Button
-                  color="gray"
-                  className={
-                    activeButtonIndex === 'Open' ? 'bg-gray-100' : 'bg-white'
-                  }
-                  onClick={() => handleSortButton('Open')}
-                >
-                  Open
-                </Button>
-                <Button
-                  color="gray"
-                  className={
-                    activeButtonIndex === 'Closed' ? 'bg-gray-100' : 'bg-white'
-                  }
-                  onClick={() => handleSortButton('Closed')}
-                >
-                  Closed
-                </Button>
-              </Button.Group>
-            )}
-            <div>
-              <TextInput
-                id="searchid"
-                type="searchtype"
-                rightIcon={HiSearch}
-                placeholder="Ticket ID"
-                required={false}
-                onChange={handleSearch}
-              />
-            </div>
-          </div>
-          {/* DESKTOP VIEW */}
-          <div className="-mb-4 hidden w-full flex-col border-b-2 border-slate-500 sm:flex">
-            <div className="grid grid-flow-col grid-cols-10 gap-x-1 text-lg font-semibold">
-              <p className="col-span-3 ml-2 md:col-span-2">ID</p>
-              <p className="col-span-1 hidden md:flex">User</p>
-              <p className="col-span-4">Title</p>
-              <p className="col-span-2 text-center">Status</p>
-              <p className="col-span-1 mr-2 inline text-right">Date</p>
-            </div>
-          </div>
-          {/* END OF DESKTOP VIEW */}
-          <div className="flex w-full flex-col divide-y-2 divide-slate-100">
-            {tickets.map((ticket) => (
-              <AdminTicketItem key={ticket.id} ticket={ticket} />
-            ))}
-          </div>
-        </Card>
+        ) : (
+          /* DESKTOP VIEW */
+          <Button.Group className="justify-center">
+            <Button
+              color="gray"
+              className={
+                activeButtonIndex === 'All' ? 'bg-blue-100' : 'bg-white'
+              }
+              onClick={() => handleSortButton('All')}
+            >
+              All
+            </Button>
+            <Button
+              color="gray"
+              className={
+                activeButtonIndex === 'Open' ? 'bg-blue-100' : 'bg-white'
+              }
+              onClick={() => handleSortButton('Open')}
+            >
+              Open
+            </Button>
+            <Button
+              color="gray"
+              className={
+                activeButtonIndex === 'Closed' ? 'bg-blue-100' : 'bg-white'
+              }
+              onClick={() => handleSortButton('Closed')}
+            >
+              Closed
+            </Button>
+          </Button.Group>
+        )}
+        <div>
+          <TextInput
+            id="searchid"
+            type="searchtype"
+            rightIcon={HiSearch}
+            placeholder="Ticket ID"
+            required={false}
+            onChange={handleSearch}
+          />
+        </div>
+      </div>
+      {/* DESKTOP VIEW */}
+      <div className="-mb-4 hidden w-full flex-col border-b-2 border-slate-500 sm:flex">
+        <div className="grid grid-flow-col grid-cols-10 gap-x-1 text-lg font-semibold">
+          <p className="col-span-3 ml-2 md:col-span-2">ID</p>
+          <p className="col-span-1 hidden md:flex">User</p>
+          <p className="col-span-4">Title</p>
+          <p className="col-span-2 text-center">Status</p>
+          <p className="col-span-1 mr-2 inline text-right">Date</p>
+        </div>
+      </div>
+      {/* END OF DESKTOP VIEW */}
+      <div className="flex w-full flex-col divide-y-2 divide-slate-100">
+        {tickets.map((ticket) => (
+          <AdminTicketItem key={ticket.id} ticket={ticket} />
+        ))}
       </div>
     </div>
   );

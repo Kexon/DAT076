@@ -53,7 +53,7 @@ export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
           type="button"
         >
           <p className="col-span-3 ml-2 h-6 truncate text-left md:col-span-2">
-            {id}
+            ...{id.substring(id.length - 5, id.length)}
           </p>
           <p className="col-span-1 hidden md:flex">{user?.username}</p>
           <p className="col-span-5 h-6 truncate text-left sm:col-span-4">

@@ -3,7 +3,7 @@ export interface Ticket {
   title: string;
   description: string;
   open: boolean;
-  authorId: number;
+  authorId: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

@@ -5,7 +5,7 @@ const MockTicket: Ticket = {
   title: 'Test Ticket',
   description: 'This is a test ticket',
   open: true,
-  authorId: 1,
+  authorId: '333',
 };
 
 export default MockTicket;

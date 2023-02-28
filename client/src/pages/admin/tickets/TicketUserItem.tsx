@@ -1,13 +1,15 @@
 import { Avatar, Button } from 'flowbite-react';
 import { useState } from 'react';
 import { Ticket } from '../../../model/Ticket';
+import { UserInfo } from '../../../model/User';
 import ApiService from '../../../services/ApiService';
 
 interface Props {
   ticket?: Ticket;
+  user?: UserInfo;
 }
 
-export default function TicketUserItem({ ticket }: Props) {
+export default function TicketUserItem({ ticket, user }: Props) {
   if (!ticket) return <div>Loading...</div>;
 
   const [isTicketOpen, setIsTicketOpen] = useState<boolean>(ticket.open);
@@ -20,8 +22,7 @@ export default function TicketUserItem({ ticket }: Props) {
   return (
     <div className="col-span-2 mx-3 mt-1 max-h-[250px] rounded-sm bg-white p-2 shadow-lg">
       <div className="flex justify-center">
-        <div className="lg:text-2x flex text-base lg:text-lg">
-          <h1 className="">Ticket&nbsp; </h1>
+        <div className="flex text-base md:text-sm">
           <h1
             className="font-bold
     "
@@ -39,7 +40,7 @@ export default function TicketUserItem({ ticket }: Props) {
           <Avatar rounded size="lg" />
           <div className="flex">
             <h1 className="text-lg font-thin">Created by&nbsp; </h1>
-            <h1 className="text-lg font-bold">John Doe</h1>
+            <h1 className="text-lg font-bold">{user?.username}</h1>
           </div>
           {!isTicketOpen ? (
             <Button color="success" size="xs" onClick={onTicketButtonClick}>

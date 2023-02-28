@@ -8,6 +8,7 @@ import {
   HiPencil,
   HiHome,
 } from 'react-icons/hi';
+import AdminTicketsPage from '../../admin/tickets/AdminTicketsPage';
 import TicketFormPage from '../TicketFormPage';
 import UserPageInfo from './UserPageInfo';
 import UserPageSettings from './UserPageSettings';
@@ -26,6 +27,8 @@ export default function UserPage() {
         return <UserPageSettings />;
       case 'createticket':
         return <TicketFormPage />;
+      case 'alltickets':
+        return <AdminTicketsPage />;
       default:
         return <UserPageInfo />;
     }
@@ -60,10 +63,18 @@ export default function UserPage() {
                   <Sidebar.Item
                     href="#tickets"
                     icon={HiInbox}
-                    label="3"
                     onClick={() => setActiveTab('tickets')}
                   >
                     My tickets
+                  </Sidebar.Item>
+                  <Sidebar.Item
+                    href="#"
+                    icon={HiUser}
+                    label="Admin"
+                    className="label"
+                    onClick={() => setActiveTab('alltickets')}
+                  >
+                    All tickets
                   </Sidebar.Item>
                   <Sidebar.Item
                     href="#"

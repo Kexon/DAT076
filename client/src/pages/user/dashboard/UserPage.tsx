@@ -47,6 +47,7 @@ export default function UserPage() {
                     href="#info"
                     icon={HiHome}
                     onClick={() => setActiveTab('info')}
+                    className={activeTab === 'info' ? 'bg-blue-100' : ''}
                   >
                     Dashboard
                   </Sidebar.Item>
@@ -54,7 +55,9 @@ export default function UserPage() {
                     href="#createticket"
                     icon={HiPencil}
                     onClick={() => setActiveTab('createticket')}
-                    className="text-lg font-semibold"
+                    className={`text-lg font-semibold ${
+                      activeTab === 'createticket' ? 'bg-blue-100' : ''
+                    }`}
                   >
                     Create ticket
                   </Sidebar.Item>
@@ -64,6 +67,7 @@ export default function UserPage() {
                     href="#tickets"
                     icon={HiInbox}
                     onClick={() => setActiveTab('tickets')}
+                    className={activeTab === 'tickets' ? 'bg-blue-100' : ''}
                   >
                     My tickets
                   </Sidebar.Item>
@@ -71,7 +75,7 @@ export default function UserPage() {
                     href="#"
                     icon={HiUser}
                     label="Admin"
-                    className="label"
+                    className={activeTab === 'alltickets' ? 'bg-blue-100' : ''}
                     onClick={() => setActiveTab('alltickets')}
                   >
                     All tickets
@@ -90,6 +94,7 @@ export default function UserPage() {
                     href="#"
                     icon={HiCog}
                     onClick={() => setActiveTab('settings')}
+                    className={activeTab === 'settings' ? 'bg-blue-100' : ''}
                   >
                     Settings
                   </Sidebar.Item>

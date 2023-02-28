@@ -20,11 +20,8 @@ export const ticketRouter = express.Router();
  * Body parameters are parameters that are part of the body of the request.
  */
 ticketRouter.get(
-  "/",
-  async (
-    req: Request<{ open: string }, {}, {}>,
-    res: Response<Array<Ticket> | String>
-  ) => {
+  "",
+  async (req: Request<{}, {}, {}>, res: Response<Array<Ticket> | String>) => {
     if (!req.session.user) {
       res.status(401).send("You are not logged in");
       return;
@@ -34,10 +31,13 @@ ticketRouter.get(
         const tickets = await ticketService.getAllTickets();
         res.status(200).send(tickets);
       } else {
-        const open = req.query.open === "true";
-        console.log(open);
-        // add more stuff to filter with here later
-        const tickets = await ticketService.getTicketsByStatus(open);
+        const authorId = req.query.authorId;
+        console.log(authorId);
+        if (typeof authorId != "string") {
+          res.status(400).send("Invalid request");
+          return;
+        }
+        const tickets = await ticketService.getTicketsByAuthorId(authorId);
         res.status(200).send(tickets);
       }
     } catch (e: any) {

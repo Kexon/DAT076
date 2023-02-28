@@ -7,6 +7,13 @@ export default class ApiService {
     return data;
   }
 
+  static async getTicketsByAuthorId(authorId: string): Promise<Ticket[]> {
+    const { data } = await axiosInstance.get<Ticket[]>(
+      `/ticket?authorId=${authorId}`,
+    );
+    return data;
+  }
+
   static async getTicket(id: string): Promise<Ticket | undefined> {
     try {
       const { data } = await axiosInstance.get<Ticket>(`/ticket/${id}`);

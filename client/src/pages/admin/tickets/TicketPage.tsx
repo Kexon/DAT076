@@ -32,7 +32,6 @@ export default function TicketPage() {
       if (ticket) {
         const data = await UserService.getUserById(ticket.authorId);
         setUser(data);
-        console.log(data);
       }
     };
     getUser();

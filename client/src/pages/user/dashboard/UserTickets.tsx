@@ -45,10 +45,17 @@ export default function UserPage() {
           />
         </button>
       </div>
+      {/* Tickets list view  */}
       <div className="flex flex-col flex-wrap">
-        {tickets.map((ticket) => (
-          <UserPageTicket key={ticket.id} ticket={ticket} />
-        ))}
+        {tickets.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-4">
+            <h3 className="text-lg font-medium">No tickets found</h3>
+          </div>
+        ) : (
+          tickets.map((ticket) => (
+            <UserPageTicket key={ticket.id} ticket={ticket} />
+          ))
+        )}
       </div>
     </div>
   );

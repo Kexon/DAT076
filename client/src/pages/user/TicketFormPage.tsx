@@ -55,7 +55,8 @@ export default function TicketFormPage() {
   }, [submitted]);
 
   return (
-    <div className="flex h-full w-full justify-center">
+    <div className="flex h-full w-full flex-col justify-center gap-2">
+      <h2 className="text-lg font-medium">Ticket form</h2>
       <form
         className="flex w-full flex-col gap-4"
         onSubmit={(e) => handleSubmitForm(e)}
@@ -80,7 +81,7 @@ export default function TicketFormPage() {
             <Label value="Description" htmlFor="description" />
           </div>
           <Textarea
-            className="focus:shadow-outline border-1 h-28 w-full resize-none appearance-none rounded py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-64"
+            className="focus:shadow-outline border-1 h-28 w-full resize-none appearance-none rounded py-2 px-3 font-normal leading-tight text-gray-700 shadow focus:outline-none lg:h-44"
             id="description"
             placeholder="Description"
             onChange={handleDescriptionChange}

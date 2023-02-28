@@ -1,15 +1,14 @@
-import { Badge, Button, Card, Label, Sidebar, TextInput } from 'flowbite-react';
+import { Sidebar } from 'flowbite-react';
 import { useState } from 'react';
 import {
-  HiChartPie,
-  HiViewBoards,
   HiInbox,
   HiUser,
-  HiShoppingBag,
   HiArrowSmRight,
-  HiTable,
   HiCog,
+  HiPencil,
+  HiHome,
 } from 'react-icons/hi';
+import AdminTicketsPage from '../../admin/tickets/AdminTicketsPage';
 import TicketFormPage from '../TicketFormPage';
 import UserPageInfo from './UserPageInfo';
 import UserPageSettings from './UserPageSettings';
@@ -28,6 +27,8 @@ export default function UserPage() {
         return <UserPageSettings />;
       case 'createticket':
         return <TicketFormPage />;
+      case 'alltickets':
+        return <AdminTicketsPage />;
       default:
         return <UserPageInfo />;
     }
@@ -35,7 +36,7 @@ export default function UserPage() {
 
   return (
     <div className="mt-32 flex">
-      <div className="flex flex-col">
+      <div className="hidden flex-col md:flex">
         <h1 className="pl-5 text-3xl font-semibold">Account panel</h1>
         <div className="flex gap-1">
           <div className="w-fit ">
@@ -43,32 +44,43 @@ export default function UserPage() {
               <Sidebar.Items>
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
-                    href="#"
-                    icon={HiChartPie}
+                    href="#info"
+                    icon={HiHome}
                     onClick={() => setActiveTab('info')}
                   >
                     Dashboard
                   </Sidebar.Item>
                   <Sidebar.Item
-                    href="#"
+                    href="#createticket"
+                    icon={HiPencil}
+                    onClick={() => setActiveTab('createticket')}
+                    className="text-lg font-semibold"
+                  >
+                    Create ticket
+                  </Sidebar.Item>
+                </Sidebar.ItemGroup>
+                <Sidebar.ItemGroup>
+                  <Sidebar.Item
+                    href="#tickets"
                     icon={HiInbox}
-                    label="3"
                     onClick={() => setActiveTab('tickets')}
                   >
                     My tickets
                   </Sidebar.Item>
                   <Sidebar.Item
                     href="#"
-                    icon={HiShoppingBag}
-                    onClick={() => setActiveTab('createticket')}
+                    icon={HiUser}
+                    label="Admin"
+                    className="label"
+                    onClick={() => setActiveTab('alltickets')}
                   >
-                    Create ticket
+                    All tickets
                   </Sidebar.Item>
                   <Sidebar.Item
                     href="#"
                     icon={HiUser}
                     label="Admin"
-                    className="accent-slate-500"
+                    className="label"
                   >
                     Users
                   </Sidebar.Item>
@@ -79,7 +91,7 @@ export default function UserPage() {
                     icon={HiCog}
                     onClick={() => setActiveTab('settings')}
                   >
-                    Change Settings
+                    Settings
                   </Sidebar.Item>
                   <Sidebar.Item href="#" icon={HiArrowSmRight}>
                     Sign out
@@ -90,7 +102,10 @@ export default function UserPage() {
           </div>
         </div>
       </div>
-      <div className="flex flex-1 flex-col gap-10 rounded-lg px-6 pb-6 pt-2 shadow-md">
+      <div className="">
+        <hr className="mt-4 h-[360px] w-px bg-gray-200 dark:bg-gray-700" />
+      </div>
+      <div className="flex flex-1 flex-col gap-10 rounded-lg px-6 pb-6 pt-2 ">
         <div className="flex">{renderComponent()}</div>
       </div>
     </div>

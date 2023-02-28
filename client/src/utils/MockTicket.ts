@@ -1,7 +1,7 @@
 import { Ticket } from '../model/Ticket';
 
 const MockTicket: Ticket = {
-  id: 1,
+  id: '666',
   title: 'Test Ticket',
   description: 'This is a test ticket',
   open: true,

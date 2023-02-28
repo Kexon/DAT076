@@ -7,7 +7,7 @@ export default class ApiService {
     return data;
   }
 
-  static async getTicket(id: number): Promise<Ticket | undefined> {
+  static async getTicket(id: string): Promise<Ticket | undefined> {
     try {
       const { data } = await axiosInstance.get<Ticket>(`/ticket/${id}`);
       return data;
@@ -21,11 +21,11 @@ export default class ApiService {
     return data;
   }
 
-  static async closeTicket(id: number): Promise<void> {
+  static async closeTicket(id: string): Promise<void> {
     await axiosInstance.patch(`/ticket/${id}`, { open: false });
   }
 
-  static async openTicket(id: number): Promise<void> {
+  static async openTicket(id: string): Promise<void> {
     await axiosInstance.patch(`/ticket/${id}`, { open: true });
   }
 }

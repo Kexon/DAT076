@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { HiRefresh } from 'react-icons/hi';
+import { useAuth } from '../../../hooks/AuthProvider';
 import { Ticket } from '../../../model/Ticket';
 import ApiService from '../../../services/ApiService';
 import UserPageTicket from './UserTicketItem';
@@ -8,20 +9,30 @@ export default function UserPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [refreshDisabled, setRefreshDisabled] = useState(false);
+  const { user } = useAuth();
+
+  /*
+   * Fetch user's tickets on component mount
+   *
+   */
   useEffect(() => {
-    if (!refresh) return;
+    if (!refresh || !user) return;
     const getTickets = async () => {
-      const data = await ApiService.getTickets();
+      const data = await ApiService.getTicketsByAuthorId(user.id);
       setTickets(data);
       setRefresh(false);
     };
     getTickets();
   }, [refresh]);
 
+  /*
+   * Refresh tickets list
+   */
   const handleRefresh = () => {
     setRefresh(true);
-    setRefreshDisabled(true);
 
+    // Disable refresh button for 500ms, so that the user can't spam the button
+    setRefreshDisabled(true);
     setTimeout(() => {
       setRefreshDisabled(false);
     }, 500);

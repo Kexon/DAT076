@@ -2,7 +2,6 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import AdminTicketsPage from '../pages/admin/tickets/AdminTicketsPage';
 import TicketPage from '../pages/admin/tickets/TicketPage';
 import TicketFormPage from '../pages/user/TicketFormPage';
-import Home from '../pages/Home';
 import Root from '../Root';
 import UserPage from '../pages/user/dashboard/UserPage';
 import RequireAuth from '../RequireAuth';

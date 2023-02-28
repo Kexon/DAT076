@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Ticket } from '../../../model/Ticket';
 
 export default function UserPageTicket({ ticket }: { ticket: Ticket }) {
-  const { title, open, description } = ticket;
+  const { title, open } = ticket;
   return (
     <Link
       to={`/ticket/${ticket.id}`}

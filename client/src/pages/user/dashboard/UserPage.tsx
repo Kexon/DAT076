@@ -8,6 +8,7 @@ import {
   HiPencil,
   HiHome,
 } from 'react-icons/hi';
+import { useAuth } from '../../../hooks/AuthProvider';
 import AdminTicketsPage from '../../admin/tickets/AdminTicketsPage';
 import TicketFormPage from '../TicketFormPage';
 import UserPageInfo from './UserPageInfo';
@@ -16,6 +17,7 @@ import UserTickets from './UserTickets';
 
 export default function UserPage() {
   const [activeTab, setActiveTab] = useState('info');
+  const { logout } = useAuth();
 
   const renderComponent = () => {
     switch (activeTab) {
@@ -32,6 +34,11 @@ export default function UserPage() {
       default:
         return <UserPageInfo />;
     }
+  };
+
+  const handleSignOut = () => {
+    logout();
+    window.location.href = '/';
   };
 
   return (
@@ -98,7 +105,11 @@ export default function UserPage() {
                   >
                     Settings
                   </Sidebar.Item>
-                  <Sidebar.Item href="#" icon={HiArrowSmRight}>
+                  <Sidebar.Item
+                    href="#"
+                    icon={HiArrowSmRight}
+                    onClick={handleSignOut}
+                  >
                     Sign out
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>

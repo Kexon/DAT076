@@ -48,9 +48,9 @@ export default function UserPage() {
       {/* Tickets list view  */}
       <div className="flex flex-col flex-wrap">
         {tickets.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-4">
-            <h3 className="text-lg font-medium">No tickets found</h3>
-          </div>
+          <h3 className="mt-16 text-center text-xl font-medium">
+            You have not created any tickets yet.
+          </h3>
         ) : (
           tickets.map((ticket) => (
             <UserPageTicket key={ticket.id} ticket={ticket} />

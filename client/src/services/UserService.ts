@@ -41,4 +41,9 @@ export default class UserService {
     });
     return data;
   }
+
+  static async logout(): Promise<string> {
+    const { data } = await axiosInstance.post<string>('/user/logout');
+    return data;
+  }
 }

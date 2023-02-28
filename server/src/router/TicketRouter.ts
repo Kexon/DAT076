@@ -32,7 +32,6 @@ ticketRouter.get(
         res.status(200).send(tickets);
       } else {
         const authorId = req.query.authorId;
-        console.log(authorId);
         if (typeof authorId != "string") {
           res.status(400).send("Invalid request");
           return;

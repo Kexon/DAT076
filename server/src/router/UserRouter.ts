@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { USE_DB } from "../../settings";
 import { UserInfo, UserLevel } from "../model/User";
 import IUserService from "../service/user/IUserService";
 import makeUserDBService from "../service/user/UserDBService";
@@ -9,7 +10,6 @@ interface UserRequest {
   password: string;
 }
 
-const USE_DB = true;
 let userService: IUserService;
 
 if (USE_DB) userService = makeUserDBService();

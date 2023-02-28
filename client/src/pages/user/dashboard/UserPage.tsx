@@ -51,7 +51,7 @@ export default function UserPage() {
                   <Sidebar.Item
                     href="#tickets"
                     icon={HiInbox}
-                    onClick={() => setActiveTab('tickets')}
+                    onClick={() => setActiveTab('')}
                     className={activeTab === '' ? 'bg-blue-100' : ''}
                   >
                     My tickets

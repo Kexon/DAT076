@@ -76,7 +76,7 @@ export default function UserPageSettings() {
 
   return (
     <div className="flex h-full w-full flex-col justify-start gap-8">
-      <h2 className="text-lg font-medium">Account settings</h2>
+      <h2 className="text-center text-lg font-medium">Account settings</h2>
       <form
         /* This onSubmit line is required, in order to prevent the page from reloading when the form is submitted. */
         onSubmit={(e) => e.preventDefault()}

@@ -40,21 +40,24 @@ export default function UserPage() {
 
   return (
     <div className="flex h-full w-full flex-col justify-start gap-6">
-      <div className="flex justify-between">
-        <h2 className="text-lg font-medium">My tickets</h2>
-        <button
-          id="refresh"
-          type="button"
-          onClick={handleRefresh}
-          disabled={refreshDisabled}
-        >
-          <HiRefresh
-            size={26}
-            className={`h-full text-blue-400 transition ease-in-out ${
-              refreshDisabled ? 'animate-spin' : 'hover:scale-[115%]'
-            } `}
-          />
-        </button>
+      <div className="flex">
+        <h2 className="flex-1 text-center text-lg font-medium">My tickets</h2>
+        <div className="relative">
+          <button
+            id="refresh"
+            type="button"
+            onClick={handleRefresh}
+            disabled={refreshDisabled}
+            className="absolute right-0 top-0 bottom-0"
+          >
+            <HiRefresh
+              size={26}
+              className={`h-full text-blue-400 transition ease-in-out ${
+                refreshDisabled ? 'animate-spin' : 'hover:scale-[115%]'
+              } `}
+            />
+          </button>
+        </div>
       </div>
       {/* Tickets list view  */}
       <div className="flex flex-col flex-wrap">

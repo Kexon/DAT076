@@ -23,7 +23,7 @@ export default function UserPage() {
       setRefresh(false);
     };
     getTickets();
-  }, [refresh]);
+  }, [refresh, user?.id]);
 
   /*
    * Refresh tickets list

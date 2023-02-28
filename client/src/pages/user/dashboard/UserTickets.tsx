@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { HiRefresh } from 'react-icons/hi';
+import { useAuth } from '../../../hooks/AuthProvider';
 import { Ticket } from '../../../model/Ticket';
 import ApiService from '../../../services/ApiService';
 import UserPageTicket from './UserTicketItem';
@@ -8,10 +9,13 @@ export default function UserPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [refreshDisabled, setRefreshDisabled] = useState(false);
+  const { user } = useAuth();
+
   useEffect(() => {
     if (!refresh) return;
     const getTickets = async () => {
-      const data = await ApiService.getTickets();
+      if (!user) return;
+      const data = await ApiService.getTicketsByAuthorId(user.id);
       setTickets(data);
       setRefresh(false);
     };

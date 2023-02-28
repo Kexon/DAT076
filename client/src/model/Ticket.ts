@@ -1,5 +1,5 @@
 export interface Ticket {
-  id: number;
+  id: string;
   title: string;
   description: string;
   open: boolean;
@@ -7,4 +7,4 @@ export interface Ticket {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface NewTicket extends Omit<Ticket, 'id' | 'open'> {}
+export interface NewTicket extends Omit<Ticket, 'id' | 'open' | 'authorId'> {}

@@ -48,7 +48,6 @@ export default function TicketFormPage() {
       const data = await ApiService.createTicket({
         title,
         description,
-        authorId: 1,
       });
       setTicket(data);
     };

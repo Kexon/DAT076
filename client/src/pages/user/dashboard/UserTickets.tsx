@@ -1,4 +1,3 @@
-import { Button } from 'flowbite-react';
 import { useState, useEffect } from 'react';
 import { HiRefresh } from 'react-icons/hi';
 import { Ticket } from '../../../model/Ticket';

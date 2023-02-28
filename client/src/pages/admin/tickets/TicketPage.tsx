@@ -15,7 +15,7 @@ export default function TicketPage() {
   useEffect(() => {
     const getTicket = async () => {
       if (id) {
-        const data = await ApiService.getTicket(parseInt(id, 10));
+        const data = await ApiService.getTicket(id);
         setTicket(data);
         setLoading(false);
       }

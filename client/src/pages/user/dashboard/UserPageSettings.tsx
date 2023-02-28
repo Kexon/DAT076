@@ -1,4 +1,4 @@
-import { Card, Label, TextInput, Button, Spinner } from 'flowbite-react';
+import { Label, TextInput, Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 
 export default function UserPageSettings() {
@@ -15,7 +15,6 @@ export default function UserPageSettings() {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setPassword1(event.target.value);
-    console.log(password1);
     /*
     if (event.target.value.trim().length > 0) setValidTitle(true);
     */
@@ -25,7 +24,6 @@ export default function UserPageSettings() {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setPassword2(event.target.value);
-    console.log(password2);
     /*
     if (event.target.value.trim().length > 0) setValidTitle(true);
     */
@@ -35,7 +33,6 @@ export default function UserPageSettings() {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setCurrentPassword(event.target.value);
-    console.log(currentPassword);
     /*
     if (event.target.value.trim().length > 0) setValidTitle(true);
     */
@@ -49,8 +46,6 @@ export default function UserPageSettings() {
     if (password1.trim().length <= 0 || password2.trim().length <= 0) {
       setNewPasswordValid(false);
       setNewPasswordError('Please fill out both fields');
-      console.log(password1.trim());
-      console.log(password2.trim());
       return;
     }
 
@@ -64,7 +59,6 @@ export default function UserPageSettings() {
       return;
     }
     setSubmitted(true);
-    console.log('fake api patch');
     setSuccess(true);
   };
 
@@ -75,7 +69,6 @@ export default function UserPageSettings() {
   };
   useEffect(() => {
     if (!submitted) return;
-    console.log('fake api patch');
     setSuccess(true);
     setSubmitted(false);
     clearAllForms();

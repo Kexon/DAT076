@@ -7,14 +7,17 @@ class UserDBService implements IUserService {
   async getUser(userId: string): Promise<UserInfo | undefined> {
     const user = await userModel.findById(new ObjectId(userId)).exec();
     if (!user) return undefined;
-    return { username: user.username, level: user.level, id: userId };
+    return user;
   }
 
   async login(
     username: string,
     password: string
   ): Promise<UserInfo | undefined> {
-    const user = await userModel.findOne({ username: username }).exec();
+    const user = await userModel
+      .findOne({ username: username })
+      .select("+password") // this is needed to select the password field
+      .exec();
     if (user && user.password === password) {
       return {
         id: user._id.toString(),
@@ -34,11 +37,7 @@ class UserDBService implements IUserService {
       password: password,
       level: UserLevel.USER,
     });
-    return {
-      id: newUser._id.toString(),
-      username: newUser.username,
-      level: newUser.level,
-    };
+    return newUser;
   }
 
   async changePassword(
@@ -46,8 +45,10 @@ class UserDBService implements IUserService {
     newPassword: string,
     currentPassword?: string
   ): Promise<boolean> {
-    const user = await userModel.findById(new ObjectId(userId)).exec();
-    console.log(currentPassword);
+    const user = await userModel
+      .findById(new ObjectId(userId))
+      .select("+password")
+      .exec();
     if (
       user &&
       (user.password === currentPassword ||

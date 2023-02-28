@@ -13,24 +13,16 @@ class TicketDBService implements ITicketService {
     return undefined;
   }
   async getTicketsByAuthorId(authorId: string): Promise<Ticket[]> {
-    const tickets = await ticketModel.find({ authorId: authorId }).exec();
-    return tickets;
+    return await ticketModel.find({ authorId: authorId }).exec();
   }
   async getTicketsByAssigneeId(assigneeId: string): Promise<Ticket[]> {
-    const tickets = await ticketModel.find({ assigneeId: assigneeId }).exec();
-    return tickets;
+    return await ticketModel.find({ assigneeId: assigneeId }).exec();
   }
   async getTicketsByStatus(open: boolean): Promise<Ticket[]> {
-    const tickets = await ticketModel.find({ open: open }).exec();
-    return tickets;
+    return await ticketModel.find({ open: open }).exec();
   }
   async addNewTicket(ticket: NewTicket): Promise<Ticket> {
-    const createdTicket = await ticketModel.create({ ...ticket, open: true });
-    return {
-      id: createdTicket._id.toString(),
-      open: true,
-      ...ticket,
-    };
+    return await ticketModel.create({ ...ticket, open: true });
   }
   async updateTicket(ticket: Ticket): Promise<Ticket | undefined> {
     const updatedTicket = await ticketModel

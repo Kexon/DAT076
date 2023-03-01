@@ -8,6 +8,7 @@ import RequireAuth from '../RequireAuth';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import UserPageSettings from '../pages/user/dashboard/UserPageSettings';
+import UserTickets from '../pages/user/dashboard/UserTickets';
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Navigate to="/user/dashboard" />,
+        element: <Navigate to="/user" />,
       },
       { path: 'login', element: <LoginPage /> },
       {
@@ -46,15 +47,31 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <SignUpPage />,
       },
-      // Maybe dashboard should be a child element of user?
-      { path: 'user', element: <Navigate to="/user/dashboard" /> }, // Not sure if a good way to redirect
       {
-        path: 'user/dashboard',
+        path: '/user',
         element: (
           <RequireAuth>
             <UserPage />
           </RequireAuth>
         ),
+        children: [
+          {
+            path: '/user/tickets',
+            element: <UserTickets />,
+          },
+          {
+            path: '/user/createticket',
+            element: <TicketFormPage />,
+          },
+          {
+            path: '/user/alltickets',
+            element: <AdminTicketsPage />,
+          },
+          {
+            path: '/user/settings',
+            element: <UserPageSettings />,
+          },
+        ],
       },
       {
         path: 'user/settings',

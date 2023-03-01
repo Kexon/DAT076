@@ -1,5 +1,5 @@
 import { Sidebar } from 'flowbite-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   HiInbox,
   HiUser,
@@ -7,6 +7,14 @@ import {
   HiCog,
   HiPencil,
 } from 'react-icons/hi';
+import {
+  Navigate,
+  Outlet,
+  redirect,
+  RelativeRoutingType,
+  To,
+  useNavigate,
+} from 'react-router-dom';
 import { useAuth } from '../../../hooks/AuthProvider';
 import { UserLevel } from '../../../model/User';
 import AdminTicketsPage from '../../admin/tickets/AdminTicketsPage';
@@ -15,10 +23,23 @@ import UserPageInfo from './UserPageInfo';
 import UserPageSettings from './UserPageSettings';
 import UserTickets from './UserTickets';
 
+interface NavigateFunction {
+  (
+    to: To,
+    options?: {
+      replace?: boolean;
+      state?: any;
+      relative?: RelativeRoutingType;
+    },
+  ): void;
+  (delta: number): void;
+}
+
 export default function UserPage() {
   const [activeTab, setActiveTab] = useState('');
   const { user, logout } = useAuth();
   const isAdmin = user && user.level >= UserLevel.ADMIN;
+  const navigate = useNavigate();
 
   const renderComponent = () => {
     switch (activeTab) {
@@ -35,6 +56,10 @@ export default function UserPage() {
     }
   };
 
+  const handleClickButton = (to: string) => {
+    navigate(`/user/${to}`);
+  };
+
   const handleSignOut = () => {
     logout();
   };
@@ -49,17 +74,17 @@ export default function UserPage() {
               <Sidebar.Items>
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
-                    href="#tickets"
+                    href=""
                     icon={HiInbox}
-                    onClick={() => setActiveTab('')}
+                    onClick={() => handleClickButton('tickets')}
                     className={activeTab === '' ? 'bg-blue-100' : ''}
                   >
                     My tickets
                   </Sidebar.Item>
                   <Sidebar.Item
-                    href="#createticket"
+                    href=""
                     icon={HiPencil}
-                    onClick={() => setActiveTab('createticket')}
+                    onClick={() => handleClickButton('createticket')}
                     className={`text-lg font-semibold ${
                       activeTab === 'createticket' ? 'bg-blue-100' : ''
                     }`}
@@ -71,18 +96,18 @@ export default function UserPage() {
                 {isAdmin && (
                   <Sidebar.ItemGroup>
                     <Sidebar.Item
-                      href="#"
+                      href=""
                       icon={HiUser}
                       label="Admin"
                       className={
                         activeTab === 'alltickets' ? 'bg-blue-100' : ''
                       }
-                      onClick={() => setActiveTab('alltickets')}
+                      onClick={() => handleClickButton('alltickets')}
                     >
                       All tickets
                     </Sidebar.Item>
                     <Sidebar.Item
-                      href="#"
+                      href=""
                       icon={HiUser}
                       label="Admin"
                       className="label"
@@ -93,18 +118,14 @@ export default function UserPage() {
                 )}
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
-                    href="#"
+                    href=""
                     icon={HiCog}
-                    onClick={() => setActiveTab('settings')}
+                    onClick={() => handleClickButton('settings')}
                     className={activeTab === 'settings' ? 'bg-blue-100' : ''}
                   >
                     Settings
                   </Sidebar.Item>
-                  <Sidebar.Item
-                    href="#"
-                    icon={HiArrowSmRight}
-                    onClick={handleSignOut}
-                  >
+                  <Sidebar.Item icon={HiArrowSmRight} onClick={handleSignOut}>
                     Sign out
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>
@@ -117,7 +138,7 @@ export default function UserPage() {
         <hr className="mt-4 h-[360px] w-px bg-gray-200 dark:bg-gray-700" />
       </div>
       <div className="flex flex-1 flex-col gap-10 rounded-lg px-6 pb-6 pt-2 ">
-        <div className="flex">{renderComponent()}</div>
+        <Outlet />
       </div>
     </div>
   );

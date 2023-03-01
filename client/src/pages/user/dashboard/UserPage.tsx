@@ -1,5 +1,5 @@
 import { Sidebar } from 'flowbite-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   HiInbox,
   HiUser,
@@ -20,6 +20,9 @@ export default function UserPage() {
   const { user, logout } = useAuth();
   const isAdmin = user && user.level >= UserLevel.ADMIN;
 
+  /*
+   * This method will render the correct component based on the active tab.
+   */
   const renderComponent = () => {
     switch (activeTab) {
       case 'info':
@@ -34,6 +37,27 @@ export default function UserPage() {
         return <UserTickets />;
     }
   };
+
+  /*
+   * This method will be called when the hash changes.
+   * It will update the active tab.
+   */
+  const handleHashChange = () => {
+    const activeTabPath = window.location.hash.replace('#', '');
+    setActiveTab(activeTabPath);
+  };
+
+  /*
+   * Add a listener to the hashchange event.
+   * Buttons will change the hash and this listener will
+   * update the active tab.
+   *
+   * This might be better to do with react-router-dom,
+   * but I'm not sure how to do it with the sidebar component.
+   */
+  useEffect(() => {
+    window.addEventListener('hashchange', handleHashChange);
+  }, []);
 
   const handleSignOut = () => {
     logout();
@@ -51,7 +75,6 @@ export default function UserPage() {
                   <Sidebar.Item
                     href="#tickets"
                     icon={HiInbox}
-                    onClick={() => setActiveTab('')}
                     className={activeTab === '' ? 'bg-blue-100' : ''}
                   >
                     My tickets
@@ -59,7 +82,6 @@ export default function UserPage() {
                   <Sidebar.Item
                     href="#createticket"
                     icon={HiPencil}
-                    onClick={() => setActiveTab('createticket')}
                     className={`text-lg font-semibold ${
                       activeTab === 'createticket' ? 'bg-blue-100' : ''
                     }`}
@@ -71,13 +93,12 @@ export default function UserPage() {
                 {isAdmin && (
                   <Sidebar.ItemGroup>
                     <Sidebar.Item
-                      href="#"
+                      href="#alltickets"
                       icon={HiUser}
                       label="Admin"
                       className={
                         activeTab === 'alltickets' ? 'bg-blue-100' : ''
                       }
-                      onClick={() => setActiveTab('alltickets')}
                     >
                       All tickets
                     </Sidebar.Item>
@@ -93,9 +114,8 @@ export default function UserPage() {
                 )}
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
-                    href="#"
+                    href="#settings"
                     icon={HiCog}
-                    onClick={() => setActiveTab('settings')}
                     className={activeTab === 'settings' ? 'bg-blue-100' : ''}
                   >
                     Settings

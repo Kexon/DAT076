@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Ticket } from '../../../model/Ticket';
 import { UserInfo } from '../../../model/User';
 import ApiService from '../../../services/ApiService';
@@ -13,7 +13,8 @@ export default function TicketPage() {
   const [ticket, setTicket] = useState<Ticket>();
   const [ticketOwner, setTicketOwner] = useState<UserInfo>();
   const [loading, setLoading] = useState(true);
-  const { id } = useParams();
+  const [searchParams] = useSearchParams(); // Fetch the search params from the URL
+  const id = searchParams.get('id'); // Get the id from the search params
 
   useEffect(() => {
     const getTicket = async () => {

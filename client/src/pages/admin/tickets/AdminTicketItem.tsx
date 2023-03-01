@@ -22,7 +22,7 @@ export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
     <div>
       {isMobile() ? (
         <Link
-          to={`/ticket/${id}`}
+          to={`/user/ticket?id=${ticket.id}`}
           className="flex h-fit flex-col gap-x-1 p-2 hover:bg-slate-300"
           type="button"
         >
@@ -48,7 +48,7 @@ export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
         </Link>
       ) : (
         <Link
-          to={`/ticket/${id}`}
+          to={`/user/ticket?id=${ticket.id}`}
           className="grid grid-flow-col grid-cols-10 items-center gap-x-1 py-2 hover:bg-slate-300"
           type="button"
         >

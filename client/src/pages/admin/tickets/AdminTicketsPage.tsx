@@ -1,4 +1,4 @@
-import { Button, Card, Select, TextInput } from 'flowbite-react';
+import { Button, Select, TextInput } from 'flowbite-react';
 import { HiSearch } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Ticket } from '../../../model/Ticket';

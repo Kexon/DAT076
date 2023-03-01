@@ -7,7 +7,7 @@ import {
   HiViewGrid,
   HiLogout,
 } from 'react-icons/hi';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../../hooks/AuthProvider';
 import { UserLevel } from '../../../model/User';
 import AdminTicketsPage from '../../admin/tickets/AdminTicketsPage';

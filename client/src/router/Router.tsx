@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Navigate to="/user/dashboard" />,
+        element: <Navigate to="/dashboard" />,
       },
       { path: 'login', element: <LoginPage /> },
       {
@@ -46,21 +46,11 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <SignUpPage />,
       },
-      // Maybe dashboard should be a child element of user?
-      { path: 'user', element: <Navigate to="/user/dashboard" /> }, // Not sure if a good way to redirect
       {
-        path: 'user/dashboard',
+        path: '/dashboard',
         element: (
           <RequireAuth>
             <UserPage />
-          </RequireAuth>
-        ),
-      },
-      {
-        path: 'user/settings',
-        element: (
-          <RequireAuth>
-            <UserPageSettings />
           </RequireAuth>
         ),
       },

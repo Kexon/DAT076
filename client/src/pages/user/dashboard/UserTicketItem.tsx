@@ -1,13 +1,14 @@
 import { Badge } from 'flowbite-react';
 import { HiOutlineMail } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { Link, useHref } from 'react-router-dom';
 import { Ticket } from '../../../model/Ticket';
 
 export default function UserPageTicket({ ticket }: { ticket: Ticket }) {
-  const { title, open } = ticket;
+  const { title, open, id } = ticket;
+  const href = useHref(`#ticket?id=${id}`);
   return (
     <Link
-      to={`/ticket/${ticket.id}`}
+      to={href}
       className=" m-[-1px] flex h-16 gap-2 border-2 p-1 hover:bg-slate-200"
       type="button"
     >

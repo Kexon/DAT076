@@ -7,16 +7,19 @@ import {
   HiCog,
   HiPencil,
 } from 'react-icons/hi';
+import { useLocation } from 'react-router-dom';
 import { useAuth } from '../../../hooks/AuthProvider';
 import { UserLevel } from '../../../model/User';
 import AdminTicketsPage from '../../admin/tickets/AdminTicketsPage';
+import TicketPage from '../../admin/tickets/TicketPage';
 import TicketFormPage from '../TicketFormPage';
 import UserPageInfo from './UserPageInfo';
 import UserPageSettings from './UserPageSettings';
 import UserTickets from './UserTickets';
 
 export default function UserPage() {
-  const [activeTab, setActiveTab] = useState('');
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState('tickets');
   const { user, logout } = useAuth();
   const isAdmin = user && user.level >= UserLevel.ADMIN;
 
@@ -33,31 +36,21 @@ export default function UserPage() {
         return <TicketFormPage />;
       case 'alltickets':
         return <AdminTicketsPage />;
-      default:
+      case 'tickets':
         return <UserTickets />;
+      default:
+        return <TicketPage />;
     }
   };
 
   /*
-   * This method will be called when the hash changes.
-   * It will update the active tab.
-   */
-  const handleHashChange = () => {
-    const activeTabPath = window.location.hash.replace('#', '');
-    setActiveTab(activeTabPath);
-  };
-
-  /*
-   * Add a listener to the hashchange event.
-   * Buttons will change the hash and this listener will
-   * update the active tab.
-   *
-   * This might be better to do with react-router-dom,
-   * but I'm not sure how to do it with the sidebar component.
+   * This effect will run once the location in the URL changes
+   * and will update the active tab.
    */
   useEffect(() => {
-    window.addEventListener('hashchange', handleHashChange);
-  }, []);
+    const activeTabPath = window.location.hash.replace('#', '');
+    setActiveTab(activeTabPath);
+  }, [location]);
 
   const handleSignOut = () => {
     logout();

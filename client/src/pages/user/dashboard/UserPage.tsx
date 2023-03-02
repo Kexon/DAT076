@@ -1,27 +1,38 @@
 import { Sidebar } from 'flowbite-react';
-import { useState } from 'react';
 import {
   HiInbox,
   HiUser,
-  HiArrowSmRight,
   HiCog,
-  HiPencil,
+  HiPencilAlt,
+  HiViewGrid,
+  HiLogout,
 } from 'react-icons/hi';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../../hooks/AuthProvider';
 import { UserLevel } from '../../../model/User';
 import AdminTicketsPage from '../../admin/tickets/AdminTicketsPage';
+import TicketPage from '../../admin/tickets/TicketPage';
 import TicketFormPage from '../TicketFormPage';
 import UserPageInfo from './UserPageInfo';
 import UserPageSettings from './UserPageSettings';
 import UserTickets from './UserTickets';
 
 export default function UserPage() {
-  const [activeTab, setActiveTab] = useState('');
   const { user, logout } = useAuth();
   const isAdmin = user && user.level >= UserLevel.ADMIN;
+  const navigate = useNavigate();
+  const { tab } = useParams();
+
+  const handleClickButton = (to: string) => {
+    navigate(`/user/${to}`);
+  };
+
+  const handleSignOut = () => {
+    logout();
+  };
 
   const renderComponent = () => {
-    switch (activeTab) {
+    switch (tab) {
       case 'info':
         return <UserPageInfo />;
       case 'settings':
@@ -30,13 +41,13 @@ export default function UserPage() {
         return <TicketFormPage />;
       case 'alltickets':
         return <AdminTicketsPage />;
+      case 'tickets':
+        return <UserTickets />;
+      case 'ticket':
+        return <TicketPage />;
       default:
         return <UserTickets />;
     }
-  };
-
-  const handleSignOut = () => {
-    logout();
   };
 
   return (
@@ -49,19 +60,19 @@ export default function UserPage() {
               <Sidebar.Items>
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
-                    href="#tickets"
                     icon={HiInbox}
-                    onClick={() => setActiveTab('')}
-                    className={activeTab === '' ? 'bg-blue-100' : ''}
+                    onClick={() => handleClickButton('tickets')}
+                    className={`${
+                      tab === 'tickets' ? 'bg-blue-100' : ''
+                    } hover:cursor-pointer`}
                   >
                     My tickets
                   </Sidebar.Item>
                   <Sidebar.Item
-                    href="#createticket"
-                    icon={HiPencil}
-                    onClick={() => setActiveTab('createticket')}
-                    className={`text-lg font-semibold ${
-                      activeTab === 'createticket' ? 'bg-blue-100' : ''
+                    icon={HiPencilAlt}
+                    onClick={() => handleClickButton('createticket')}
+                    className={`text-lg font-semibold hover:cursor-pointer ${
+                      tab === 'createticket' ? 'bg-blue-100' : ''
                     }`}
                   >
                     Create ticket
@@ -71,21 +82,21 @@ export default function UserPage() {
                 {isAdmin && (
                   <Sidebar.ItemGroup>
                     <Sidebar.Item
-                      href="#"
-                      icon={HiUser}
+                      icon={HiViewGrid}
                       label="Admin"
-                      className={
-                        activeTab === 'alltickets' ? 'bg-blue-100' : ''
-                      }
-                      onClick={() => setActiveTab('alltickets')}
+                      className={`${
+                        tab === 'alltickets' ? 'bg-blue-100' : ''
+                      } hover:cursor-pointer`}
+                      onClick={() => handleClickButton('alltickets')}
                     >
                       All tickets
                     </Sidebar.Item>
                     <Sidebar.Item
-                      href="#"
                       icon={HiUser}
                       label="Admin"
-                      className="label"
+                      className={`${
+                        tab === 'users' ? 'bg-blue-100' : ''
+                      } hover:cursor-pointer`}
                     >
                       Users
                     </Sidebar.Item>
@@ -93,18 +104,15 @@ export default function UserPage() {
                 )}
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
-                    href="#"
                     icon={HiCog}
-                    onClick={() => setActiveTab('settings')}
-                    className={activeTab === 'settings' ? 'bg-blue-100' : ''}
+                    onClick={() => handleClickButton('settings')}
+                    className={`${
+                      tab === 'settings' ? 'bg-blue-100' : ''
+                    } hover:cursor-pointer`}
                   >
                     Settings
                   </Sidebar.Item>
-                  <Sidebar.Item
-                    href="#"
-                    icon={HiArrowSmRight}
-                    onClick={handleSignOut}
-                  >
+                  <Sidebar.Item icon={HiLogout} onClick={handleSignOut}>
                     Sign out
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>
@@ -117,7 +125,7 @@ export default function UserPage() {
         <hr className="mt-4 h-[360px] w-px bg-gray-200 dark:bg-gray-700" />
       </div>
       <div className="flex flex-1 flex-col gap-10 rounded-lg px-6 pb-6 pt-2 ">
-        <div className="flex">{renderComponent()}</div>
+        {renderComponent()}
       </div>
     </div>
   );

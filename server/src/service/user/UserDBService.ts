@@ -20,7 +20,7 @@ class UserDBService implements IUserService {
       .exec();
     if (user && user.password === password) {
       return {
-        id: user._id.toString(),
+        id: user.id,
         username: user.username,
         level: user.level,
       };

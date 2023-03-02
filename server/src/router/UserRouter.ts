@@ -145,7 +145,7 @@ userRouter.patch(
   "/", // The endpoint can be /password or /changepassword
   async (
     req: Request<{}, {}, { newPassword: string; currentPassword: string }>,
-    res: Response<UserInfo | string>
+    res: Response<string>
   ) => {
     if (!req.session.user) {
       res

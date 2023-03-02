@@ -7,7 +7,7 @@ export default function UserPageTicket({ ticket }: { ticket: Ticket }) {
   const { title, open } = ticket;
   return (
     <Link
-      to={`/ticket/${ticket.id}`}
+      to={`/user/ticket?id=${ticket.id}`}
       className=" m-[-1px] flex h-16 gap-2 border-2 p-1 hover:bg-slate-200"
       type="button"
     >

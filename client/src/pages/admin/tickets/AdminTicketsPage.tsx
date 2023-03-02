@@ -75,7 +75,7 @@ export default function TicketListPage() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col justify-center gap-4">
+    <div className="flex h-full w-full flex-col justify-start gap-4">
       <div className="flex justify-center">
         <h1 className="text-center text-lg font-medium">Tickets</h1>
       </div>

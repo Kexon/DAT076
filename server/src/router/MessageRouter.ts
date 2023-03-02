@@ -65,7 +65,7 @@ messageRouter.post(
   "/chat",
   async (
     req: Request<{}, {}, { chatId: string; content: string }>,
-    res: Response<Message[] | String>
+    res: Response<Message | String>
   ) => {
     const chatId = req.body.chatId;
     const content = req.body.content;
@@ -80,16 +80,16 @@ messageRouter.post(
       return;
     }
 
+    // Get author id from session, so we can associate the message with the author
     const authorId = req.session.user?.id;
 
     try {
-      const success = await messageService.sendMessage(
+      const ticket = await messageService.sendMessage(
         chatId,
         authorId,
         content
       );
-      if (success) res.status(200).send("Hooray!");
-      else res.status(500).send("Not hooray :(");
+      res.status(200).send(ticket);
     } catch (e: any) {
       res.status(500).send(e.message);
     }

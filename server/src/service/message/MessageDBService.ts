@@ -24,8 +24,8 @@ class MessageDBService implements IMessageService {
     chatId: string,
     sender: string,
     message: string
-  ): Promise<boolean> {
-    const success = await messageModel.create({
+  ): Promise<Message> {
+    const ticket = await messageModel.create({
       chatId: chatId,
       content: message,
       timestamp: new Date(),
@@ -33,9 +33,10 @@ class MessageDBService implements IMessageService {
     });
 
     // We need to check if the ticket is closed or not
+    // Right now we do not do that
 
-    if (success) return true;
-    return false;
+    if (ticket) return ticket;
+    throw new Error("Message could not be created");
   }
 
   /*

@@ -29,8 +29,8 @@ messageRouter.get(
       return;
     }
     try {
-      const messages = messageService.getMessage(req.params.id);
-      res.status(200);
+      const message = await messageService.getMessage(req.params.id);
+      res.status(200).send(message);
     } catch (e: any) {
       res.status(500).send(e.message);
     }
@@ -38,7 +38,7 @@ messageRouter.get(
 );
 
 messageRouter.get(
-  "/chat/:chatid",
+  "/chat/:chatId",
   async (
     req: Request<{ chatId: string }, {}, {}>,
     res: Response<Message[] | String>

@@ -96,7 +96,7 @@ export default function TicketFormPage() {
             Submit
           </Button>
         )}
-        {ticket && <Navigate to={`/ticket/${ticket.id}`} />}
+        {ticket && <Navigate to={`../user/ticket?id=${ticket.id}`} />}
         {submitted && (
           <Button
             gradientDuoTone="greenToBlue"

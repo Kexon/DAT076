@@ -2,6 +2,7 @@ import { Textarea } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import Message from '../../../model/Message';
 import MessageService from '../../../services/MessageService';
+import Chatbox from './Chatbox';
 import TicketMessageItem from './TicketMessageItem';
 
 interface Props {
@@ -14,6 +15,13 @@ export default function TicketMessagesContainer({
   ticketTitle,
 }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
+
+  const handleOnSubmit = async (content: string) => {
+    if (ticketId) {
+      const response = await MessageService.sendMessage(ticketId, content);
+      setMessages((prev) => [...prev, response]);
+    }
+  };
 
   useEffect(() => {
     if (ticketId) {
@@ -29,9 +37,10 @@ export default function TicketMessagesContainer({
       <h1 className="p-2 text-xl font-semibold">{ticketTitle}</h1>
       <div className="flex flex-col gap-2">
         {messages.map((message) => {
-          return <TicketMessageItem message={message} />;
+          return <TicketMessageItem key={message.id} message={message} />;
         })}
       </div>
+      <Chatbox onSubmit={handleOnSubmit} />
     </div>
   );
 }

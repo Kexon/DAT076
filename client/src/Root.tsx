@@ -8,7 +8,7 @@ export default function Root() {
     <AuthProvider>
       <>
         <NavBar />
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-6xl">
           <Outlet />
         </div>
       </>

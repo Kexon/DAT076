@@ -8,7 +8,7 @@ export default function NavBar() {
       className="w-vw mb-5 flex h-12 items-center justify-between bg-gradient-to-r from-cyan-500 to-blue-500 shadow-md lg:mb-10
 "
     >
-      <div className="mx-auto flex w-[1024px] justify-between">
+      <div className="mx-auto flex w-[1152px] justify-between">
         <Link
           className="pl-3 text-lg font-bold text-white transition ease-in-out hover:scale-120"
           to="/"

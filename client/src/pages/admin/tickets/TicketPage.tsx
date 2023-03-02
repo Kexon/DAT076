@@ -6,7 +6,8 @@ import { Ticket } from '../../../model/Ticket';
 import { UserInfo } from '../../../model/User';
 import ApiService from '../../../services/ApiService';
 import UserService from '../../../services/UserService';
-import TicketInformationItem from './TicketInformationItem';
+import TicketMessagesContainer from './TicketMessagesContainer';
+
 import TicketUserItem from './TicketUserItem';
 
 export default function TicketPage() {
@@ -42,7 +43,7 @@ export default function TicketPage() {
 
   return (
     <div className="grid-cols-6 gap-4 md:grid">
-      <TicketInformationItem ticket={ticket} />
+      <TicketMessagesContainer ticketId={ticket?.id} />
       <TicketUserItem ticket={ticket} ticketOwner={ticketOwner} />
     </div>
   );

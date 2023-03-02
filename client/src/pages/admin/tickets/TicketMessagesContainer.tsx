@@ -1,3 +1,4 @@
+import { Textarea } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import Message from '../../../model/Message';
 import MessageService from '../../../services/MessageService';
@@ -5,9 +6,13 @@ import TicketMessageItem from './TicketMessageItem';
 
 interface Props {
   ticketId?: string;
+  ticketTitle?: string;
 }
 
-export default function TicketMessagesContainer({ ticketId }: Props) {
+export default function TicketMessagesContainer({
+  ticketId,
+  ticketTitle,
+}: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
@@ -20,10 +25,13 @@ export default function TicketMessagesContainer({ ticketId }: Props) {
     }
   }, [ticketId]);
   return (
-    <div className="col-span-3 flex flex-col flex-wrap break-words">
-      {messages.map((message) => {
-        return <TicketMessageItem message={message} />;
-      })}
+    <div className="col-span-3 flex flex-col">
+      <h1 className="p-2 text-xl font-semibold">{ticketTitle}</h1>
+      <div className="flex flex-col gap-2">
+        {messages.map((message) => {
+          return <TicketMessageItem message={message} />;
+        })}
+      </div>
     </div>
   );
 }

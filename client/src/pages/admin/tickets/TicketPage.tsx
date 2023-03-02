@@ -43,7 +43,10 @@ export default function TicketPage() {
 
   return (
     <div className="grid-cols-6 gap-4 md:grid">
-      <TicketMessagesContainer ticketId={ticket?.id} />
+      <TicketMessagesContainer
+        ticketId={ticket?.id}
+        ticketTitle={ticket?.title}
+      />
       <TicketUserItem ticket={ticket} ticketOwner={ticketOwner} />
     </div>
   );

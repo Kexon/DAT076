@@ -34,7 +34,6 @@ export default function TicketMessagesContainer({
   }, [ticketId]);
   return (
     <div className="col-span-3 flex flex-col">
-      <h1 className="p-2 text-xl font-semibold">{ticketTitle}</h1>
       <div className="flex flex-col gap-2">
         {messages.map((message) => {
           return <TicketMessageItem key={message.id} message={message} />;

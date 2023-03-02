@@ -83,6 +83,21 @@ export default function UserPageSettings() {
       >
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
+            <Label htmlFor="password3" value="Current password *" />
+            <TextInput
+              id="password3"
+              type="password"
+              onChange={handlePassword3Change}
+              value={currentPassword}
+              required
+              helperText={
+                !correctPassword && (
+                  <p className="text-red-500">Password is wrong!</p>
+                )
+              }
+            />
+          </div>
+          <div className="flex flex-col gap-2">
             <Label htmlFor="password1" value="New password *" />
             <TextInput
               id="password1"
@@ -112,21 +127,7 @@ export default function UserPageSettings() {
               }
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="password3" value="Current password *" />
-            <TextInput
-              id="password3"
-              type="password"
-              onChange={handlePassword3Change}
-              value={currentPassword}
-              required
-              helperText={
-                !correctPassword && (
-                  <p className="text-red-500">Password is wrong!</p>
-                )
-              }
-            />
-          </div>
+
           <div className="flex items-center justify-between">
             <p className="ml-1 text-sm font-medium text-green-500">
               {success ? 'Password successfully changed!' : ''}

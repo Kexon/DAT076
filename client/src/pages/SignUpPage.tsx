@@ -63,7 +63,7 @@ export default function SignUpPage() {
       <div className="flex flex-col items-center">
         <h1 className="text-4xl font-bold lg:text-5xl">Welcome to tickino!</h1>
         <p className="text-sm font-thin">
-          Enter your credentials to create a new account.
+          Choose your credentials to create a new account.
         </p>
       </div>
 
@@ -74,12 +74,12 @@ export default function SignUpPage() {
         >
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="username" value="Your username" />
+              <Label htmlFor="username" value="Username" />
             </div>
             <TextInput
               id="username"
               type="text"
-              placeholder="Enter your username"
+              placeholder="Username"
               rightIcon={MdOutlineAccountCircle}
               onChange={handleUsernameChange}
               color={validUsername ? 'gray' : 'failure'}
@@ -91,7 +91,7 @@ export default function SignUpPage() {
 
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="password" value="Your password" />
+              <Label htmlFor="password" value="Password" />
             </div>
             <TextInput
               rightIcon={MdPassword}

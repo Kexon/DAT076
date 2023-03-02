@@ -1,19 +1,11 @@
 import express, { Request, Response } from "express";
-import { USE_DB } from "../../settings";
 import { UserInfo, UserLevel } from "../model/User";
-import IUserService from "../service/user/IUserService";
-import makeUserDBService from "../service/user/UserDBService";
-import makeUserService from "../service/user/UserService";
+import { userService } from "../service/services";
 
 interface UserRequest {
   username: string;
   password: string;
 }
-
-let userService: IUserService;
-
-if (USE_DB) userService = makeUserDBService();
-else userService = makeUserService();
 
 export const userRouter = express.Router();
 

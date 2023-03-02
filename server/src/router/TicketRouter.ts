@@ -1,14 +1,8 @@
 import express, { Request, Response } from "express";
-import makeTicketService from "../service/ticket/TicketService";
 import { Ticket, NewTicket } from "../model/Ticket";
-import { USE_DB } from "../../settings";
-import ITicketService from "../service/ticket/ITicketService";
-import makeTicketDBService from "../service/ticket/TicketDBService";
-import { UserLevel } from "../model/User";
 
-let ticketService: ITicketService;
-if (USE_DB) ticketService = makeTicketDBService();
-else ticketService = makeTicketService();
+import { UserLevel } from "../model/User";
+import { ticketService } from "../service/services";
 
 export const ticketRouter = express.Router();
 
@@ -26,6 +20,7 @@ ticketRouter.get(
       res.status(401).send("You are not logged in");
       return;
     }
+
     try {
       if (Object.keys(req.query).length === 0) {
         const tickets = await ticketService.getAllTickets();
@@ -40,7 +35,8 @@ ticketRouter.get(
         res.status(200).send(tickets);
       }
     } catch (e: any) {
-      res.status(500).send(e.message);
+      res.status(404).send(e.message);
+      return;
     }
   }
 );
@@ -55,19 +51,12 @@ ticketRouter.get(
       res.status(401).send("You are not logged in");
       return;
     }
+    const id = req.params.id;
+    if (id.trim().length === 0) {
+      res.status(400).send("Invalid id");
+      return;
+    }
     try {
-      const id = req.params.id;
-      if (id.trim().length === 0) {
-        res.status(400).send("Invalid id");
-        return;
-      }
-      /*       
-      // This piece of code below was used when the id was a number
-      if (isNaN(id)) {
-        res.status(400).send("Invalid id");
-        return; 
-      }
-        */
       const ticket = await ticketService.getTicketById(id);
       if (ticket) {
         res.status(200).send(ticket);
@@ -75,7 +64,7 @@ ticketRouter.get(
         res.status(404).send("Ticket not found");
       }
     } catch (e: any) {
-      res.status(500).send(e.message);
+      res.status(404).send(e.message);
     }
   }
 );
@@ -90,20 +79,20 @@ ticketRouter.post(
       res.status(401).send("You are not logged in");
       return;
     }
+    if (
+      typeof req.body.title != "string" ||
+      typeof req.body.description != "string"
+    ) {
+      res.status(400).send("Invalid request");
+      return;
+    }
+    const newTicket: NewTicket = {
+      title: req.body.title,
+      description: req.body.description,
+      authorId: req.session.user.id,
+    };
     try {
-      if (
-        typeof req.body.title != "string" ||
-        typeof req.body.description != "string"
-      ) {
-        res.status(400).send("Invalid request");
-        return;
-      }
-      const newTicket: NewTicket = {
-        title: req.body.title,
-        description: req.body.description,
-        authorId: req.session.user.id,
-      };
-      const ticket: Ticket = await ticketService.addNewTicket(newTicket);
+      const ticket = await ticketService.addNewTicket(newTicket);
       res.status(201).send(ticket);
     } catch (e: any) {
       res.status(500).send(e.message);
@@ -125,18 +114,15 @@ ticketRouter.patch(
       res.status(401).send("You are not logged in");
       return;
     }
+    const id = req.params.id;
+    if (id.trim().length === 0) {
+      res.status(400).send("Invalid id");
+      return;
+    }
+    let changedParams = 0;
     try {
-      const id = req.params.id;
-      if (id.trim().length === 0) {
-        res.status(400).send("Invalid id");
-        return;
-      }
-      let changedParams = 0;
       const ticket = await ticketService.getTicketById(id);
-      if (!ticket) {
-        res.status(404).send("Ticket not found");
-        return;
-      }
+
       const canUserEditTicket = () => {
         if (req.session.user) {
           if (req.session.user.level >= UserLevel.ADMIN) return true; // admins can edit any ticket
@@ -156,10 +142,6 @@ ticketRouter.patch(
       }
       if (typeof req.body.title == "string") {
         ticket.title = req.body.title;
-        changedParams++;
-      }
-      if (typeof req.body.description == "string") {
-        ticket.description = req.body.description;
         changedParams++;
       }
       if (typeof req.body.open == "boolean") {

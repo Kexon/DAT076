@@ -8,10 +8,6 @@ const ticketSchema: Schema = new Schema<Ticket>({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
   open: {
     type: Boolean,
     required: true,

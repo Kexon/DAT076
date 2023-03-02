@@ -24,6 +24,8 @@ class TicketDBService implements ITicketService {
   async addNewTicket(ticket: NewTicket): Promise<Ticket> {
     return await ticketModel.create({ ...ticket, open: true });
   }
+
+  // should we check if the user is allowed to update the ticket here or in the router?
   async updateTicket(ticket: Ticket): Promise<Ticket | undefined> {
     const updatedTicket = await ticketModel
       .findByIdAndUpdate(new ObjectId(ticket.id), ticket)
@@ -31,6 +33,7 @@ class TicketDBService implements ITicketService {
     if (updatedTicket) return updatedTicket;
     return undefined;
   }
+  // should we check if the user is allowed to delete the ticket here or in the router?
   async deleteTicketById(ticketId: string): Promise<boolean> {
     const deletedTicket = await ticketModel
       .findByIdAndDelete(new ObjectId(ticketId))

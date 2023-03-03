@@ -6,4 +6,5 @@ export default interface Message {
   content: string;
   timestamp: string;
   sender: UserInfo;
+  systemMessage: boolean;
 }

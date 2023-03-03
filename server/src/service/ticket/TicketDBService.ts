@@ -17,10 +17,7 @@ class TicketDBService implements ITicketService {
     throw new Error("Ticket not found");
   }
   async getTicketsByAuthorId(authorId: string): Promise<Ticket[]> {
-    return await ticketModel
-      .find({ owner: new ObjectId(authorId) })
-      .populate("owner")
-      .exec();
+    return await ticketModel.find({ owner: authorId }).populate("owner").exec();
   }
   async getTicketsByAssigneeId(assigneeId: string): Promise<Ticket[]> {
     return await ticketModel
@@ -33,21 +30,32 @@ class TicketDBService implements ITicketService {
   }
   async addNewTicket(ticket: NewTicket): Promise<Ticket> {
     // Create the ticket in DB
-    const createdTicket = await ticketModel.create({
+
+    let createdTicket = await ticketModel.create({
       title: ticket.title,
       open: true,
       owner: ticket.owner,
     });
+    createdTicket = await createdTicket.populate("owner"); // populate the owner field
 
-    const message = {
+    const systemMessage = {
       chatId: createdTicket.id,
       sender: createdTicket.owner.id,
       content: "created a ticket",
       systemMessage: true,
     };
-
     // send a system message saying that the ticket was created
-    messageService.sendMessage(message);
+    await messageService.sendMessage(systemMessage);
+
+    // Request the message to be created in message service
+    const message = {
+      chatId: createdTicket.id,
+      sender: createdTicket.owner.id,
+      content: ticket.description,
+      systemMessage: false,
+    };
+    await messageService.sendMessage(message);
+
     return createdTicket;
   }
 
@@ -67,7 +75,7 @@ class TicketDBService implements ITicketService {
         systemMessage: true,
       };
       // if the ticket status changes, send a system message
-      messageService.sendMessage(message);
+      await messageService.sendMessage(message);
     }
 
     throw new Error("Ticket not found");

@@ -67,11 +67,15 @@ class TicketDBService implements ITicketService {
       .populate("owner")
       .exec();
     if (!updatedTicket) throw new Error("Failed to update ticket");
+
+    /*
+     * This code below will send a system message if the ticket status changes
+     */
     if (updatedTicket.open !== status) {
       const message = {
         chatId: updatedTicket.id,
         sender: updatedTicket.owner.id,
-        content: `${status ? "opened" : "closed"} a ticket`,
+        content: `${status ? "opened" : "closed"} the ticket`,
         systemMessage: true,
       };
       // if the ticket status changes, send a system message

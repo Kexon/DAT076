@@ -6,34 +6,43 @@ import { messageService } from "../services";
 
 class TicketDBService implements ITicketService {
   async getAllTickets(): Promise<Ticket[]> {
-    return ticketModel.find();
+    return ticketModel.find().populate("owner");
   }
   async getTicketById(ticketId: string): Promise<Ticket> {
-    const ticket = await ticketModel.findById(new ObjectId(ticketId)).exec();
+    const ticket = await ticketModel
+      .findById(new ObjectId(ticketId))
+      .populate("owner")
+      .exec();
     if (ticket) return ticket;
     throw new Error("Ticket not found");
   }
   async getTicketsByAuthorId(authorId: string): Promise<Ticket[]> {
-    return await ticketModel.find({ authorId: authorId }).exec();
+    return await ticketModel
+      .find({ authorId: authorId })
+      .populate("owner")
+      .exec();
   }
   async getTicketsByAssigneeId(assigneeId: string): Promise<Ticket[]> {
-    return await ticketModel.find({ assigneeId: assigneeId }).exec();
+    return await ticketModel
+      .find({ assigneeId: assigneeId })
+      .populate("owner")
+      .exec();
   }
   async getTicketsByStatus(open: boolean): Promise<Ticket[]> {
-    return await ticketModel.find({ open: open }).exec();
+    return await ticketModel.find({ open: open }).populate("owner").exec();
   }
   async addNewTicket(ticket: NewTicket): Promise<Ticket> {
     // Create the ticket in DB
     const createdTicket = await ticketModel.create({
       title: ticket.title,
       open: true,
-      authorId: ticket.authorId,
+      owner: ticket.owner,
     });
 
     // Request the message to be created in message service
     messageService.sendMessage(
       createdTicket.id,
-      ticket.authorId,
+      ticket.owner,
       ticket.description
     );
     return createdTicket;
@@ -43,6 +52,7 @@ class TicketDBService implements ITicketService {
   async updateTicket(ticket: Ticket): Promise<Ticket> {
     const updatedTicket = await ticketModel
       .findByIdAndUpdate(new ObjectId(ticket.id), ticket)
+      .populate("owner")
       .exec();
     if (updatedTicket) return updatedTicket;
     throw new Error("Ticket not found");

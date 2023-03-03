@@ -1,13 +1,14 @@
+import { UserInfo } from "./User";
 export interface Ticket {
   id: string;
   title: string;
   open: boolean;
-  authorId: string;
+  owner: UserInfo;
   assigneeId?: string;
 }
 
 export interface NewTicket {
   title: string;
-  authorId: string;
+  owner: string;
   description: string;
 }

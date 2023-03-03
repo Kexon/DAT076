@@ -3,9 +3,13 @@ import IMessageService from "./IMessageService";
 import { messageModel } from "../../db/message.db";
 
 class MessageDBService implements IMessageService {
-  async getMessage(chatId: string): Promise<Message> {
-    const message = await messageModel.findOne({ chatId: chatId }).exec();
+  async getMessage(messageId: string): Promise<Message> {
+    const message = await messageModel
+      .findById(messageId)
+      .populate("sender")
+      .exec();
     if (message) return message;
+    console.log(message);
     throw new Error("Message not found");
   }
 
@@ -13,7 +17,10 @@ class MessageDBService implements IMessageService {
    * Return all messages with the same chat
    */
   async getMessages(chatId: string): Promise<Message[]> {
-    return await messageModel.find({ chatId: chatId }).exec();
+    return await messageModel
+      .find({ chatId: chatId })
+      .populate("sender")
+      .exec();
   }
 
   /*

@@ -1,7 +1,8 @@
+import { UserInfo } from "./User";
 export interface Message {
   id: string;
   chatId: string;
   timestamp: Date;
-  sender: string;
+  sender: UserInfo;
   content: string;
 }

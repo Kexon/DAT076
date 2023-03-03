@@ -89,7 +89,7 @@ ticketRouter.post(
     const newTicket: NewTicket = {
       title: req.body.title,
       description: req.body.description,
-      authorId: req.session.user.id,
+      owner: req.session.user.id,
     };
     try {
       const ticket = await ticketService.addNewTicket(newTicket);
@@ -126,7 +126,7 @@ ticketRouter.patch(
       const canUserEditTicket = () => {
         if (req.session.user) {
           if (req.session.user.level >= UserLevel.ADMIN) return true; // admins can edit any ticket
-          if (req.session.user.id === ticket.authorId) return true; // users can edit their own tickets
+          if (req.session.user.id === ticket.owner.id) return true; // users can edit their own tickets
         }
         return false;
       };

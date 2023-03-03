@@ -11,10 +11,7 @@ const messageSchema: Schema = new Schema<Message>({
     type: Date,
     required: true,
   },
-  sender: {
-    type: String,
-    required: true,
-  },
+  sender: { type: Schema.Types.ObjectId, ref: "User", required: true },
   content: {
     type: String,
     required: true,

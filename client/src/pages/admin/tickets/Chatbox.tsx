@@ -8,6 +8,11 @@ export default function Chatbox({
 }) {
   const [content, setContent] = React.useState('');
 
+  const handleOnSubmit = async () => {
+    await onSubmit(content);
+    setContent('');
+  };
+
   return (
     <div>
       <form /* This onSubmit line is required, in order to prevent the page from reloading when the form is submitted. */
@@ -30,7 +35,7 @@ export default function Chatbox({
             <button
               type="submit"
               className="inline-flex items-center rounded-lg bg-blue-700 py-2.5 px-4 text-center text-xs font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900"
-              onClick={() => onSubmit(content)}
+              onClick={handleOnSubmit}
             >
               Post comment
             </button>

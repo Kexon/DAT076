@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card } from 'flowbite-react';
+import { Avatar, Badge } from 'flowbite-react';
 import Message from '../../../model/Message';
 import { UserLevel } from '../../../model/User';
 

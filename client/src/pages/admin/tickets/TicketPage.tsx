@@ -1,20 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import { Button } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useAuth } from '../../../hooks/AuthProvider';
 import { Ticket } from '../../../model/Ticket';
-import { UserInfo, UserLevel } from '../../../model/User';
 import ApiService from '../../../services/ApiService';
-import UserService from '../../../services/UserService';
 import TicketMessagesContainer from './TicketMessagesContainer';
-
 import TicketUserItem from './TicketUserItem';
 
 export default function TicketPage() {
   const [ticket, setTicket] = useState<Ticket>();
-  const [ticketOwner, setTicketOwner] = useState<UserInfo>();
   const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams(); // Fetch the search params from the URL
   const id = searchParams.get('id'); // Get the id from the search params
@@ -31,16 +25,6 @@ export default function TicketPage() {
 
     getTicket();
   }, [id]);
-
-  useEffect(() => {
-    const getUser = async () => {
-      if (ticket) {
-        const data = await UserService.getUserById(ticket.authorId);
-        setTicketOwner(data);
-      }
-    };
-    getUser();
-  }, [ticket?.id]);
 
   /*
    * THIS PIECE OF CODE IS FOR CLOSING/OPENING TICKET
@@ -67,7 +51,7 @@ export default function TicketPage() {
 
   return (
     <div className="flex flex-col">
-      <TicketUserItem ticket={ticket} ticketOwner={ticketOwner} />
+      <TicketUserItem ticket={ticket} ticketOwner={ticket?.owner} />
       <TicketMessagesContainer
         ticketId={ticket?.id}
         ticketTitle={ticket?.title}

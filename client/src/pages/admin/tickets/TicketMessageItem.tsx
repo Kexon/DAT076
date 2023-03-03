@@ -1,6 +1,5 @@
 import { Avatar, Card } from 'flowbite-react';
 import Message from '../../../model/Message';
-import { UserInfo } from '../../../model/User';
 
 interface Props {
   message: Message;
@@ -15,7 +14,7 @@ export default function TicketMessageItem({ message }: Props) {
           img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
           rounded
         />
-        <h2 className="flex-1 font-medium">{message.sender}</h2>
+        <h2 className="flex-1 font-medium">{message.sender.username}</h2>
         <p className="text-xs">{`${time.toLocaleTimeString([], {
           hour: '2-digit',
           minute: '2-digit',

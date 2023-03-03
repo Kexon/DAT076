@@ -9,7 +9,6 @@ class UserDBService implements IUserService {
       const users = await userModel.find();
       return users;
     } catch (e: any) {
-      console.log(e);
       return [];
     }
   }

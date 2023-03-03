@@ -32,12 +32,16 @@ class MessageDBService implements IMessageService {
     sender: string,
     message: string
   ): Promise<Message> {
-    const ticket = await messageModel.create({
+    let ticket = await messageModel.create({
       chatId: chatId,
       content: message,
       timestamp: new Date(),
       sender: sender,
     });
+
+    // We need to do this in order for the sender to be referenced when returning the ticket
+    // I don't know why though
+    ticket = await ticket.populate("sender");
 
     // We need to check if the ticket is closed or not
     // Right now we do not do that

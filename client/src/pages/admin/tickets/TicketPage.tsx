@@ -14,6 +14,7 @@ import TicketMessagesContainer from './TicketMessagesContainer';
 import TicketUserItem from './TicketUserItem';
 
 export default function TicketPage() {
+  const [refresh, setRefresh] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTicketOpen, setIsTicketOpen] = useState<boolean>(false);
   const [ticket, setTicket] = useState<Ticket>();
@@ -23,6 +24,7 @@ export default function TicketPage() {
   const id = searchParams.get('id'); // Get the id from the search params
   const { user } = useAuth();
 
+  /* Fetches the TICKET on component mount */
   useEffect(() => {
     const getTicket = async () => {
       if (id) {
@@ -36,13 +38,7 @@ export default function TicketPage() {
     getTicket();
   }, [id]);
 
-  useEffect(() => {
-    if (user && ticket) {
-      if (user.level >= UserLevel.ADMIN) setCanEditTicket(true);
-      if (user.id === ticket.owner.id) setCanEditTicket(true);
-    }
-  }, [user?.id, ticket?.id]);
-
+  /* Fetches messages on when ticket id changes */
   useEffect(() => {
     if (ticket?.id) {
       const getMessages = async () => {
@@ -51,16 +47,44 @@ export default function TicketPage() {
       };
       getMessages();
     }
-  }, [ticket?.id, isTicketOpen]);
+  }, [ticket?.id]);
+
+  /* Fetches messages on when refresh is set true */
+  useEffect(() => {
+    if (ticket?.id) {
+      const getMessages = async () => {
+        if (refresh) {
+          const response = await MessageService.getMessages(ticket.id);
+          setMessages(response);
+          setRefresh(false);
+        }
+      };
+      getMessages();
+    }
+  }, [refresh]);
+
+  /* Checks if user is allowed to edit ticket */
+  useEffect(() => {
+    if (user && ticket) {
+      if (user.level >= UserLevel.ADMIN) setCanEditTicket(true);
+      if (user.id === ticket.owner.id) setCanEditTicket(true);
+    }
+  }, [user?.id, ticket?.id]);
 
   if (loading) return <Spinner />;
   if (!ticket) return <div>Ticket not found.</div>;
   if (!canEditTicket) return <div>Not authorized to view this ticket.</div>;
 
+  /*
+   * Handles the open/close ticket button
+   * Opens or closes the ticket depending on the current status,
+   * then updates the ticket status and refreshes the messages
+   */
   const onTicketButtonClick = async () => {
     if (isTicketOpen) await ApiService.closeTicket(ticket.id);
     else await ApiService.openTicket(ticket.id);
     setIsTicketOpen((ticketStatus) => !ticketStatus);
+    setRefresh(true);
   };
 
   const handleOnSubmit = async (content: string) => {

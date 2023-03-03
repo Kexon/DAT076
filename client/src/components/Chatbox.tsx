@@ -1,4 +1,4 @@
-import { Button, Label, Textarea } from 'flowbite-react';
+import { Button } from 'flowbite-react';
 import React from 'react';
 
 interface Props {
@@ -28,10 +28,10 @@ export default function Chatbox({
       >
         <div className="mb-4 w-full rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700">
           <div className="rounded-t-lg bg-white px-4 py-2 dark:bg-gray-800">
-            <Textarea
+            <textarea
               id="comment"
               rows={5}
-              className="w-full rounded-none border-0 bg-white px-0 text-sm text-gray-900 focus:outline-none focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+              className="w-full rounded-none border-0 px-0 text-sm text-gray-900 focus:outline-none focus:ring-0 dark:text-white dark:placeholder-gray-400"
               placeholder="Write a message..."
               value={content}
               onChange={(e) => setContent(e.target.value)}

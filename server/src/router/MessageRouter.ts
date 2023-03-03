@@ -84,11 +84,13 @@ messageRouter.post(
     const authorId = req.session.user?.id;
 
     try {
-      const ticket = await messageService.sendMessage(
+      const message = {
         chatId,
-        authorId,
-        content
-      );
+        sender: authorId,
+        content,
+        systemMessage: false,
+      };
+      const ticket = await messageService.sendMessage(message);
       res.status(200).send(ticket);
     } catch (e: any) {
       res.status(500).send(e.message);

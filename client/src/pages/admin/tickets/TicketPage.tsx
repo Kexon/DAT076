@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import { Button, Spinner } from 'flowbite-react';
+import { Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Chatbox from '../../../components/Chatbox';
@@ -49,19 +49,18 @@ export default function TicketPage() {
         const response = await MessageService.getMessages(ticket.id);
         setMessages(response);
       };
-
       getMessages();
     }
-  }, [ticket?.id]);
+  }, [ticket?.id, isTicketOpen]);
 
   if (loading) return <Spinner />;
   if (!ticket) return <div>Ticket not found.</div>;
   if (!canEditTicket) return <div>Not authorized to view this ticket.</div>;
 
-  const onTicketButtonClick = () => {
+  const onTicketButtonClick = async () => {
+    if (isTicketOpen) await ApiService.closeTicket(ticket.id);
+    else await ApiService.openTicket(ticket.id);
     setIsTicketOpen((ticketStatus) => !ticketStatus);
-    if (isTicketOpen) ApiService.closeTicket(ticket.id);
-    else ApiService.openTicket(ticket.id);
   };
 
   const handleOnSubmit = async (content: string) => {

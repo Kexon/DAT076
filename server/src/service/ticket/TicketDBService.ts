@@ -82,7 +82,7 @@ class TicketDBService implements ITicketService {
       await messageService.sendMessage(message);
     }
 
-    throw new Error("Ticket not found");
+    return updatedTicket;
   }
   // should we check if the user is allowed to delete the ticket here or in the router?
   async deleteTicketById(ticketId: string): Promise<boolean> {

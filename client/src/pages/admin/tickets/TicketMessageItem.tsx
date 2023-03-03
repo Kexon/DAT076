@@ -8,7 +8,7 @@ interface Props {
 
 export default function TicketMessageItem({ message }: Props) {
   const time = new Date(message.timestamp);
-  const systemMessage = false;
+  const { systemMessage } = message;
   return (
     <div className="flex flex-col gap-2 border-2 border-blue-50 p-4 shadow-lg">
       <div className="flex items-center gap-3">

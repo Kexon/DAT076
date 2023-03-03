@@ -9,6 +9,26 @@ interface UserRequest {
 
 export const userRouter = express.Router();
 
+userRouter.get("/all", async (req, res: Response<UserInfo[] | string>) => {
+  if (!req.session.user) {
+    res.status(401).send("You are not logged in");
+    return;
+  }
+  console.log("User level: " + req.session.user.level);
+  if (req.session.user.level < UserLevel.ADMIN) {
+    res.status(401).send("You are not authorized to do this");
+    return;
+  }
+
+  const users = await userService.getAllUsers();
+  if (!users) {
+    res.status(401).send(`Failed to get users`);
+    return;
+  }
+  res.status(201).send(users);
+  return;
+});
+
 userRouter.get(
   "/:id",
   async (

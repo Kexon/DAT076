@@ -4,6 +4,16 @@ import { UserInfo, UserLevel } from "../../model/User";
 import IUserService from "./IUserService";
 
 class UserDBService implements IUserService {
+  async getAllUsers(): Promise<UserInfo[]> {
+    try {
+      const users = await userModel.find();
+      return users;
+    } catch (e: any) {
+      console.log(e);
+      return [];
+    }
+  }
+
   async getUser(userId: string): Promise<UserInfo> {
     const user = await userModel.findById(new ObjectId(userId)).exec();
     if (!user) throw new Error("User not found");

@@ -1,3 +1,4 @@
+import { NewMessage } from "./../../model/Message";
 import { Message } from "../../model/Message";
 import IMessageService from "./IMessageService";
 import { messageModel } from "../../db/message.db";
@@ -27,16 +28,18 @@ class MessageDBService implements IMessageService {
    * Adds a message to the database.
    * The chatId is always same as the ticketId.
    */
-  async sendMessage(
-    chatId: string,
-    sender: string,
-    message: string
-  ): Promise<Message> {
+  async sendMessage({
+    chatId,
+    sender,
+    content,
+    systemMessage,
+  }: NewMessage): Promise<Message> {
     let ticket = await messageModel.create({
-      chatId: chatId,
-      content: message,
+      chatId,
+      content,
       timestamp: new Date(),
-      sender: sender,
+      sender,
+      systemMessage,
     });
 
     // We need to do this in order for the sender to be referenced when returning the ticket

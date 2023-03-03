@@ -39,22 +39,37 @@ class TicketDBService implements ITicketService {
       owner: ticket.owner,
     });
 
-    // Request the message to be created in message service
-    messageService.sendMessage(
-      createdTicket.id,
-      ticket.owner,
-      ticket.description
-    );
+    const message = {
+      chatId: createdTicket.id,
+      sender: createdTicket.owner.id,
+      content: "created a ticket",
+      systemMessage: true,
+    };
+
+    // send a system message saying that the ticket was created
+    messageService.sendMessage(message);
     return createdTicket;
   }
 
   // should we check if the user is allowed to update the ticket here or in the router?
   async updateTicket(ticket: Ticket): Promise<Ticket> {
+    const status = ticket.open;
     const updatedTicket = await ticketModel
       .findByIdAndUpdate(new ObjectId(ticket.id), ticket)
       .populate("owner")
       .exec();
-    if (updatedTicket) return updatedTicket;
+    if (!updatedTicket) throw new Error("Failed to update ticket");
+    if (updatedTicket.open !== status) {
+      const message = {
+        chatId: updatedTicket.id,
+        sender: updatedTicket.owner.id,
+        content: `${status ? "opened" : "closed"} a ticket`,
+        systemMessage: true,
+      };
+      // if the ticket status changes, send a system message
+      messageService.sendMessage(message);
+    }
+
     throw new Error("Ticket not found");
   }
   // should we check if the user is allowed to delete the ticket here or in the router?

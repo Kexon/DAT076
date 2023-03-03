@@ -16,6 +16,10 @@ const messageSchema: Schema = new Schema<Message>({
     type: String,
     required: true,
   },
+  systemMessage: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 // creates a virtual id field that is the string representation of the _id field

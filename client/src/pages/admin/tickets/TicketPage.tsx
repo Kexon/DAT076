@@ -70,7 +70,7 @@ export default function TicketPage() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-2">
       <TicketUserItem ticket={ticket} isTicketOpen={isTicketOpen} />
       <TicketMessagesContainer messages={messages} />
       <Chatbox

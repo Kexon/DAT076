@@ -70,20 +70,15 @@ export default function TicketPage() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-2">
       <TicketUserItem ticket={ticket} isTicketOpen={isTicketOpen} />
       <TicketMessagesContainer messages={messages} />
-      <Chatbox onSubmit={handleOnSubmit} onTicketClick={onTicketButtonClick} />
-      <div className="flex justify-end">
-        <Button
-          className={!canEditTicket ? 'hidden' : ''}
-          color={isTicketOpen ? 'success' : 'failure'}
-          size="xs"
-          onClick={onTicketButtonClick}
-        >
-          {isTicketOpen ? 'Close ticket' : 'Open ticket'}
-        </Button>
-      </div>
+      <Chatbox
+        onSubmit={handleOnSubmit}
+        onTicketClick={onTicketButtonClick}
+        canEditTicket={canEditTicket}
+        ticketStatus={isTicketOpen}
+      />
     </div>
   );
 }

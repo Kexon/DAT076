@@ -112,7 +112,11 @@ export default function UserPage() {
                   >
                     Settings
                   </Sidebar.Item>
-                  <Sidebar.Item icon={HiLogout} onClick={handleSignOut}>
+                  <Sidebar.Item
+                    icon={HiLogout}
+                    onClick={handleSignOut}
+                    className="hover:cursor-pointer"
+                  >
                     Sign out
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>

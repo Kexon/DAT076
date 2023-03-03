@@ -1,11 +1,12 @@
-import { Label } from 'flowbite-react';
+import { Button, Label } from 'flowbite-react';
 import React from 'react';
 
-export default function Chatbox({
-  onSubmit,
-}: {
+interface Props {
   onSubmit: (content: string) => Promise<void>;
-}) {
+  onTicketClick: () => void;
+}
+
+export default function Chatbox({ onSubmit, onTicketClick }: Props) {
   const [content, setContent] = React.useState('');
 
   const handleOnSubmit = async () => {
@@ -32,13 +33,12 @@ export default function Chatbox({
             />
           </div>
           <div className="flex items-center justify-between border-t px-3 py-2 dark:border-gray-600">
-            <button
-              type="submit"
-              className="inline-flex items-center rounded-lg bg-blue-700 py-2.5 px-4 text-center text-xs font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900"
-              onClick={handleOnSubmit}
-            >
-              Post comment
-            </button>
+            <div className="flex gap-2">
+              <Button type="submit" onClick={handleOnSubmit}>
+                Post comment
+              </Button>
+              <Button color="failure">Close ticket</Button>
+            </div>
             <div className="flex space-x-1 pl-0 sm:pl-2">
               <button
                 type="button"
@@ -101,15 +101,6 @@ export default function Chatbox({
           </div>
         </div>
       </form>
-      <p className="ml-auto text-xs text-gray-500 dark:text-gray-400">
-        Remember, contributions to this topic should follow our{' '}
-        <a
-          href="#dsd"
-          className="text-blue-600 hover:underline dark:text-blue-500"
-        >
-          Community Guidelines
-        </a>
-      </p>
     </div>
   );
 }

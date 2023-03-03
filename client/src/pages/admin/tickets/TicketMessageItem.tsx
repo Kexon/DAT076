@@ -19,10 +19,13 @@ export default function TicketMessageItem({ message }: Props) {
           <h2 className="font-medium">{message.sender.username}</h2>
           {message.sender.level >= UserLevel.ADMIN && <Badge>Admin</Badge>}
         </div>
-        <p className="text-xs">{`${time.toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })}, ${time.toLocaleDateString()}`}</p>
+        <p className="text-xs">{`${time.toLocaleDateString()} ${time.toLocaleTimeString(
+          [],
+          {
+            hour: '2-digit',
+            minute: '2-digit',
+          },
+        )}`}</p>
       </div>
       <p className="break-words text-sm">{message.content}</p>
     </div>

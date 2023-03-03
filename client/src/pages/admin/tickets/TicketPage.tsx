@@ -1,16 +1,21 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import { Spinner } from 'flowbite-react';
+import { Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import Chatbox from '../../../components/Chatbox';
 import { useAuth } from '../../../hooks/AuthProvider';
+import Message from '../../../model/Message';
 import { Ticket } from '../../../model/Ticket';
 import { UserLevel } from '../../../model/User';
 import ApiService from '../../../services/ApiService';
+import MessageService from '../../../services/MessageService';
 import TicketMessagesContainer from './TicketMessagesContainer';
 import TicketUserItem from './TicketUserItem';
 
 export default function TicketPage() {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isTicketOpen, setIsTicketOpen] = useState<boolean>(false);
   const [ticket, setTicket] = useState<Ticket>();
   const [loading, setLoading] = useState(true);
   const [canEditTicket, setCanEditTicket] = useState(false);
@@ -22,6 +27,7 @@ export default function TicketPage() {
     const getTicket = async () => {
       if (id) {
         const data = await ApiService.getTicket(id);
+        if (data) setIsTicketOpen(data.open);
         setTicket(data);
         setLoading(false);
       }
@@ -37,46 +43,47 @@ export default function TicketPage() {
     }
   }, [user?.id, ticket?.id]);
 
+  useEffect(() => {
+    if (ticket?.id) {
+      const getMessages = async () => {
+        const response = await MessageService.getMessages(ticket.id);
+        setMessages(response);
+      };
+
+      getMessages();
+    }
+  }, [ticket?.id]);
+
   if (loading) return <Spinner />;
   if (!ticket) return <div>Ticket not found.</div>;
   if (!canEditTicket) return <div>Not authorized to view this ticket.</div>;
-  /*
-   * THIS PIECE OF CODE IS FOR CLOSING/OPENING TICKET
-   * HOWEVER REACT SAYS: RENDERED MORE HOOKS THAN DURING THE PREVIOUS RENDER
-   * IDK HOW TO FIX IT
-   */
-  /*
-  const [isTicketOpen, setIsTicketOpen] = useState<boolean>(ticket.open);
+
   const onTicketButtonClick = () => {
     setIsTicketOpen((ticketStatus) => !ticketStatus);
     if (isTicketOpen) ApiService.closeTicket(ticket.id);
     else ApiService.openTicket(ticket.id);
   };
-  */
+
+  const handleOnSubmit = async (content: string) => {
+    const response = await MessageService.sendMessage(ticket.id, content);
+    setMessages((prev) => [...prev, response]);
+  };
 
   return (
     <div className="flex flex-col">
-      <TicketUserItem ticket={ticket} ticketOwner={ticket?.owner} />
-      <TicketMessagesContainer ticketId={ticket?.id} />
-      {/*       {!isTicketOpen ? (
+      <TicketUserItem ticket={ticket} isTicketOpen={isTicketOpen} />
+      <TicketMessagesContainer messages={messages} />
+      <Chatbox onSubmit={handleOnSubmit} onTicketClick={onTicketButtonClick} />
+      <div className="flex justify-end">
         <Button
-          color="success"
-          className={!canEditTicket() ? 'hidden' : ''}
+          className={!canEditTicket ? 'hidden' : ''}
+          color={isTicketOpen ? 'success' : 'failure'}
           size="xs"
           onClick={onTicketButtonClick}
         >
-          Open ticket
+          {isTicketOpen ? 'Close ticket' : 'Open ticket'}
         </Button>
-      ) : (
-        <Button
-          className={!canEditTicket() ? 'hidden' : ''}
-          color="failure"
-          size="xs"
-          onClick={onTicketButtonClick}
-        >
-          Close ticket
-        </Button>
-      )} */}
+      </div>
     </div>
   );
 }

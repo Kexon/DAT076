@@ -1,9 +1,6 @@
-import { Avatar, Button, Badge } from 'flowbite-react';
-import { useState } from 'react';
-import { useAuth } from '../../../hooks/AuthProvider';
+import { Avatar, Badge } from 'flowbite-react';
 import { Ticket } from '../../../model/Ticket';
-import { UserInfo, UserLevel } from '../../../model/User';
-import ApiService from '../../../services/ApiService';
+import { UserInfo } from '../../../model/User';
 
 interface Props {
   ticket?: Ticket;

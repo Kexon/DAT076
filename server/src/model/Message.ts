@@ -5,4 +5,12 @@ export interface Message {
   timestamp: Date;
   sender: UserInfo;
   content: string;
+  systemMessage: boolean;
+}
+
+export interface NewMessage {
+  chatId: string;
+  sender: string;
+  content: string;
+  systemMessage: boolean;
 }

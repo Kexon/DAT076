@@ -17,10 +17,7 @@ class TicketDBService implements ITicketService {
     throw new Error("Ticket not found");
   }
   async getTicketsByAuthorId(authorId: string): Promise<Ticket[]> {
-    return await ticketModel
-      .find({ owner: new ObjectId(authorId) })
-      .populate("owner")
-      .exec();
+    return await ticketModel.find({ owner: authorId }).populate("owner").exec();
   }
   async getTicketsByAssigneeId(assigneeId: string): Promise<Ticket[]> {
     return await ticketModel
@@ -33,28 +30,54 @@ class TicketDBService implements ITicketService {
   }
   async addNewTicket(ticket: NewTicket): Promise<Ticket> {
     // Create the ticket in DB
-    const createdTicket = await ticketModel.create({
+
+    let createdTicket = await ticketModel.create({
       title: ticket.title,
       open: true,
       owner: ticket.owner,
     });
+    createdTicket = await createdTicket.populate("owner"); // populate the owner field
+
+    const systemMessage = {
+      chatId: createdTicket.id,
+      sender: createdTicket.owner.id,
+      content: "created a ticket",
+      systemMessage: true,
+    };
+    // send a system message saying that the ticket was created
+    await messageService.sendMessage(systemMessage);
 
     // Request the message to be created in message service
-    messageService.sendMessage(
-      createdTicket.id,
-      ticket.owner,
-      ticket.description
-    );
+    const message = {
+      chatId: createdTicket.id,
+      sender: createdTicket.owner.id,
+      content: ticket.description,
+      systemMessage: false,
+    };
+    await messageService.sendMessage(message);
+
     return createdTicket;
   }
 
   // should we check if the user is allowed to update the ticket here or in the router?
   async updateTicket(ticket: Ticket): Promise<Ticket> {
+    const status = ticket.open;
     const updatedTicket = await ticketModel
       .findByIdAndUpdate(new ObjectId(ticket.id), ticket)
       .populate("owner")
       .exec();
-    if (updatedTicket) return updatedTicket;
+    if (!updatedTicket) throw new Error("Failed to update ticket");
+    if (updatedTicket.open !== status) {
+      const message = {
+        chatId: updatedTicket.id,
+        sender: updatedTicket.owner.id,
+        content: `${status ? "opened" : "closed"} a ticket`,
+        systemMessage: true,
+      };
+      // if the ticket status changes, send a system message
+      await messageService.sendMessage(message);
+    }
+
     throw new Error("Ticket not found");
   }
   // should we check if the user is allowed to delete the ticket here or in the router?

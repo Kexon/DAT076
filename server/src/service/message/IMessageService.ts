@@ -1,3 +1,4 @@
+import { NewMessage } from "./../../model/Message";
 import { Message } from "../../model/Message";
 
 export default interface IMessageService {
@@ -7,10 +8,6 @@ export default interface IMessageService {
    * We want to retun the message that was created,
    * so that we can display it in the chat.
    */
-  sendMessage(
-    chatId: string,
-    sender: string,
-    message: string
-  ): Promise<Message>;
+  sendMessage(message: NewMessage): Promise<Message>;
   updateMessage(id: string, message: string): Promise<Message>;
 }

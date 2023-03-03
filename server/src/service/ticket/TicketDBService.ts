@@ -18,7 +18,7 @@ class TicketDBService implements ITicketService {
   }
   async getTicketsByAuthorId(authorId: string): Promise<Ticket[]> {
     return await ticketModel
-      .find({ authorId: authorId })
+      .find({ owner: new ObjectId(authorId) })
       .populate("owner")
       .exec();
   }

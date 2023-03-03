@@ -14,7 +14,11 @@ export default function TicketUserItem({ ticket, isTicketOpen }: Props) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h1 className="p-2 text-xl font-semibold">{ticket.title}</h1>
-          <Badge color={isTicketOpen ? 'success' : 'failure'} className="h-6">
+          <Badge
+            size="md"
+            color={isTicketOpen ? 'success' : 'failure'}
+            className="h-6"
+          >
             {isTicketOpen ? 'Open' : 'Closed'}
           </Badge>
         </div>

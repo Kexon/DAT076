@@ -4,9 +4,16 @@ import React from 'react';
 interface Props {
   onSubmit: (content: string) => Promise<void>;
   onTicketClick: () => void;
+  canEditTicket: boolean;
+  ticketStatus: boolean;
 }
 
-export default function Chatbox({ onSubmit, onTicketClick }: Props) {
+export default function Chatbox({
+  onSubmit,
+  onTicketClick,
+  canEditTicket,
+  ticketStatus,
+}: Props) {
   const [content, setContent] = React.useState('');
 
   const handleOnSubmit = async () => {
@@ -37,7 +44,13 @@ export default function Chatbox({ onSubmit, onTicketClick }: Props) {
               <Button type="submit" onClick={handleOnSubmit}>
                 Post comment
               </Button>
-              <Button color="failure">Close ticket</Button>
+              <Button
+                className={!canEditTicket ? 'hidden' : ''}
+                color={ticketStatus ? 'failure' : 'success'}
+                onClick={onTicketClick}
+              >
+                {ticketStatus ? 'Close ticket' : 'Open ticket'}
+              </Button>
             </div>
             <div className="flex space-x-1 pl-0 sm:pl-2">
               <button

@@ -1,4 +1,3 @@
-import { Textarea } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import Message from '../../../model/Message';
 import MessageService from '../../../services/MessageService';
@@ -7,13 +6,9 @@ import TicketMessageItem from './TicketMessageItem';
 
 interface Props {
   ticketId?: string;
-  ticketTitle?: string;
 }
 
-export default function TicketMessagesContainer({
-  ticketId,
-  ticketTitle,
-}: Props) {
+export default function TicketMessagesContainer({ ticketId }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const handleOnSubmit = async (content: string) => {

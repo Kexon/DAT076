@@ -1,6 +1,6 @@
 import { Button, Label, TextInput } from 'flowbite-react';
 import { useState } from 'react';
-import { MdEmail, MdPassword } from 'react-icons/md';
+import { MdOutlineAccountCircle, MdPassword } from 'react-icons/md';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthProvider';
 
@@ -31,13 +31,13 @@ export default function LoginPage() {
         >
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="username" value="Email/Username" />
+              <Label htmlFor="username" value="Username" />
             </div>
             <TextInput
               id="username3"
               placeholder="johndoe@chalmers.se"
               required
-              rightIcon={MdEmail}
+              rightIcon={MdOutlineAccountCircle}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>

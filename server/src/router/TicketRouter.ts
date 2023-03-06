@@ -152,7 +152,7 @@ ticketRouter.patch(
         res.status(400).send("Invalid request");
         return;
       }
-      await ticketService.updateTicket(ticket);
+      await ticketService.updateTicket(req.session.user, ticket);
       res.status(200).send(ticket);
     } catch (e: any) {
       res.status(500).send(e.message);

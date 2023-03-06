@@ -3,6 +3,7 @@ import ITicketService from "./ITicketService";
 import { ticketModel } from "../../db/ticket.db";
 import { ObjectId } from "mongodb";
 import { messageService } from "../services";
+import { UserInfo } from "../../model/User";
 
 class TicketDBService implements ITicketService {
   async getAllTickets(): Promise<Ticket[]> {
@@ -60,7 +61,7 @@ class TicketDBService implements ITicketService {
   }
 
   // should we check if the user is allowed to update the ticket here or in the router?
-  async updateTicket(ticket: Ticket): Promise<Ticket> {
+  async updateTicket(user: UserInfo, ticket: Ticket): Promise<Ticket> {
     const status = ticket.open;
     const updatedTicket = await ticketModel
       .findByIdAndUpdate(new ObjectId(ticket.id), ticket)
@@ -74,7 +75,7 @@ class TicketDBService implements ITicketService {
     if (updatedTicket.open !== status) {
       const message = {
         chatId: updatedTicket.id,
-        sender: updatedTicket.owner.id,
+        sender: user.id,
         content: `${status ? "opened" : "closed"} the ticket`,
         systemMessage: true,
       };

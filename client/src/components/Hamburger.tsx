@@ -29,25 +29,25 @@ export default function Hamburger() {
       </button>
       {isOpen && (
         <ListGroup className="flex-row items-center">
-          <Link to="/user/tickets">
-            <ListGroup.Item>My tickets</ListGroup.Item>
-          </Link>
-          <Link to="/user/createticket">
-            <ListGroup.Item>Create ticket</ListGroup.Item>
-          </Link>
           {isAdmin && (
             <div>
-              <hr className="mx-2" />
-              <Link to="/user/alltickets">
+              <Link to="/user/alltickets" onClick={toggleMenu}>
                 <ListGroup.Item>All tickets</ListGroup.Item>
               </Link>
-              <Link to="/user/users">
+              <Link to="/user/users" onClick={toggleMenu}>
                 <ListGroup.Item>Users</ListGroup.Item>
               </Link>
+              <hr className="mx-2" />
             </div>
           )}
+          <Link to="/user/tickets" onClick={toggleMenu}>
+            <ListGroup.Item>My tickets</ListGroup.Item>
+          </Link>
+          <Link to="/user/createticket" onClick={toggleMenu}>
+            <ListGroup.Item>Create ticket</ListGroup.Item>
+          </Link>
           <hr className="mx-2" />
-          <Link to="/user/settings">
+          <Link to="/user/settings" onClick={toggleMenu}>
             <ListGroup.Item>Settings</ListGroup.Item>
           </Link>
           <ListGroup.Item onClick={handleSignOut}>Sign out</ListGroup.Item>

@@ -13,13 +13,10 @@ class TicketService implements ITicketService {
    *  This method returns a single ticket wrapped in an array.
    *  If it cannot find a ticket with the given id, it returns an empty array.
    */
-  async getTicketById(ticketId: string): Promise<Ticket | undefined> {
+  async getTicketById(ticketId: string): Promise<Ticket> {
     const foundTicket = this.tickets.find((ticket) => ticket.id === ticketId);
-    if (foundTicket) {
-      return foundTicket;
-    }
-
-    return undefined;
+    if (foundTicket) return foundTicket;
+    throw new Error("Ticket not found");
   }
   async getTicketsByAuthorId(authorId: string): Promise<Ticket[]> {
     return this.tickets.filter((ticket) => ticket.authorId === authorId);

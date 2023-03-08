@@ -4,16 +4,22 @@ import { UserInfo, UserLevel } from "../../model/User";
 import IUserService from "./IUserService";
 
 class UserDBService implements IUserService {
-  async getUser(userId: string): Promise<UserInfo | undefined> {
+  async getAllUsers(): Promise<UserInfo[]> {
+    try {
+      const users = await userModel.find();
+      return users;
+    } catch (e: any) {
+      return [];
+    }
+  }
+
+  async getUser(userId: string): Promise<UserInfo> {
     const user = await userModel.findById(new ObjectId(userId)).exec();
-    if (!user) return undefined;
+    if (!user) throw new Error("User not found");
     return user;
   }
 
-  async login(
-    username: string,
-    password: string
-  ): Promise<UserInfo | undefined> {
+  async login(username: string, password: string): Promise<UserInfo> {
     const user = await userModel
       .findOne({ username: username })
       .select("+password") // this is needed to select the password field
@@ -25,13 +31,10 @@ class UserDBService implements IUserService {
         level: user.level,
       };
     }
-    return undefined;
+    throw new Error("Invalid username or password");
   }
 
-  async register(
-    username: string,
-    password: string
-  ): Promise<UserInfo | undefined> {
+  async register(username: string, password: string): Promise<UserInfo> {
     const newUser = await userModel.create({
       username: username,
       password: password,

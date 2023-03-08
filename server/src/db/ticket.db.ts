@@ -8,18 +8,11 @@ const ticketSchema: Schema = new Schema<Ticket>({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
   open: {
     type: Boolean,
     required: true,
   },
-  authorId: {
-    type: String,
-    required: true,
-  },
+  owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
   assigneeId: {
     type: String,
     required: false,

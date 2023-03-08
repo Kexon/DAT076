@@ -2,6 +2,15 @@ import { UserInfo } from '../model/User';
 import axiosInstance from '../utils/AxiosInstance';
 
 export default class UserService {
+  static async getAllUsers(): Promise<UserInfo[]> {
+    try {
+      const { data } = await axiosInstance.get<UserInfo[]>('/user/all');
+      return data;
+    } catch (error) {
+      return [];
+    }
+  }
+
   static async getUser(): Promise<UserInfo | undefined> {
     try {
       const { data } = await axiosInstance.get<UserInfo>('/user');

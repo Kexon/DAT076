@@ -5,17 +5,14 @@ import { v4 as uuidv4 } from "uuid";
 const users = new Map<string, User>();
 
 class UserService implements IUserService {
-  async getUser(userId: string): Promise<UserInfo | undefined> {
+  async getUser(userId: string): Promise<UserInfo> {
     const user = users.get(userId);
-    return user
-      ? { id: user.id, username: user.username, level: user.level }
-      : undefined;
+    if (user)
+      return { id: user.id, username: user.username, level: user.level };
+    throw new Error("User not found");
   }
 
-  async login(
-    username: string,
-    password: string
-  ): Promise<UserInfo | undefined> {
+  async login(username: string, password: string): Promise<UserInfo> {
     const userId = await this.getIdByUsername(username);
     if (userId) {
       const user = users.get(userId);
@@ -23,14 +20,12 @@ class UserService implements IUserService {
         return { id: user.id, username: user.username, level: user.level };
       }
     }
-    return undefined;
+    throw new Error("Could not login");
   }
 
-  async register(
-    username: string,
-    password: string
-  ): Promise<UserInfo | undefined> {
-    if ((await this.getIdByUsername(username)) !== undefined) return undefined;
+  async register(username: string, password: string): Promise<UserInfo> {
+    if ((await this.getIdByUsername(username)) === undefined)
+      throw new Error("User already exists");
     const newUser: User = {
       id: uuidv4(),
       level: 1,

@@ -11,6 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../../hooks/AuthProvider';
 import { UserLevel } from '../../../model/User';
 import AdminTicketsPage from '../../admin/tickets/AdminTicketsPage';
+import AdminUsersPage from '../../admin/tickets/AdminUsersPage';
 import TicketPage from '../../admin/tickets/TicketPage';
 import TicketFormPage from '../TicketFormPage';
 import UserPageInfo from './UserPageInfo';
@@ -45,6 +46,8 @@ export default function UserPage() {
         return <UserTickets />;
       case 'ticket':
         return <TicketPage />;
+      case 'users':
+        return <AdminUsersPage />;
       default:
         return <UserTickets />;
     }
@@ -58,6 +61,30 @@ export default function UserPage() {
           <div className="w-fit ">
             <Sidebar aria-label="Default sidebar example">
               <Sidebar.Items>
+                {isAdmin && (
+                  <Sidebar.ItemGroup>
+                    <Sidebar.Item
+                      icon={HiViewGrid}
+                      label="Admin"
+                      className={`${
+                        tab === 'alltickets' ? 'bg-blue-100' : ''
+                      } hover:cursor-pointer`}
+                      onClick={() => handleClickButton('alltickets')}
+                    >
+                      All tickets
+                    </Sidebar.Item>
+                    <Sidebar.Item
+                      icon={HiUser}
+                      label="Admin"
+                      className={`${
+                        tab === 'users' ? 'bg-blue-100' : ''
+                      } hover:cursor-pointer`}
+                      onClick={() => handleClickButton('users')}
+                    >
+                      Users
+                    </Sidebar.Item>
+                  </Sidebar.ItemGroup>
+                )}
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
                     icon={HiInbox}
@@ -79,29 +106,6 @@ export default function UserPage() {
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>
 
-                {isAdmin && (
-                  <Sidebar.ItemGroup>
-                    <Sidebar.Item
-                      icon={HiViewGrid}
-                      label="Admin"
-                      className={`${
-                        tab === 'alltickets' ? 'bg-blue-100' : ''
-                      } hover:cursor-pointer`}
-                      onClick={() => handleClickButton('alltickets')}
-                    >
-                      All tickets
-                    </Sidebar.Item>
-                    <Sidebar.Item
-                      icon={HiUser}
-                      label="Admin"
-                      className={`${
-                        tab === 'users' ? 'bg-blue-100' : ''
-                      } hover:cursor-pointer`}
-                    >
-                      Users
-                    </Sidebar.Item>
-                  </Sidebar.ItemGroup>
-                )}
                 <Sidebar.ItemGroup>
                   <Sidebar.Item
                     icon={HiCog}
@@ -112,7 +116,11 @@ export default function UserPage() {
                   >
                     Settings
                   </Sidebar.Item>
-                  <Sidebar.Item icon={HiLogout} onClick={handleSignOut}>
+                  <Sidebar.Item
+                    icon={HiLogout}
+                    onClick={handleSignOut}
+                    className="hover:cursor-pointer"
+                  >
                     Sign out
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>

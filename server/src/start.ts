@@ -4,6 +4,7 @@ import cors from "cors";
 import { ticketRouter } from "./router/TicketRouter";
 import { userRouter } from "./router/UserRouter";
 import session from "express-session";
+import { messageRouter } from "./router/MessageRouter";
 
 export const app = express();
 
@@ -27,3 +28,4 @@ app.use(
 app.use(express.json());
 app.use("/ticket", ticketRouter);
 app.use("/user", userRouter);
+app.use("/message", messageRouter);

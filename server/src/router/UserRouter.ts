@@ -1,21 +1,33 @@
 import express, { Request, Response } from "express";
-import { USE_DB } from "../../settings";
 import { UserInfo, UserLevel } from "../model/User";
-import IUserService from "../service/user/IUserService";
-import makeUserDBService from "../service/user/UserDBService";
-import makeUserService from "../service/user/UserService";
+import { userService } from "../service/services";
 
 interface UserRequest {
   username: string;
   password: string;
 }
 
-let userService: IUserService;
-
-if (USE_DB) userService = makeUserDBService();
-else userService = makeUserService();
-
 export const userRouter = express.Router();
+
+userRouter.get("/all", async (req, res: Response<UserInfo[] | string>) => {
+  if (!req.session.user) {
+    res.status(401).send("You are not logged in");
+    return;
+  }
+  console.log("User level: " + req.session.user.level);
+  if (req.session.user.level < UserLevel.ADMIN) {
+    res.status(401).send("You are not authorized to do this");
+    return;
+  }
+
+  const users = await userService.getAllUsers();
+  if (!users) {
+    res.status(401).send(`Failed to get users`);
+    return;
+  }
+  res.status(201).send(users);
+  return;
+});
 
 userRouter.get(
   "/:id",

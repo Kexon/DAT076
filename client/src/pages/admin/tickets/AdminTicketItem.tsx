@@ -12,7 +12,7 @@ export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
   useEffect(() => {
     const getUser = async () => {
       if (ticket) {
-        const data = await UserService.getUserById(ticket.authorId);
+        const data = await UserService.getUserById(ticket.owner.id);
         setUser(data);
       }
     };

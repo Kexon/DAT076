@@ -4,7 +4,7 @@ import { HiSearch } from 'react-icons/hi';
 import { UserInfo, UserLevel } from '../../../model/User';
 import UserService from '../../../services/UserService';
 import isMobile from '../../../utils/Utilities';
-import AdminUserItem from './AdminUserItem';
+import UserItem from './UserItem';
 
 /*
  * This page is copied from AdminTicketsPage.tsx
@@ -12,7 +12,7 @@ import AdminUserItem from './AdminUserItem';
  * Alas, we had no time to refactor this code to be more DRY (if possible in frontend),
  * but some variables might be the same as in AdminTicketsPage.tsx, and could be confusing
  */
-export default function AdminUsersPage() {
+export default function AllUsersPage() {
   const [allUsers, setAllUsers] = useState<UserInfo[]>([]);
   const [users, setUsers] = useState<UserInfo[]>([]);
   const [activeButtonIndex, setActiveButtonIndex] = useState<string>('All');
@@ -147,7 +147,7 @@ export default function AdminUsersPage() {
       {/* END OF DESKTOP VIEW */}
       <div className="flex w-full flex-col divide-y-2 divide-slate-100">
         {users.map((user) => (
-          <AdminUserItem key={user.id} user={user} />
+          <UserItem key={user.id} user={user} />
         ))}
       </div>
     </div>

@@ -6,7 +6,7 @@ interface Props {
   isTicketOpen?: boolean;
 }
 
-export default function TicketUserItem({ ticket, isTicketOpen }: Props) {
+export default function TicketHeader({ ticket, isTicketOpen }: Props) {
   if (!ticket) return <div>Loading...</div>;
 
   return (

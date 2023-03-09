@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import TicketInformationItem from '../pages/admin/tickets/TicketInformationItem';
-import MockTicket from '../utils/MockTicket';
+import TicketInformationItem from '../pages/ticket/TicketInformationItem';
+import MockTicket from '../utils/Mock';
 
 test('the title and description should be displayed', () => {
   render(<TicketInformationItem ticket={MockTicket} />, {

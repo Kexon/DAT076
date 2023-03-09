@@ -7,25 +7,26 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import { BrowserRouter } from 'react-router-dom';
 import { Ticket } from '../model/Ticket';
-import TicketListPage from '../pages/admin/tickets/AdminTicketsPage';
+import AllTicketsPage from '../pages/admin/tickets/AllTicketsPage';
+import { MockUser } from '../utils/Mock';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 const mockedTickets: Ticket[] = [
   {
-    id: 1,
+    id: '1',
     title: 'Mocked Ticket 1',
     description: 'This is a mocked ticket for testing purposes',
     open: true,
-    authorId: 1,
+    owner: MockUser,
   },
   {
-    id: 2,
+    id: '2',
     title: 'Mocked Ticket 2',
     description: 'This is another mocked ticket for testing purposes',
     open: false,
-    authorId: 1,
+    owner: MockUser,
   },
 ];
 
@@ -41,7 +42,7 @@ describe('TicketListPage', () => {
   test('should display list of tickets', async () => {
     mockedAxios.get.mockResolvedValueOnce(mockedResponse);
 
-    render(<TicketListPage />, { wrapper: BrowserRouter });
+    render(<AllTicketsPage />, { wrapper: BrowserRouter });
 
     await waitFor(() => {
       expect(screen.getByText(/^Mocked Ticket 1$/)).toBeInTheDocument();
@@ -51,7 +52,7 @@ describe('TicketListPage', () => {
 
   test('should only show open tickets when sorting by open', async () => {
     mockedAxios.get.mockResolvedValueOnce(mockedResponse);
-    render(<TicketListPage />, { wrapper: BrowserRouter });
+    render(<AllTicketsPage />, { wrapper: BrowserRouter });
     const sortByOpenTicketsButton = screen.getByRole('button', {
       name: /Open/i,
     });
@@ -79,7 +80,7 @@ describe('TicketListPage', () => {
 
   test('should only show closed tickets when sorting by closed', async () => {
     mockedAxios.get.mockResolvedValueOnce(mockedResponse);
-    render(<TicketListPage />, { wrapper: BrowserRouter });
+    render(<AllTicketsPage />, { wrapper: BrowserRouter });
     const sortByClosedTicketsButton = screen.getByRole('button', {
       name: /Closed/i,
     });

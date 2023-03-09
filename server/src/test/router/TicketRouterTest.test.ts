@@ -3,6 +3,7 @@ import { app } from "../../start";
 
 const request = supertest(app);
 
+// Test fails because user needs to be logged in
 test("Test that the tickets endpoint exists and return status code 200", async () => {
   const res = await request.get("/ticket");
   expect(res.status).toEqual(200);

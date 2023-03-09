@@ -1,11 +1,13 @@
 import { NewTicket } from "../../model/Ticket";
 import { ticketService } from "../../service/services";
 
+// This test fails because it needs an ownerId
+// and the owner should exist as it refers to it in the databaseS
 test("If a ticket is added to the list then it should be in the list", async () => {
   const newTicket: NewTicket = {
     title: "Test title",
     description: "Test description",
-    owner: "userid",
+    owner: "63fe09e0becb05ba0b48b1fd",
   };
 
   const { id: id } = await ticketService.addNewTicket(newTicket);

@@ -3,15 +3,15 @@
 import { Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Chatbox from '../../../components/Chatbox';
-import { useAuth } from '../../../hooks/AuthProvider';
-import Message from '../../../model/Message';
-import { Ticket } from '../../../model/Ticket';
-import { UserLevel } from '../../../model/User';
-import ApiService from '../../../services/ApiService';
-import MessageService from '../../../services/MessageService';
+import Chatbox from '../../components/Chatbox';
+import { useAuth } from '../../hooks/AuthProvider';
+import Message from '../../model/Message';
+import { Ticket } from '../../model/Ticket';
+import { UserLevel } from '../../model/User';
+import TicketService from '../../services/TicketService';
+import MessageService from '../../services/MessageService';
+import TicketHeader from './TicketHeader';
 import TicketMessagesContainer from './TicketMessagesContainer';
-import TicketUserItem from './TicketUserItem';
 
 export default function TicketPage() {
   const [refresh, setRefresh] = useState(false);
@@ -28,7 +28,7 @@ export default function TicketPage() {
   useEffect(() => {
     const getTicket = async () => {
       if (id) {
-        const data = await ApiService.getTicket(id);
+        const data = await TicketService.getTicket(id);
         if (data) setIsTicketOpen(data.open);
         setTicket(data);
         setLoading(false);
@@ -81,8 +81,8 @@ export default function TicketPage() {
    * then updates the ticket status and refreshes the messages
    */
   const onTicketButtonClick = async () => {
-    if (isTicketOpen) await ApiService.closeTicket(ticket.id);
-    else await ApiService.openTicket(ticket.id);
+    if (isTicketOpen) await TicketService.closeTicket(ticket.id);
+    else await TicketService.openTicket(ticket.id);
     setIsTicketOpen((ticketStatus) => !ticketStatus);
     setRefresh(true);
   };
@@ -94,7 +94,7 @@ export default function TicketPage() {
 
   return (
     <div className="flex flex-col gap-2">
-      <TicketUserItem ticket={ticket} isTicketOpen={isTicketOpen} />
+      <TicketHeader ticket={ticket} isTicketOpen={isTicketOpen} />
       <TicketMessagesContainer messages={messages} />
       <Chatbox
         onSubmit={handleOnSubmit}

@@ -1,10 +1,10 @@
 import { Badge } from 'flowbite-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Ticket } from '../../../model/Ticket';
-import { UserInfo } from '../../../model/User';
-import UserService from '../../../services/UserService';
-import isMobile from '../../../utils/Utilities';
+import { Ticket } from '../../../../model/Ticket';
+import { UserInfo } from '../../../../model/User';
+import UserService from '../../../../services/UserService';
+import isMobile from '../../../../utils/Utilities';
 
 export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
   const { id, title, open } = ticket;

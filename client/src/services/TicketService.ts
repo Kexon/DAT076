@@ -1,7 +1,7 @@
 import { Ticket, NewTicket } from '../model/Ticket';
 import axiosInstance from '../utils/AxiosInstance';
 
-export default class ApiService {
+export default class TicketService {
   static async getTickets(): Promise<Ticket[]> {
     const { data } = await axiosInstance.get<Ticket[]>('/ticket');
     return data;

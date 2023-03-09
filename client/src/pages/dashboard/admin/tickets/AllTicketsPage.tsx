@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Ticket } from '../../../model/Ticket';
 import AdminTicketItem from './AdminTicketItem';
 import isMobile from '../../../utils/Utilities';
-import ApiService from '../../../services/ApiService';
+import TicketService from '../../../services/TicketService';
 
 /*
  * I dislike the name on this function, but I'm not sure what to call it.
@@ -13,14 +13,14 @@ import ApiService from '../../../services/ApiService';
  * If you're wondering why I end the page names with Page, it's because
  * it's easier in my opinion to differentiate whether this file is a page or a component
  */
-export default function TicketListPage() {
+export default function AllTicketsPage() {
   const [allTickets, setAllTickets] = useState<Ticket[]>([]);
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [activeButtonIndex, setActiveButtonIndex] = useState<string>('All');
 
   useEffect(() => {
     const getTickets = async () => {
-      const data = await ApiService.getTickets();
+      const data = await TicketService.getTickets();
       setAllTickets(data);
       setTickets(data);
     };

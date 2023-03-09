@@ -4,7 +4,7 @@ interface Props {
   user: UserInfo;
 }
 
-export default function AdminUserItem({ user }: Props) {
+export default function UserItem({ user }: Props) {
   const { id, username, level } = user;
 
   const userLevel = () => {

@@ -2,7 +2,7 @@ import { Button, Label, Spinner, Textarea, TextInput } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Ticket } from '../../model/Ticket';
-import ApiService from '../../services/ApiService';
+import TicketService from '../../services/TicketService';
 
 export default function TicketFormPage() {
   const [title, setTitle] = useState('');
@@ -45,7 +45,7 @@ export default function TicketFormPage() {
   useEffect(() => {
     if (!submitted) return;
     const createTicket = async () => {
-      const data = await ApiService.createTicket({
+      const data = await TicketService.createTicket({
         title,
         description,
       });

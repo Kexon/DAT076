@@ -6,7 +6,7 @@ interface Props {
   message: Message;
 }
 
-export default function TicketMessageItem({ message }: Props) {
+export default function TicketMessage({ message }: Props) {
   const time = new Date(message.timestamp);
   const { systemMessage } = message;
   return (

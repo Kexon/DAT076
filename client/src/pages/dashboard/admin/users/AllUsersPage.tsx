@@ -1,9 +1,9 @@
 import { Select, Button, TextInput } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
-import { UserInfo, UserLevel } from '../../../model/User';
-import UserService from '../../../services/UserService';
-import isMobile from '../../../utils/Utilities';
+import { UserInfo, UserLevel } from '../../../../model/User';
+import UserService from '../../../../services/UserService';
+import isMobile from '../../../../utils/Utilities';
 import UserItem from './UserItem';
 
 /*

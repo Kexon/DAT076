@@ -1,5 +1,5 @@
 import { Spinner } from 'flowbite-react';
-import Message from '../../model/Message';
+import Message from '../../../model/Message';
 
 import TicketMessage from './TicketMessage';
 

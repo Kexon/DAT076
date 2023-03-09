@@ -1,4 +1,4 @@
-import { UserInfo, UserLevel } from '../../../model/User';
+import { UserInfo, UserLevel } from '../../../../model/User';
 
 interface Props {
   user: UserInfo;

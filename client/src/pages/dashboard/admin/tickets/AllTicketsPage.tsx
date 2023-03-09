@@ -1,10 +1,10 @@
 import { Button, Select, TextInput } from 'flowbite-react';
 import { HiSearch } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
-import { Ticket } from '../../../model/Ticket';
+import { Ticket } from '../../../../model/Ticket';
 import AdminTicketItem from './AdminTicketItem';
-import isMobile from '../../../utils/Utilities';
-import TicketService from '../../../services/TicketService';
+import isMobile from '../../../../utils/Utilities';
+import TicketService from '../../../../services/TicketService';
 
 /*
  * I dislike the name on this function, but I'm not sure what to call it.

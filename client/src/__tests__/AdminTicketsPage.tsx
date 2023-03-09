@@ -7,7 +7,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import { BrowserRouter } from 'react-router-dom';
 import { Ticket } from '../model/Ticket';
-import AllTicketsPage from '../pages/admin/tickets/AllTicketsPage';
+import AllTicketsPage from '../pages/dashboard/admin/tickets/AllTicketsPage';
 import { MockUser } from '../utils/Mock';
 
 jest.mock('axios');

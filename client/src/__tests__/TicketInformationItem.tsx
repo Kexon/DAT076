@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import TicketInformationItem from '../pages/ticket/TicketInformationItem';
-import MockTicket from '../utils/Mock';
+import TicketHeader from '../pages/dashboard/ticket/TicketHeader';
+import { MockTicket } from '../utils/Mock';
 
 test('the title and description should be displayed', () => {
-  render(<TicketInformationItem ticket={MockTicket} />, {
+  render(<TicketHeader ticket={MockTicket} />, {
     wrapper: BrowserRouter,
   });
   const titleElement = screen.getByText(/^Test Ticket$/);

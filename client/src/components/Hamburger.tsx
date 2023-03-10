@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthProvider';
 import { UserLevel } from '../model/User';
 
+/**
+ * This component is used to display the hamburger menu.
+ */
 export default function Hamburger() {
   const [isOpen, setIsOpen] = useState(false);
   const { logout, user } = useAuth();

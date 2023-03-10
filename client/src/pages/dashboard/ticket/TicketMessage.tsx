@@ -6,6 +6,11 @@ interface Props {
   message: Message;
 }
 
+/**
+ * This component is used to display a message in a ticket.
+ * @param message The message to display
+ * @returns A component that displays a message in a ticket.
+ */
 export default function TicketMessage({ message }: Props) {
   const time = new Date(message.timestamp);
   const { systemMessage } = message;

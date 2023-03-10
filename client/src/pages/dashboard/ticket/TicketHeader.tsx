@@ -5,7 +5,12 @@ interface Props {
   ticket?: Ticket;
   isTicketOpen?: boolean;
 }
-
+/**
+ * This component is used to display the header of a ticket.
+ * @param ticket The ticket to display
+ * @param isTicketOpen Whether the ticket is open or not
+ * @returns A component that displays the header of a ticket.
+ */
 export default function TicketHeader({ ticket, isTicketOpen }: Props) {
   if (!ticket) return <div>Loading...</div>;
 

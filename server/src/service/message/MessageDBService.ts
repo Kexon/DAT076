@@ -3,6 +3,10 @@ import { Message } from "../../model/Message";
 import IMessageService from "./IMessageService";
 import { messageModel } from "../../db/message.db";
 
+/**
+ * MessageDBService is a class that handles all the requests to the database
+ * related to the messages.
+ */
 class MessageDBService implements IMessageService {
   async getMessage(messageId: string): Promise<Message> {
     const message = await messageModel

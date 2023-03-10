@@ -1,23 +1,24 @@
 import { Button, Select, TextInput } from 'flowbite-react';
 import { HiSearch } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
-import { Ticket } from '../../../model/Ticket';
+import { Ticket } from '../../../../model/Ticket';
 import AdminTicketItem from './AdminTicketItem';
-import isMobile from '../../../utils/Utilities';
-import TicketService from '../../../services/TicketService';
+import isMobile from '../../../../utils/Utilities';
+import TicketService from '../../../../services/TicketService';
 
-/*
- * I dislike the name on this function, but I'm not sure what to call it.
- * AdminListPage? AdminTicketListPage? AdminTicketList?
- *
- * If you're wondering why I end the page names with Page, it's because
- * it's easier in my opinion to differentiate whether this file is a page or a component
+/**
+ * This component is used to display all tickets.
+ * This can right now be visited by regular users, however only admins should be able to visit this page.
  */
+
 export default function AllTicketsPage() {
   const [allTickets, setAllTickets] = useState<Ticket[]>([]);
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [activeButtonIndex, setActiveButtonIndex] = useState<string>('All');
 
+  /**
+   * This effect is used to get all tickets.
+   */
   useEffect(() => {
     const getTickets = async () => {
       const data = await TicketService.getTickets();

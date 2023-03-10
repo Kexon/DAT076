@@ -1,6 +1,10 @@
 import { UserInfo } from '../model/User';
 import axiosInstance from '../utils/AxiosInstance';
 
+/**
+ * UserService is a class that handles all the requests to the server
+ * related to the users.
+ */
 export default class UserService {
   static async getAllUsers(): Promise<UserInfo[]> {
     try {

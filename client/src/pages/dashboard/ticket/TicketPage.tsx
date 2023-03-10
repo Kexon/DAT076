@@ -3,16 +3,20 @@
 import { Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Chatbox from '../../components/Chatbox';
-import { useAuth } from '../../hooks/AuthProvider';
-import Message from '../../model/Message';
-import { Ticket } from '../../model/Ticket';
-import { UserLevel } from '../../model/User';
-import TicketService from '../../services/TicketService';
-import MessageService from '../../services/MessageService';
+import Chatbox from '../../../components/Chatbox';
+import { useAuth } from '../../../hooks/AuthProvider';
+import Message from '../../../model/Message';
+import { Ticket } from '../../../model/Ticket';
+import { UserLevel } from '../../../model/User';
+import TicketService from '../../../services/TicketService';
+import MessageService from '../../../services/MessageService';
 import TicketHeader from './TicketHeader';
 import TicketMessagesContainer from './TicketMessagesContainer';
 
+/**
+ * This component is used to display a ticket and its header, messages and etc.
+ * @returns A component that displays a ticket
+ */
 export default function TicketPage() {
   const [refresh, setRefresh] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -87,6 +91,7 @@ export default function TicketPage() {
     setRefresh(true);
   };
 
+  /* Handles the message submit, and adds the message to the message list */
   const handleOnSubmit = async (content: string) => {
     const response = await MessageService.sendMessage(ticket.id, content);
     setMessages((prev) => [...prev, response]);

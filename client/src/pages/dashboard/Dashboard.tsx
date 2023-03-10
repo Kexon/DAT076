@@ -14,9 +14,14 @@ import AllTicketsPage from './admin/tickets/AllTicketsPage';
 import AllUsersPage from './admin/users/AllUsersPage';
 import TicketPage from './ticket/TicketPage';
 import TicketFormPage from './TicketFormPage';
-import UserPageSettings from './user/UserPageSettings';
+import UserSettingsPage from './user/UserSettingsPage';
 import UserTickets from './user/UserTickets';
 
+/**
+ * This page is the main page for the user. It contains a sidebar with links to
+ * different pages and a main content area that displays the page that the user
+ * has selected.
+ */
 export default function Dashboard() {
   const { user, logout } = useAuth();
   const isAdmin = user && user.level >= UserLevel.ADMIN;
@@ -34,7 +39,7 @@ export default function Dashboard() {
   const renderComponent = () => {
     switch (tab) {
       case 'settings':
-        return <UserPageSettings />;
+        return <UserSettingsPage />;
       case 'createticket':
         return <TicketFormPage />;
       case 'alltickets':

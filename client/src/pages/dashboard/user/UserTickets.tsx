@@ -5,6 +5,9 @@ import { Ticket } from '../../../model/Ticket';
 import TicketService from '../../../services/TicketService';
 import UserPageTicket from './UserTicketItem';
 
+/**
+ * @returns A component that displays a list of tickets created by the user
+ */
 export default function UserPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [refresh, setRefresh] = useState(true);

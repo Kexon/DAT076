@@ -3,6 +3,10 @@ import { userModel } from "../../db/user.db";
 import { UserInfo, UserLevel } from "../../model/User";
 import IUserService from "./IUserService";
 
+/**
+ * UserDBService is a class that handles all the requests to the database
+ * related to the users.
+ */
 class UserDBService implements IUserService {
   async getAllUsers(): Promise<UserInfo[]> {
     try {

@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { Ticket, NewTicket } from "../model/Ticket";
 
-import { UserLevel } from "../model/User";
 import { ticketService } from "../service/services";
 
 export const ticketRouter = express.Router();

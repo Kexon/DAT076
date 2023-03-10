@@ -18,3 +18,9 @@ test('If a user is registered it should found in the db', async () => {
   const user = await userService.getUser(id);
   expect(user.username).toBe('test123');
 });
+
+test('A registered user should be able to login', async () => {
+  await userService.register('test123', 'test');
+  const user = await userService.login('test123', 'test');
+  expect(user.username).toBe('test123');
+});

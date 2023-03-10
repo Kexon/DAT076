@@ -1,29 +1,29 @@
-import { NewTicket } from "../../model/Ticket";
-import { ticketService } from "../../service/services";
+import { conn } from '../../db/conn';
+import { NewTicket } from '../../model/Ticket';
+import { ticketService, userService } from '../../service/services';
 
-// This test fails because it needs an ownerId
-// and the owner should exist as it refers to it in the databaseS
-test("If a ticket is added to the list then it should be in the list", async () => {
-  const newTicket: NewTicket = {
-    title: "Test title",
-    description: "Test description",
-    owner: "63fe09e0becb05ba0b48b1fd",
-  };
-
-  const { id: id } = await ticketService.addNewTicket(newTicket);
-  const tickets = await ticketService.getAllTickets();
-  expect(tickets.some((ticket) => ticket.id === id)).toBeTruthy();
+/*
+ * Make sure to clear the database after each test
+ * so that state from one test does not leak into another.
+ */
+afterEach(async () => {
+  const collection = conn.collections;
+  for (const key in collection) {
+    const col = collection[key];
+    await col.deleteMany({});
+  }
 });
 
-/* test("Test if ticket can be acquired by id", async () => {
-  const newTicket: NewTicket = {
-    title: "Test title",
-    description: "Test description",
-    owner: "userid",
+test('If a ticket is created it should be found in the db', async () => {
+  const { id: userid } = await userService.register('user', 'password');
+  const user = await (await userService.getUser(userid)).id;
+  const ticket: NewTicket = {
+    title: 'test title',
+    description: 'test description',
+    owner: `${user}`,
   };
-
-  const ticketService = makeTicketService();
-  const { id: id } = await ticketService.addNewTicket(newTicket);
-  const ticket = await ticketService.getTicketById(id);
-  expect(ticket[0].id === id).toBeTruthy();
-}); */
+  const { id } = await ticketService.addNewTicket(ticket);
+  const ticketFound = await ticketService.getTicketById(id);
+  expect(ticketFound.title).toBe('test title');
+  expect(ticketFound.owner.id).toBe(`${user}`);
+});

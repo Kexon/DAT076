@@ -24,7 +24,7 @@ afterAll(async () => {
 
 test('A user should be able to send a message', async () => {
   const { id: userid } = await userService.register('user', 'password');
-  const user = await (await userService.getUser(userid)).id;
+  const user = (await userService.getUser(userid)).id;
   const ticket: NewTicket = {
     title: 'test title',
     description: 'test description',
@@ -49,7 +49,7 @@ test('A user should be able to send a message', async () => {
 
 test('A user should be able to get a message', async () => {
   const { id: userid } = await userService.register('user', 'password');
-  const user = await (await userService.getUser(userid)).id;
+  const user = (await userService.getUser(userid)).id;
   const ticket: NewTicket = {
     title: 'test title',
     description: 'test description',
@@ -75,7 +75,7 @@ test('A user should not be able to get a message that does not exist', async () 
 
 test('A user should be able to update a message', async () => {
   const { id: userid } = await userService.register('user', 'password');
-  const user = await (await userService.getUser(userid)).id;
+  const user = (await userService.getUser(userid)).id;
   const ticket: NewTicket = {
     title: 'test title',
     description: 'test description',

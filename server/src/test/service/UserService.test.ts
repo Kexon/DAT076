@@ -20,7 +20,18 @@ test('If a user is registered it should found in the db', async () => {
 });
 
 test('A registered user should be able to login', async () => {
-  await userService.register('test123', 'test');
-  const user = await userService.login('test123', 'test');
-  expect(user.username).toBe('test123');
+  await userService.register('user123', 'test');
+  const user = await userService.login('user123', 'test');
+  expect(user.username).toBe('user123');
+});
+
+test('All registered users should be found in the db', async () => {
+  await userService.register('user1', 'password');
+  await userService.register('user2', 'password');
+  await userService.register('user3', 'password');
+  const users = await userService.getAllUsers();
+  expect(users.length).toBe(3);
+  expect(users[0].username).toBe('user1');
+  expect(users[1].username).toBe('user2');
+  expect(users[2].username).toBe('user3');
 });

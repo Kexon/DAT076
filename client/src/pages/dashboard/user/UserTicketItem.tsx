@@ -3,6 +3,11 @@ import { HiOutlineMail } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { Ticket } from '../../../model/Ticket';
 
+/**
+ * This component is used to display a ticket in the UserTickets.tsx.
+ * @param ticket The ticket to display
+ * @returns A component that displays a ticket in the UserTickets.tsx.
+ */
 export default function UserPageTicket({ ticket }: { ticket: Ticket }) {
   const { title, open } = ticket;
   return (

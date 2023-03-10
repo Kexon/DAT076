@@ -7,7 +7,13 @@ interface Props {
   canEditTicket: boolean;
   ticketStatus: boolean;
 }
-
+/**
+ * This component is used to display the chatbox.
+ * @param onSubmit - The function that is called when the user submits a message.
+ * @param onTicketClick - The function that is called when the user open or closes the ticket button.
+ * @param canEditTicket - Whether the user can edit the ticket. (In order to open/close ticket)
+ * @param ticketStatus - The status of the ticket.
+ */
 export default function Chatbox({
   onSubmit,
   onTicketClick,

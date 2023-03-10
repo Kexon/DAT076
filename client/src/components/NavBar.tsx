@@ -2,6 +2,9 @@ import { CiSettings } from 'react-icons/ci';
 import { CgProfile } from 'react-icons/cg';
 import { Link } from 'react-router-dom';
 
+/**
+ * The navbar component.
+ */
 export default function NavBar() {
   return (
     <nav

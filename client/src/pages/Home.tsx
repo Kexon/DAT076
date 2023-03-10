@@ -1,6 +1,7 @@
 import { Button } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 
+/* We dont even use this page anymore */
 export default function Home() {
   return (
     <div className="flex h-80 max-h-screen flex-col items-center justify-center gap-16">

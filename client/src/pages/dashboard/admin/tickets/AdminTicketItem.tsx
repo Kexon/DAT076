@@ -6,13 +6,22 @@ import { UserInfo } from '../../../../model/User';
 import UserService from '../../../../services/UserService';
 import isMobile from '../../../../utils/Utilities';
 
+/**
+ * This component is used to display a ticket in the AllTicketsPage.
+ * @param ticket - The ticket to display.
+ * @returns A component that displays a ticket.
+ */
 export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
   const { id, title, open } = ticket;
   const [user, setUser] = useState<UserInfo>();
+
+  /**
+   * This effect is used to get the user that created the ticket.
+   */
   useEffect(() => {
     const getUser = async () => {
       if (ticket) {
-        const data = await UserService.getUserById(ticket.owner.id);
+        const data = await UserService.getUserById(ticket.owner.id); // Isn't this a bit redundant? ticket.owner already contains the user info.
         setUser(data);
       }
     };

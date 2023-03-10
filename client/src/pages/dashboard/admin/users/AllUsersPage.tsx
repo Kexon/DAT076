@@ -6,8 +6,11 @@ import UserService from '../../../../services/UserService';
 import isMobile from '../../../../utils/Utilities';
 import UserItem from './UserItem';
 
-/*
- * This page is copied from AdminTicketsPage.tsx
+/**
+ * This component is used to display all users.
+ * This can right now be visited by regular users, however only admins should be able to visit this page.
+ *
+ * This page is copied from AllTicketsPage.tsx
  * The main difference is that this page is for users, and the other is for tickets
  * Alas, we had no time to refactor this code to be more DRY (if possible in frontend),
  * but some variables might be the same as in AdminTicketsPage.tsx, and could be confusing
@@ -17,6 +20,11 @@ export default function AllUsersPage() {
   const [users, setUsers] = useState<UserInfo[]>([]);
   const [activeButtonIndex, setActiveButtonIndex] = useState<string>('All');
 
+  /**
+   * This effect is used to get all users.
+   * This is the same as in AdminTicketsPage.tsx
+   * The only difference is that we use UserService instead of TicketService
+   */
   useEffect(() => {
     const getTickets = async () => {
       const data = await UserService.getAllUsers();

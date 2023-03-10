@@ -1,7 +1,11 @@
 import { Label, TextInput, Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 
-export default function UserPageSettings() {
+/**
+ * This page is used to change the user's password.
+ * @returns A component that displays the user settings page.
+ */
+export default function UserSettingsPage() {
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');

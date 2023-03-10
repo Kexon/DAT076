@@ -4,6 +4,11 @@ interface Props {
   user: UserInfo;
 }
 
+/**
+ *  This component is used to display a user in the AllUsersPage.tsx
+ * @param user The user to display
+ * @returns A component that displays a user
+ */
 export default function UserItem({ user }: Props) {
   const { id, username, level } = user;
 

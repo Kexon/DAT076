@@ -4,6 +4,9 @@ import { Navigate } from 'react-router-dom';
 import { Ticket } from '../../model/Ticket';
 import TicketService from '../../services/TicketService';
 
+/**
+ * @returns A component that displays a form to create a ticket.
+ */
 export default function TicketFormPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -12,11 +15,13 @@ export default function TicketFormPage() {
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
+  /* Changes the title of the ticket */
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     if (event.target.value.trim().length > 0) setValidTitle(true);
   };
 
+  /* Changes the description of the ticket */
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
@@ -24,6 +29,7 @@ export default function TicketFormPage() {
     if (event.target.value.trim().length > 0) setValidDescription(true);
   };
 
+  /* Handles the submit of the form */
   const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (title.trim().length <= 0 && description.trim().length <= 0) {
@@ -42,6 +48,7 @@ export default function TicketFormPage() {
     setSubmitted(true);
   };
 
+  /* Sends a request to the backend to create a ticket if the submit button is pressed */
   useEffect(() => {
     if (!submitted) return;
     const createTicket = async () => {
@@ -96,6 +103,7 @@ export default function TicketFormPage() {
             Submit
           </Button>
         )}
+        {/* Redirects to the ticket page if the ticket is created */}
         {ticket && <Navigate to={`../user/ticket?id=${ticket.id}`} />}
         {submitted && (
           <Button

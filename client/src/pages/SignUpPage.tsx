@@ -4,6 +4,9 @@ import { MdOutlineAccountCircle, MdPassword } from 'react-icons/md';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthProvider';
 
+/**
+ * @returns A component that displays a sign up form
+ */
 export default function SignUpPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

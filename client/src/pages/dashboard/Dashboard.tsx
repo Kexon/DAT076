@@ -14,7 +14,7 @@ import AllTicketsPage from './admin/tickets/AllTicketsPage';
 import AllUsersPage from './admin/users/AllUsersPage';
 import TicketPage from './ticket/TicketPage';
 import TicketFormPage from './TicketFormPage';
-import UserPageSettings from './user/UserPageSettings';
+import UserSettingsPage from './user/UserSettingsPage';
 import UserTickets from './user/UserTickets';
 
 export default function Dashboard() {
@@ -34,7 +34,7 @@ export default function Dashboard() {
   const renderComponent = () => {
     switch (tab) {
       case 'settings':
-        return <UserPageSettings />;
+        return <UserSettingsPage />;
       case 'createticket':
         return <TicketFormPage />;
       case 'alltickets':

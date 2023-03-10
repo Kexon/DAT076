@@ -4,6 +4,10 @@ import { MdOutlineAccountCircle, MdPassword } from 'react-icons/md';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthProvider';
 
+/**
+ * This component desperately needs validation checks.
+ * @returns A component that displays a login form.
+ */
 export default function LoginPage() {
   const { user, login } = useAuth();
   const [username, setUsername] = useState('');

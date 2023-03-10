@@ -3,7 +3,7 @@ import ITicketService from "./ITicketService";
 import { ticketModel } from "../../db/ticket.db";
 import { ObjectId } from "mongodb";
 import { messageService } from "../services";
-import { UserInfo } from "../../model/User";
+import { UserInfo, UserLevel } from "../../model/User";
 
 class TicketDBService implements ITicketService {
   async getAllTickets(): Promise<Ticket[]> {
@@ -60,8 +60,15 @@ class TicketDBService implements ITicketService {
     return createdTicket;
   }
 
-  // should we check if the user is allowed to update the ticket here or in the router?
   async updateTicket(user: UserInfo, ticket: Ticket): Promise<Ticket> {
+    const canUserEditTicket = () => {
+      if (user.level >= UserLevel.ADMIN) return true; // admins can edit any ticket
+      if (user.id === ticket.owner.id) return true; // users can edit their own tickets
+      return false;
+    };
+    if (!canUserEditTicket())
+      throw new Error("You are not allowed to edit this ticket");
+
     const status = ticket.open;
     const updatedTicket = await ticketModel
       .findByIdAndUpdate(new ObjectId(ticket.id), ticket)

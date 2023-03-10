@@ -5,6 +5,10 @@ import { ObjectId } from "mongodb";
 import { messageService } from "../services";
 import { UserInfo } from "../../model/User";
 
+/**
+ * TicketDBService is a class that handles all the requests to the server
+ * related to the tickets.
+ */
 class TicketDBService implements ITicketService {
   async getAllTickets(): Promise<Ticket[]> {
     return ticketModel.find().populate("owner");

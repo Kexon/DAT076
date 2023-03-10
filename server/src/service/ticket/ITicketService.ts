@@ -1,6 +1,10 @@
 import { Ticket, NewTicket } from "../../model/Ticket";
 import { UserInfo } from "../../model/User";
 
+/**
+ * ITicketService is an interface that defines the methods that the TicketService
+ * should implement.
+ */
 export default interface ITicketService {
   getAllTickets(): Promise<Ticket[]>;
   getTicketById(id: string): Promise<Ticket>;

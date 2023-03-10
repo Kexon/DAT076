@@ -1,5 +1,9 @@
 import { UserInfo, UserLevel } from "../../model/User";
 
+/**
+ * IUserService is an interface that defines the methods that the UserService
+ * should implement.
+ */
 export default interface IUserService {
   /*
    * Since we return the user everytime it performs an API call

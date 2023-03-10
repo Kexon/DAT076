@@ -1,6 +1,10 @@
 import { Ticket, NewTicket } from '../model/Ticket';
 import axiosInstance from '../utils/AxiosInstance';
 
+/**
+ * TicketService is a class that handles all the requests to the server
+ * related to the tickets.
+ */
 export default class TicketService {
   static async getTickets(): Promise<Ticket[]> {
     const { data } = await axiosInstance.get<Ticket[]>('/ticket');

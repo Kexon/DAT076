@@ -17,6 +17,11 @@ import TicketFormPage from './TicketFormPage';
 import UserSettingsPage from './user/UserSettingsPage';
 import UserTickets from './user/UserTickets';
 
+/**
+ * This page is the main page for the user. It contains a sidebar with links to
+ * different pages and a main content area that displays the page that the user
+ * has selected.
+ */
 export default function Dashboard() {
   const { user, logout } = useAuth();
   const isAdmin = user && user.level >= UserLevel.ADMIN;

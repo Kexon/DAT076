@@ -4,7 +4,10 @@ import Dashboard from '../pages/dashboard/Dashboard';
 import RequireAuth from '../RequireAuth';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
-
+/**
+ * This is the main router for the application. It contains all the routes for
+ * the application.
+ */
 const router = createBrowserRouter([
   {
     element: <Root />,

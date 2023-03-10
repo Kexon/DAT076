@@ -49,24 +49,30 @@ class UserDBService implements IUserService {
 
   async changePassword(
     userId: string,
+    userIdToSet: string,
     newPassword: string,
     currentPassword?: string
   ): Promise<boolean> {
-    const user = await userModel
+    let user = await userModel
       .findById(new ObjectId(userId))
       .select("+password")
       .exec();
     if (
-      user &&
-      (user.password === currentPassword ||
-        user.level === UserLevel.SUPER_ADMIN) // super admins can set passwords without knowing the current password
+      user?.level === UserLevel.SUPER_ADMIN ||
+      (user?.id === userIdToSet && user?.password === currentPassword)
     ) {
-      user.password = newPassword;
-      await user.save();
-      return true;
+      if (userId !== userIdToSet) {
+        user = await userModel.findById(new ObjectId(userIdToSet)).exec();
+      }
+      if (user) {
+        user.password = newPassword;
+        await user.save();
+        return true;
+      }
     }
     return false;
   }
+
   async setUserLevel(
     userId: string,
     userIdToSet: string,

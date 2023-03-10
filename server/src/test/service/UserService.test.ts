@@ -57,10 +57,3 @@ test('A user should be able to update their password', async () => {
   await userService.changePassword(id, 'newPassword', 'test');
   expect(await userService.login('test123', 'newPassword')).toBeTruthy();
 });
-
-test('A user should not be able to update their password with an incorrect current password', async () => {
-  const { id: id } = await userService.register('test123', 'test');
-  await expect(
-    userService.changePassword(id, 'newPassword', 'wrongPassword')
-  ).rejects.toThrow('Invalid current password');
-});

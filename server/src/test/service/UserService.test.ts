@@ -1,5 +1,6 @@
 import { conn } from '../../db/conn';
 import { userService } from '../../service/services';
+import { NewUser, UserLevel } from '../../model/User';
 
 /*
  * Make sure to clear the database after each test
@@ -54,6 +55,47 @@ test('A user should not be able to login with an incorrect password', async () =
 
 test('A user should be able to update their password', async () => {
   const { id: id } = await userService.register('test123', 'test');
-  await userService.changePassword(id, 'newPassword', 'test');
+  await userService.changePassword(id, id, 'newPassword', 'test');
   expect(await userService.login('test123', 'newPassword')).toBeTruthy();
+});
+
+test('A user should not be able to update their password with an incorrect current password', async () => {
+  const { id: id } = await userService.register('test123', 'test');
+  expect(
+    await userService.changePassword(id, id, 'newPassword', 'wrongPassword')
+  ).toBe(false);
+});
+
+test('A super admin should be able to update another users password', async () => {
+  const super_admin: NewUser = {
+    username: 'super_admin',
+    password: 'password',
+    level: UserLevel.SUPER_ADMIN,
+  };
+  const super_admin_id = (
+    await conn.collection('users').insertOne(super_admin)
+  ).insertedId.toString();
+  const { id: user_id } = await userService.register('user', 'password');
+  await userService.changePassword(
+    super_admin_id,
+    user_id,
+    'newPassword',
+    'password'
+  );
+  expect(await userService.login('user', 'newPassword')).toBeTruthy();
+});
+
+test('A super admin should be able to set a users user level', async () => {
+  const super_admin: NewUser = {
+    username: 'super_admin',
+    password: 'password',
+    level: UserLevel.SUPER_ADMIN,
+  };
+  const super_admin_id = (
+    await conn.collection('users').insertOne(super_admin)
+  ).insertedId.toString();
+  const { id: user_id } = await userService.register('user', 'password');
+  await userService.setUserLevel(super_admin_id, user_id, UserLevel.ADMIN);
+  const user = await userService.getUser(user_id);
+  expect(user.level).toBe(UserLevel.ADMIN);
 });

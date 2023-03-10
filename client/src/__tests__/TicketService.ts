@@ -7,9 +7,10 @@ import axios, {
 import { Ticket } from '../model/Ticket';
 import TicketService from '../services/TicketService';
 import { MockTicket } from '../utils/Mock';
+import axiosInstance from '../utils/AxiosInstance';
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+jest.mock('../utils/AxiosInstance');
+const mockedAxios = axiosInstance as jest.Mocked<typeof axios>;
 
 describe('getTickets()', () => {
   test('should return tickets list', async () => {
@@ -24,9 +25,9 @@ describe('getTickets()', () => {
       config: {} as InternalAxiosRequestConfig,
     };
     mockedAxios.get.mockResolvedValueOnce(mockedResponse);
-    expect(axios.get).not.toHaveBeenCalled();
+    expect(axiosInstance.get).not.toHaveBeenCalled();
     const data = await TicketService.getTickets();
-    expect(axios.get).toHaveBeenCalled();
+    expect(axiosInstance.get).toHaveBeenCalled();
     expect(data).toEqual(ticket);
   });
 });

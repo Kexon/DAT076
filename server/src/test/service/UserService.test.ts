@@ -13,6 +13,10 @@ afterEach(async () => {
   }
 });
 
+afterAll(async () => {
+  await conn.close();
+});
+
 test('If a user is registered it should found in the db', async () => {
   const { id: id } = await userService.register('test123', 'test');
   const user = await userService.getUser(id);
@@ -36,8 +40,27 @@ test('All registered users should be found in the db', async () => {
   expect(users[2].username).toBe('user3');
 });
 
+test('No users should be found in the db', async () => {
+  const users = await userService.getAllUsers();
+  expect(users.length).toBe(0);
+});
+
+test('A user should not be able to login with an incorrect password', async () => {
+  await userService.register('user123', 'test');
+  await expect(userService.login('user123', 'wrongPassword')).rejects.toThrow(
+    'Invalid username or password'
+  );
+});
+
 test('A user should be able to update their password', async () => {
   const { id: id } = await userService.register('test123', 'test');
   await userService.changePassword(id, 'newPassword', 'test');
   expect(await userService.login('test123', 'newPassword')).toBeTruthy();
+});
+
+test('A user should not be able to update their password with an incorrect current password', async () => {
+  const { id: id } = await userService.register('test123', 'test');
+  await expect(
+    userService.changePassword(id, 'newPassword', 'wrongPassword')
+  ).rejects.toThrow('Invalid current password');
 });

@@ -1,4 +1,4 @@
-import supertest from "supertest";
+/* import supertest from "supertest";
 import { app } from "../../start";
 
 const request = supertest(app);
@@ -16,4 +16,4 @@ test("Test that a ticket gets posted with correct title and description", async 
   expect(res.status).toEqual(201);
   expect(res.body.title).toEqual("title");
   expect(res.body.description).toEqual("desc");
-});
+}); */

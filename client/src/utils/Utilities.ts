@@ -1,5 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
 
+/**
+ * Hook that returns whether the screen is less than 640px wide
+ * @returns {boolean} true if the screen width is less than 640px
+ */
 const isMobile = () => {
   const [targetReached, setTargetReached] = useState(false);
 

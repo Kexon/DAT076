@@ -14,7 +14,6 @@ userRouter.get("/all", async (req, res: Response<UserInfo[] | string>) => {
     res.status(401).send("You are not logged in");
     return;
   }
-  console.log("User level: " + req.session.user.level);
   if (req.session.user.level < UserLevel.ADMIN) {
     res.status(401).send("You are not authorized to do this");
     return;
@@ -190,6 +189,7 @@ userRouter.patch(
     const user = req.session.user;
     const updatedUser = await userService.changePassword(
       user.id,
+      user.id,
       req.body.newPassword,
       req.body.currentPassword
     );
@@ -230,7 +230,8 @@ userRouter.patch(
     }
     if (req.body.newPassword) {
       const updatedUser = await userService.changePassword(
-        user.id,
+        req.session.user.id,
+        req.params.id,
         req.body.newPassword
       );
       if (!updatedUser) {

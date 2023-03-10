@@ -15,6 +15,7 @@ export default interface IUserService {
   register(username: string, password: string): Promise<UserInfo>;
   changePassword(
     userId: string,
+    userIdToSet: string,
     newPassword: string,
     currentPassword?: string
   ): Promise<boolean>;

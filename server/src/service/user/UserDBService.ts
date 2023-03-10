@@ -8,7 +8,10 @@ import IUserService from "./IUserService";
  * related to the users.
  */
 class UserDBService implements IUserService {
-  async getAllUsers(): Promise<UserInfo[]> {
+  async getAllUsers(requester: UserInfo): Promise<UserInfo[]> {
+    if (requester.level !== UserLevel.SUPER_ADMIN) {
+      throw new Error("You are not authorized to do this");
+    }
     try {
       const users = await userModel.find();
       return users;
@@ -39,12 +42,17 @@ class UserDBService implements IUserService {
   }
 
   async register(username: string, password: string): Promise<UserInfo> {
-    const newUser = await userModel.create({
-      username: username,
-      password: password,
-      level: UserLevel.USER,
-    });
-    return newUser;
+    try {
+      const newUser = await userModel.create({
+        username: username,
+        password: password,
+        level: UserLevel.USER,
+      });
+      return newUser;
+    } catch (e: any) {
+      // assume this is a duplicate key error
+      throw new Error("Username already exists");
+    }
   }
 
   async changePassword(

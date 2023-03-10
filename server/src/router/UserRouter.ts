@@ -14,12 +14,7 @@ userRouter.get("/all", async (req, res: Response<UserInfo[] | string>) => {
     res.status(401).send("You are not logged in");
     return;
   }
-  if (req.session.user.level < UserLevel.ADMIN) {
-    res.status(401).send("You are not authorized to do this");
-    return;
-  }
-
-  const users = await userService.getAllUsers();
+  const users = await userService.getAllUsers(req.session.user);
   if (!users) {
     res.status(401).send(`Failed to get users`);
     return;
@@ -55,13 +50,14 @@ userRouter.get("/", async (req, res: Response<UserInfo | string>) => {
     res.status(401).send("You are not logged in");
     return;
   }
-  const user = await userService.getUser(req.session.user.id);
-  if (!user) {
-    res.status(401).send(`Failed to get user`);
+  try {
+    const user = await userService.getUser(req.session.user.id);
+    res.status(200).send(user);
+    return;
+  } catch (e: any) {
+    res.status(500).send(e.message);
     return;
   }
-  res.status(201).send(user);
-  return;
 });
 
 /*
@@ -97,19 +93,22 @@ userRouter.post(
       return;
     }
 
-    const user = await userService.register(
-      req.body.username,
-      req.body.password
-    );
-    if (!user) {
-      res
-        .status(409)
-        .send(`User with username ${req.body.username} already exists`);
+    try {
+      const user = await userService.register(
+        req.body.username,
+        req.body.password
+      );
+      req.session.user = user;
+      res.status(201).send(user);
+      return;
+    } catch (e: any) {
+      if (e.message === "Username already exists") {
+        res.status(409).send(e.message);
+      } else {
+        res.status(500).send(e.message);
+      }
       return;
     }
-    req.session.user = user;
-    res.status(201).send(user);
-    return;
   }
 );
 

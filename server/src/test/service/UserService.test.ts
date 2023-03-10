@@ -35,3 +35,9 @@ test('All registered users should be found in the db', async () => {
   expect(users[1].username).toBe('user2');
   expect(users[2].username).toBe('user3');
 });
+
+test('A user should be able to update their password', async () => {
+  const { id: id } = await userService.register('test123', 'test');
+  await userService.changePassword(id, 'newPassword', 'test');
+  expect(await userService.login('test123', 'newPassword')).toBeTruthy();
+});

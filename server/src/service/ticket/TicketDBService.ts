@@ -75,7 +75,7 @@ class TicketDBService implements ITicketService {
 
     const status = ticket.open;
     const updatedTicket = await ticketModel
-      .findByIdAndUpdate(new ObjectId(ticket.id), ticket)
+      .findByIdAndUpdate(ticket.id, ticket)
       .populate('owner')
       .exec();
     if (!updatedTicket) throw new Error('Failed to update ticket');

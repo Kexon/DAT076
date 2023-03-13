@@ -10,6 +10,10 @@ import TicketPage from '../pages/dashboard/ticket/TicketPage';
 import axiosInstance from '../utils/AxiosInstance';
 import { MockMessage, MockTicket, MockUser } from '../utils/Mock';
 
+/*
+ * We need to mock the AuthProvider because it needs a user to be logged in.
+ * We also need to mock the useSearchParams hook because it needs a ticket id in the url.
+ */
 jest.mock('../utils/AxiosInstance');
 jest.mock('../hooks/AuthProvider', () => ({
   useAuth: () => ({
@@ -32,8 +36,9 @@ const mockedResponse: AxiosResponse = {
   config: {} as InternalAxiosRequestConfig,
 };
 
+// We also need to prepare the response for the messages, as TicketPage fetches the ticket messages.
 const mockedMessageResponse: AxiosResponse = {
-  data: [MockMessage],
+  data: [MockMessage], // TicketPage expects an array of messages
   status: 200,
   statusText: 'OK',
   headers: {} as AxiosResponseHeaders,
@@ -52,8 +57,8 @@ describe('TicketPage', () => {
     const { title } = MockTicket;
     const { content } = MockMessage;
     await waitFor(() => {
-      expect(screen.getByText(title)).toBeInTheDocument();
-      expect(screen.getByText(content)).toBeInTheDocument();
+      expect(screen.getByText(title)).toBeInTheDocument(); // Check if the ticket title is displayed
+      expect(screen.getByText(content)).toBeInTheDocument(); // Check if the ticket message is displayed
     });
   });
 });

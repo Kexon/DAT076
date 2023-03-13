@@ -1,7 +1,6 @@
 import { Ticket, NewTicket } from "../../model/Ticket";
 import ITicketService from "./ITicketService";
 import { ticketModel } from "../../db/ticket.db";
-import { ObjectId } from "mongodb";
 import { messageService } from "../services";
 import { UserInfo, UserLevel } from "../../model/User";
 
@@ -15,7 +14,7 @@ class TicketDBService implements ITicketService {
   }
   async getTicketById(ticketId: string): Promise<Ticket> {
     const ticket = await ticketModel
-      .findById(new ObjectId(ticketId))
+      .findById(ticketId)
       .populate("owner")
       .exec();
     if (ticket) return ticket;
@@ -71,11 +70,11 @@ class TicketDBService implements ITicketService {
       return false;
     };
     if (!canUserEditTicket())
-      throw new Error("You are not allowed to edit this ticket");
+      throw new Error("You are not authorized to do this");
 
     const status = ticket.open;
     const updatedTicket = await ticketModel
-      .findByIdAndUpdate(new ObjectId(ticket.id), ticket)
+      .findByIdAndUpdate(ticket.id, ticket)
       .populate("owner")
       .exec();
     if (!updatedTicket) throw new Error("Failed to update ticket");
@@ -98,9 +97,7 @@ class TicketDBService implements ITicketService {
   }
   // should we check if the user is allowed to delete the ticket here or in the router?
   async deleteTicketById(ticketId: string): Promise<boolean> {
-    const deletedTicket = await ticketModel
-      .findByIdAndDelete(new ObjectId(ticketId))
-      .exec();
+    const deletedTicket = await ticketModel.findByIdAndDelete(ticketId).exec();
     if (deletedTicket) return true;
     return false;
   }

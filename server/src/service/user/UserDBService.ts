@@ -78,7 +78,7 @@ class UserDBService implements IUserService {
         return true;
       }
     }
-    return false;
+    throw new Error("Failed to change password");
   }
 
   async setUserLevel(
@@ -98,7 +98,7 @@ class UserDBService implements IUserService {
         return true;
       }
     }
-    return false;
+    throw new Error("Failed to set user level");
   }
 }
 

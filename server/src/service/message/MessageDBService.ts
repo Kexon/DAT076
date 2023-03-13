@@ -14,7 +14,6 @@ class MessageDBService implements IMessageService {
       .populate("sender")
       .exec();
     if (message) return message;
-    console.log(message);
     throw new Error("Message not found");
   }
 

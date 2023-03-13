@@ -91,7 +91,7 @@ messageRouter.post(
         systemMessage: false,
       };
       const ticket = await messageService.sendMessage(message);
-      res.status(200).send(ticket);
+      res.status(201).send(ticket);
     } catch (e: any) {
       res.status(500).send(e.message);
     }

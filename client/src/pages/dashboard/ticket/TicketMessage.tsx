@@ -28,7 +28,7 @@ export default function TicketMessage({ message }: Props) {
         >
           <h2 className="font-medium">{message.sender.username}</h2>
           {systemMessage ? (
-            <p>{message.content}</p>
+            <p className="text-sm lg:text-base">{message.content}</p>
           ) : (
             message.sender.level >= UserLevel.ADMIN && <Badge>Admin</Badge>
           )}

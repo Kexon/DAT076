@@ -138,7 +138,7 @@ export default function Dashboard() {
         <div>
           <hr className="mt-4 h-[360px] w-px bg-gray-200 dark:bg-gray-700" />
         </div>
-        <div className="flex flex-1 flex-col gap-10 rounded-lg px-6 pb-6 pt-2 ">
+        <div className="flex flex-1 flex-col gap-10 rounded-lg px-2 pt-2 lg:px-6">
           {renderComponent()}
         </div>
       </div>

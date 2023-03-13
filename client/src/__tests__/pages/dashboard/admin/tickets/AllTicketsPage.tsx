@@ -11,7 +11,7 @@ import AllTicketsPage from '../../../../../pages/dashboard/admin/tickets/AllTick
 import { MockUser } from '../../../../../utils/Mock';
 import axiosInstance from '../../../../../utils/AxiosInstance';
 
-jest.mock('../utils/AxiosInstance');
+jest.mock('../../../../../utils/AxiosInstance');
 const mockedAxios = axiosInstance as jest.Mocked<typeof axios>;
 
 const mockedTickets: Ticket[] = [

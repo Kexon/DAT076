@@ -6,16 +6,16 @@ import axios, {
 import { act } from 'react-dom/test-utils';
 import { render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import TicketPage from '../pages/dashboard/ticket/TicketPage';
-import axiosInstance from '../utils/AxiosInstance';
-import { MockMessage, MockTicket, MockUser } from '../utils/Mock';
+import TicketPage from '../../../../pages/dashboard/ticket/TicketPage';
+import axiosInstance from '../../../../utils/AxiosInstance';
+import { MockUser, MockTicket, MockMessage } from '../../../../utils/Mock';
 
 /*
  * We need to mock the AuthProvider because it needs a user to be logged in.
  * We also need to mock the useSearchParams hook because it needs a ticket id in the url.
  */
-jest.mock('../utils/AxiosInstance');
-jest.mock('../hooks/AuthProvider', () => ({
+jest.mock('../../../../utils/AxiosInstance');
+jest.mock('../../../../hooks/AuthProvider', () => ({
   useAuth: () => ({
     user: MockUser,
   }),

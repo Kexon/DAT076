@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { BrowserRouter } from 'react-router-dom';
-import TicketHeader from '../pages/dashboard/ticket/TicketHeader';
-import { MockTicket } from '../utils/Mock';
+import TicketHeader from '../../../../pages/dashboard/ticket/TicketHeader';
+import { MockTicket } from '../../../../utils/Mock';
 
 let container: HTMLDivElement | null = null;
 beforeEach(() => {

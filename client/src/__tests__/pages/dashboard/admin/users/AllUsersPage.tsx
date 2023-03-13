@@ -10,7 +10,7 @@ import axiosInstance from '../../../../../utils/AxiosInstance';
 import { UserInfo, UserLevel } from '../../../../../model/User';
 import AllUsersPage from '../../../../../pages/dashboard/admin/users/AllUsersPage';
 
-jest.mock('../utils/AxiosInstance');
+jest.mock('../../../../../utils/AxiosInstance');
 const mockedAxios = axiosInstance as jest.Mocked<typeof axios>;
 
 const mockedUsers: UserInfo[] = [

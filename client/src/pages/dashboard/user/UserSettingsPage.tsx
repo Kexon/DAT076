@@ -94,11 +94,8 @@ export default function UserSettingsPage() {
               onChange={handlePassword3Change}
               value={currentPassword}
               required
-              helperText={
-                !correctPassword && (
-                  <p className="text-red-500">Password is wrong!</p>
-                )
-              }
+              color={correctPassword ? 'primary' : 'failure'}
+              helperText={!correctPassword && 'Password is wrong!'}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -109,11 +106,8 @@ export default function UserSettingsPage() {
               onChange={handlePassword1Change}
               value={password1}
               required
-              helperText={
-                !newPasswordValid && (
-                  <p className="text-red-500">{newPasswordError}</p>
-                )
-              }
+              color={newPasswordValid ? 'primary' : 'failure'}
+              helperText={!newPasswordValid && `${newPasswordError}`}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -124,11 +118,8 @@ export default function UserSettingsPage() {
               onChange={handlePassword2Change}
               value={password2}
               required
-              helperText={
-                !newPasswordValid && (
-                  <p className="text-red-500">{newPasswordError}</p>
-                )
-              }
+              color={newPasswordValid ? 'primary' : 'failure'}
+              helperText={!newPasswordValid && `${newPasswordError}`}
             />
           </div>
 

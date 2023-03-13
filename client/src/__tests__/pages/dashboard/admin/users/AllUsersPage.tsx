@@ -6,9 +6,9 @@ import axios, {
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import { BrowserRouter } from 'react-router-dom';
-import axiosInstance from '../utils/AxiosInstance';
-import { UserInfo, UserLevel } from '../model/User';
-import AllUsersPage from '../pages/dashboard/admin/users/AllUsersPage';
+import axiosInstance from '../../../../../utils/AxiosInstance';
+import { UserInfo, UserLevel } from '../../../../../model/User';
+import AllUsersPage from '../../../../../pages/dashboard/admin/users/AllUsersPage';
 
 jest.mock('../utils/AxiosInstance');
 const mockedAxios = axiosInstance as jest.Mocked<typeof axios>;

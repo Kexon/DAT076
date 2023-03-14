@@ -50,7 +50,7 @@ describe('TicketRouter when logged in', () => {
       .expect(200);
 
     const res = await testSession.get('/user');
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(200);
     userid = res.body.id;
   });
 
@@ -80,5 +80,40 @@ describe('TicketRouter when logged in', () => {
     expect(res.status).toEqual(201);
     expect(res.body.title).toBe('title');
     expect(res.body.owner.username).toBe('test user');
+  });
+
+  test('It should be possible to get tickets by authorId', async () => {
+    await testSession.post('/ticket').send({
+      title: 'title test ticket',
+      description: 'desc',
+    });
+    const res = await testSession.get(`/ticket?authorId=${userid}`);
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].title).toBe('title test ticket');
+  });
+
+  test('It should be possible to get a ticket by id', async () => {
+    const res = await testSession.post('/ticket').send({
+      title: 'title test ticket',
+      description: 'desc',
+    });
+    const id = res.body.id;
+    const res2 = await testSession.get(`/ticket/${id}`);
+    expect(res2.status).toBe(200);
+    expect(res2.body.title).toBe('title test ticket');
+  });
+
+  test('It should be possible to update a ticket', async () => {
+    const res = await testSession.post('/ticket').send({
+      title: 'title test ticket',
+      description: 'desc',
+    });
+    const id = res.body.id;
+    const res2 = await testSession.patch(`/ticket/${id}`).send({
+      title: 'updated title',
+    });
+    expect(res2.status).toBe(200);
+    expect(res2.body.title).toBe('updated title');
   });
 });

@@ -70,7 +70,7 @@ test('A user should be able to get a message', async () => {
 test('A user should not be able to get a message that does not exist', async () => {
   await expect(
     messageService.getMessage('5e9b3d3d9c1c1b1d0c2e2f2c')
-  ).rejects.toThrow('Message not found');
+  ).rejects.toThrow('Failed to get message');
 });
 
 test('A user should be able to update a message', async () => {

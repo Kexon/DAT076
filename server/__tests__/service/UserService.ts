@@ -1,6 +1,6 @@
-import { conn } from '../../db/conn';
-import { userService } from '../../service/services';
-import { NewUser, UserLevel } from '../../model/User';
+import { conn } from '../../src/db/conn';
+import { userService } from '../../src/service/services';
+import { NewUser, UserLevel } from '../../src/model/User';
 /*
  * Make sure to clear the database after each test
  * so that state from one test does not leak into another.

@@ -1,6 +1,6 @@
-import { conn } from '../../db/conn';
-import { NewTicket, Ticket } from '../../model/Ticket';
-import { ticketService, userService } from '../../service/services';
+import { conn } from '../../src/db/conn';
+import { NewTicket, Ticket } from '../../src/model/Ticket';
+import { ticketService, userService } from '../../src/service/services';
 
 /*
  * Make sure to clear the database after each test

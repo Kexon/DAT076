@@ -1,5 +1,5 @@
-import { conn } from '../../db/conn';
-import { app } from '../../start';
+import { conn } from '../../src/db/conn';
+import { app } from '../../src/start';
 
 const session = require('supertest-session');
 

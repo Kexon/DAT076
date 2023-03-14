@@ -1,6 +1,6 @@
-import { conn } from '../../db/conn';
-import { NewUser, UserLevel } from '../../model/User';
-import { app } from '../../start';
+import { conn } from '../../src/db/conn';
+import { NewUser, UserLevel } from '../../src/model/User';
+import { app } from '../../src/start';
 
 const session = require('supertest-session');
 

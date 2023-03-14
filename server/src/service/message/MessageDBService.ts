@@ -1,7 +1,7 @@
-import { NewMessage } from "./../../model/Message";
-import { Message } from "../../model/Message";
-import IMessageService from "./IMessageService";
-import { messageModel } from "../../db/message.db";
+import { NewMessage } from './../../model/Message';
+import { Message } from '../../model/Message';
+import IMessageService from './IMessageService';
+import { messageModel } from '../../db/message.db';
 
 /**
  * MessageDBService is a class that handles all the requests to the database
@@ -11,10 +11,10 @@ class MessageDBService implements IMessageService {
   async getMessage(messageId: string): Promise<Message> {
     const message = await messageModel
       .findById(messageId)
-      .populate("sender")
+      .populate('sender')
       .exec();
     if (message) return message;
-    throw new Error("Message not found");
+    throw new Error('Failed to get message');
   }
 
   /*
@@ -23,7 +23,7 @@ class MessageDBService implements IMessageService {
   async getMessages(chatId: string): Promise<Message[]> {
     return await messageModel
       .find({ chatId: chatId })
-      .populate("sender")
+      .populate('sender')
       .exec();
   }
 
@@ -47,13 +47,13 @@ class MessageDBService implements IMessageService {
 
     // We need to do this in order for the sender to be referenced when returning the ticket
     // I don't know why though
-    ticket = await ticket.populate("sender");
+    ticket = await ticket.populate('sender');
 
     // We need to check if the ticket is closed or not
     // Right now we do not do that
 
     if (ticket) return ticket;
-    throw new Error("Message could not be created");
+    throw new Error('Message could not be created');
   }
 
   /*
@@ -64,7 +64,7 @@ class MessageDBService implements IMessageService {
       content: message,
     });
     if (updatedMessage) return updatedMessage;
-    throw new Error("Message not found");
+    throw new Error('Message not found');
   }
 }
 

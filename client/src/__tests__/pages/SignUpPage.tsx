@@ -2,9 +2,7 @@ import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import LoginPage from '../../pages/LoginPage';
 import SignUpPage from '../../pages/SignUpPage';
-import { Sign } from 'crypto';
 
 const mockSignup = jest.fn();
 

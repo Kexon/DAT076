@@ -2,6 +2,14 @@
 
 Project repository for Web applications (DAT076) at Chalmers University of Technology.
 
+## Folder structure
+
+- [/client](https://github.com/Kexon/DAT076/tree/main/client) - source code for the frontend created in React.
+
+- [/server](https://github.com/Kexon/DAT076/tree/main/server) - source code for the backend created in Express.
+
+- [/docs](https://github.com/Kexon/DAT076/tree/main/docs) - the final report can be found here.
+
 ## Instructions
 
 Please note that these instructions assume that [Node.js version 16+](https://nodejs.org/en/download) is installed and configured.
@@ -46,14 +54,6 @@ Go to http://localhost:8080 to use the application. Note that you need to be log
 ![Login page](/docs/screenshots/login.png?raw=true)
 ![Home page](/docs/screenshots/home.png?raw=true)
 ![Ticket page](/docs/screenshots/ticket.png?raw=true)
-
-## Folder structure
-
-- [/client](https://github.com/Kexon/DAT076/tree/main/client) - source code for the frontend created in React.
-
-- [/server](https://github.com/Kexon/DAT076/tree/main/server) - source code for the backend created in Express.
-
-- [/docs](https://github.com/Kexon/DAT076/tree/main/docs) - the final report can be found here.
 
 ## Contributors
 

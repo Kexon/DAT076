@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { Ticket, NewTicket } from "../model/Ticket";
 
-import { UserLevel } from "../model/User";
 import { ticketService } from "../service/services";
 
 export const ticketRouter = express.Router();
@@ -35,7 +34,7 @@ ticketRouter.get(
         res.status(200).send(tickets);
       }
     } catch (e: any) {
-      res.status(404).send(e.message);
+      res.status(500).send(e.message);
       return;
     }
   }
@@ -64,7 +63,7 @@ ticketRouter.get(
         res.status(404).send("Ticket not found");
       }
     } catch (e: any) {
-      res.status(404).send(e.message);
+      res.status(500).send(e.message);
     }
   }
 );
@@ -103,11 +102,7 @@ ticketRouter.post(
 ticketRouter.patch(
   "/:id",
   async (
-    req: Request<
-      { id: string },
-      {},
-      { title?: string; description?: string; open?: boolean }
-    >,
+    req: Request<{ id: string }, {}, { title?: string; open?: boolean }>,
     res: Response<Ticket | string>
   ) => {
     if (!req.session.user) {
@@ -122,24 +117,6 @@ ticketRouter.patch(
     let changedParams = 0;
     try {
       const ticket = await ticketService.getTicketById(id);
-
-      const canUserEditTicket = () => {
-        if (req.session.user) {
-          if (req.session.user.level >= UserLevel.ADMIN) return true; // admins can edit any ticket
-          if (req.session.user.id === ticket.owner.id) return true; // users can edit their own tickets
-        }
-        return false;
-      };
-
-      if (!ticket) {
-        res.status(404).send("Ticket not found");
-        return;
-      }
-
-      if (!canUserEditTicket()) {
-        res.status(403).send("You do not have permission to edit this ticket");
-        return;
-      }
       if (typeof req.body.title == "string") {
         ticket.title = req.body.title;
         changedParams++;
@@ -155,6 +132,9 @@ ticketRouter.patch(
       await ticketService.updateTicket(req.session.user, ticket);
       res.status(200).send(ticket);
     } catch (e: any) {
+      if (e.message === "You are not allowed to edit this ticket") {
+        res.status(403).send(e.message);
+      }
       res.status(500).send(e.message);
     }
   }

@@ -1,16 +1,6 @@
-# DAT076 [![CI workflow](https://github.com/emilsvennesson/dat257-xzibit/actions/workflows/ci.yml/badge.svg)](https://github.com/emilsvennesson/dat257-xzibit/actions/workflows/ci.yml)
-Project repository for the Web applications (DAT076) at Chalmers University of Technology.
+# DAT076 [![CI workflow](https://github.com/Kexon/DAT076/actions/workflows/ci.yml/badge.svg)](https://github.com/Kexon/DAT076/actions/workflows/ci.yml)
 
-<img src="https://i.postimg.cc/4Nw23m1J/bok.pnge" align="right" height="70" />
-
-## Key features
-
-The following features are intended to be available in the minimum viable product (MVP):
-
-- View and publish ads for books available on the Chalmers store
-- Remove and edit published ads
-- Search for course codes to find the corresponding course litterature
-- Login system and user control panel
+Project repository for Web applications (DAT076) at Chalmers University of Technology.
 
 ## Instructions
 
@@ -19,50 +9,55 @@ Please note that these instructions assume that [Node.js version 16+](https://no
 - Use a terminal of your choice to clone the repository:
 
 ```console
-git clone https://github.com/emilsvennesson/dat257-xzibit.git
+git clone https://github.com/Kexon/DAT076.git
 ```
 
-- Head into the app directory:
+- Head into the cloned folder:
 
 ```console
-cd dat257-xzibit/app
+cd DAT076
 ```
 
-- Install the required packages:
+- Create a .env file with the following content:
 
 ```console
-npm install
+SECRET_KEY="funny_secret_bere"
+DB_URI="<DB_URI to a MongoDB server>"
 ```
 
-- Run the start script:
+- Run the following two commands to install all the required packages:
 
 ```console
-npm start
+cd client && npm install
+cd .. && cd server && npm install
 ```
 
-Head to http://localhost:3000 to view it in the browser.
+- From the server folder, run the following command to start the application:
 
-## Folder structure
+```console
+npm run dev
+```
 
-- [/app](https://github.com/emilsvennesson/dat257-xzibit/tree/main/app) - source code for the main project created using the React Framework and Google Firebase backend.
-- [/cremona](https://github.com/emilsvennesson/dat257-xzibit/tree/main/cremona) - source code for a Node.js module made to easily get books from the Chalmers store. See the separate [README](https://github.com/emilsvennesson/dat257-xzibit/blob/main/cremona/README.md) for additional information.
-- [/docs](https://github.com/emilsvennesson/dat257-xzibit/tree/main/docs) - documentation and reflections written throughout the course.
+Go to http://localhost:8080 to use the application. Note that you need to be logged in to be able to access any features. You can create an account from http://localhost:8080/signup.
 
 ## Screenshots
 
-[to be added at a later stage]
+![Login page](/docs/screenshots/login.png?raw=true)
+![Home page](/docs/screenshots/home.png?raw=true)
+![Ticket page](/docs/screenshots/ticket.png?raw=true)
+
+## Folder structure
+
+- [/client](https://github.com/Kexon/DAT076/tree/main/client) - source code for the frontend created in React.
+
+- [/server](https://github.com/Kexon/DAT076/tree/main/server) - source code for the backend created in Express.
+
+- [/docs](https://github.com/Kexon/DAT076/tree/main/docs) - the final report can be found here.
 
 ## Contributors
 
 - [Pouya Shirin](https://github.com/Kexon)
+
 - [Albin Sundström](https://github.com/sundstromalbin)
+
 - [Emil Svensson](https://github.com/emilsvennesson)
-
-## Links
-
-- [Scrumboard](https://trello.com/b/S5gYZGke/scrumboard)
-- [STORE by Chalmers Studentkår](https://www.chalmersstore.se)
-
-## License
-
-This project is licensed under the **The MIT License**. Please see the [LICENSE](LICENSE) file for details.

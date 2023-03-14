@@ -3,8 +3,7 @@ import axios, {
   AxiosResponseHeaders,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { act } from 'react-dom/test-utils';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import TicketPage from '../../../../pages/dashboard/ticket/TicketPage';
 import axiosInstance from '../../../../utils/AxiosInstance';

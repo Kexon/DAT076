@@ -1,10 +1,10 @@
-import { conn } from '../../src/db/conn';
-import { NewTicket } from '../../src/model/Ticket';
+import { conn } from '../../db/conn';
+import { NewTicket } from '../../model/Ticket';
 import {
   messageService,
   ticketService,
   userService,
-} from '../../src/service/services';
+} from '../../service/services';
 
 /*
  * Make sure to clear the database after each test

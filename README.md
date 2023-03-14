@@ -22,13 +22,14 @@ cd DAT076
 
 ```console
 SECRET_KEY="funny_secret_bere"
-DB_URI="<DB_URI to a MongoDB server>"
+DB_URI="<DB_URI to a MongoDB database>"
+DB_URI_TEST="<DB_URI to a MongoDB test database>"
 ```
 
 - Run the following two commands to install all the required packages:
 
 ```console
-cd client && npm install
+cd client && npm install && npm run build
 cd .. && cd server && npm install
 ```
 

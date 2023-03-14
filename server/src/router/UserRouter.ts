@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
-import { UserInfo, UserLevel } from "../model/User";
-import { userService } from "../service/services";
+import express, { Request, Response } from 'express';
+import { UserInfo, UserLevel } from '../model/User';
+import { userService } from '../service/services';
 
 interface UserRequest {
   username: string;
@@ -9,9 +9,9 @@ interface UserRequest {
 
 export const userRouter = express.Router();
 
-userRouter.get("/all", async (req, res: Response<UserInfo[] | string>) => {
+userRouter.get('/all', async (req, res: Response<UserInfo[] | string>) => {
   if (!req.session.user) {
-    res.status(401).send("You are not logged in");
+    res.status(401).send('You are not logged in');
     return;
   }
   const users = await userService.getAllUsers(req.session.user);
@@ -19,18 +19,18 @@ userRouter.get("/all", async (req, res: Response<UserInfo[] | string>) => {
     res.status(401).send(`Failed to get users`);
     return;
   }
-  res.status(201).send(users);
+  res.status(200).send(users);
   return;
 });
 
 userRouter.get(
-  "/:id",
+  '/:id',
   async (
     req: Request<{ id: string }, {}, {}>,
     res: Response<UserInfo | string>
   ) => {
     if (!req.session.user) {
-      res.status(401).send("You are not logged in");
+      res.status(401).send('You are not logged in');
       return;
     }
     try {
@@ -38,7 +38,7 @@ userRouter.get(
       res.status(200).send(user);
       return;
     } catch (e: any) {
-      if (e.message === "User not found") {
+      if (e.message === 'User not found') {
         res.status(404).send(e.message);
         return;
       }
@@ -48,9 +48,9 @@ userRouter.get(
   }
 );
 
-userRouter.get("/", async (req, res: Response<UserInfo | string>) => {
+userRouter.get('/', async (req, res: Response<UserInfo | string>) => {
   if (!req.session.user) {
-    res.status(401).send("You are not logged in");
+    res.status(401).send('You are not logged in');
     return;
   }
   try {
@@ -69,12 +69,12 @@ userRouter.get("/", async (req, res: Response<UserInfo | string>) => {
  *  Password and username can be empty
  */
 userRouter.post(
-  "/",
+  '/',
   async (
     req: Request<{}, {}, UserRequest>,
     res: Response<UserInfo | string>
   ) => {
-    if (typeof req.body.username !== "string") {
+    if (typeof req.body.username !== 'string') {
       res
         .status(400)
         .send(
@@ -85,7 +85,7 @@ userRouter.post(
       return;
     }
 
-    if (typeof req.body.password !== "string") {
+    if (typeof req.body.password !== 'string') {
       res
         .status(400)
         .send(
@@ -105,7 +105,7 @@ userRouter.post(
       res.status(201).send(user);
       return;
     } catch (e: any) {
-      if (e.message === "Username already exists") {
+      if (e.message === 'Username already exists') {
         res.status(409).send(e.message);
       } else {
         res.status(500).send(e.message);
@@ -119,8 +119,8 @@ userRouter.post(
  * Some security flaws:
  * We don't check if the user is logged in
  */
-userRouter.post("/login", async (req, res: Response<UserInfo | string>) => {
-  if (typeof req.body.username !== "string") {
+userRouter.post('/login', async (req, res: Response<UserInfo | string>) => {
+  if (typeof req.body.username !== 'string') {
     res
       .status(400)
       .send(
@@ -130,7 +130,7 @@ userRouter.post("/login", async (req, res: Response<UserInfo | string>) => {
     return;
   }
 
-  if (typeof req.body.password !== "string") {
+  if (typeof req.body.password !== 'string') {
     res
       .status(400)
       .send(
@@ -145,7 +145,7 @@ userRouter.post("/login", async (req, res: Response<UserInfo | string>) => {
     res.status(200).send(user);
     return;
   } else {
-    res.status(401).send("Wrong username or password");
+    res.status(401).send('Wrong username or password');
     return;
   }
 });
@@ -155,17 +155,17 @@ userRouter.post("/login", async (req, res: Response<UserInfo | string>) => {
  * Password can be empty
  */
 userRouter.patch(
-  "/", // The endpoint can be /password or /changepassword
+  '/', // The endpoint can be /password or /changepassword
   async (
     req: Request<{}, {}, { newPassword: string; currentPassword: string }>,
     res: Response<string>
   ) => {
     if (!req.session.user) {
-      res.status(401).send("You are not logged in");
+      res.status(401).send('You are not logged in');
       return;
     }
 
-    if (typeof req.body.newPassword !== "string") {
+    if (typeof req.body.newPassword !== 'string') {
       res
         .status(400)
         .send(
@@ -176,7 +176,7 @@ userRouter.patch(
       return;
     }
 
-    if (typeof req.body.currentPassword !== "string") {
+    if (typeof req.body.currentPassword !== 'string') {
       res
         .status(400)
         .send(
@@ -194,17 +194,17 @@ userRouter.patch(
       req.body.currentPassword
     );
     if (!updatedUser) {
-      res.status(401).send("Wrong password entered");
+      res.status(401).send('Wrong password entered');
       return;
     } else {
-      res.status(200).send("Password successfully changed.");
+      res.status(200).send('Password successfully changed.');
       return;
     }
   }
 );
 
 userRouter.patch(
-  "/:id",
+  '/:id',
   async (
     req: Request<
       { id: string },
@@ -215,7 +215,7 @@ userRouter.patch(
   ) => {
     if (!req.session.user || req.session.user.level !== UserLevel.SUPER_ADMIN) {
       // only super admins are allowed to use this endpoint
-      res.status(401).send("You are not allowed to perform this operation");
+      res.status(401).send('You are not allowed to perform this operation');
       return;
     }
     if (!req.body.newPassword && !req.body.level) {
@@ -232,7 +232,7 @@ userRouter.patch(
           req.body.newPassword
         );
         if (!updatedUser) {
-          res.status(401).send("Failed to change password");
+          res.status(401).send('Failed to change password');
           return;
         }
       }
@@ -249,17 +249,17 @@ userRouter.patch(
   }
 );
 
-userRouter.post("/logout", async (req, res: Response<string>) => {
+userRouter.post('/logout', async (req, res: Response<string>) => {
   if (!req.session.user) {
-    res.status(401).send("You are not logged in");
+    res.status(401).send('You are not logged in');
     return;
   }
   req.session.destroy((err) => {
     if (err) {
-      res.status(500).send("Failed to log out");
+      res.status(500).send('Failed to log out');
       return;
     }
-    res.status(200).send("Successfully logged out");
+    res.status(200).send('Successfully logged out');
     return;
   });
 });

@@ -17,6 +17,6 @@ export interface Ticket {
  */
 export interface NewTicket {
   title: string;
-  owner: string;
+  owner: string; // id of the user
   description: string;
 }

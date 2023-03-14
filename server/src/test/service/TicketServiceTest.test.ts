@@ -198,7 +198,7 @@ test('A user should not be able to update someone else´s ticket', async () => {
   };
   await expect(
     ticketService.updateTicket(otherUser, updatedTicket)
-  ).rejects.toThrow('You are not allowed to edit this ticket');
+  ).rejects.toThrow('You are not authorized to do this');
 });
 
 test('A user should be able to close a ticket', async () => {

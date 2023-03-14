@@ -78,7 +78,7 @@ class UserDBService implements IUserService {
         return true;
       }
     }
-    throw new Error("Failed to change password");
+    return false;
   }
 
   async setUserLevel(

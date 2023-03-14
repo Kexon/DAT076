@@ -6,12 +6,13 @@ import axios, {
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import { BrowserRouter } from 'react-router-dom';
-import { Ticket } from '../model/Ticket';
-import AllTicketsPage from '../pages/dashboard/admin/tickets/AllTicketsPage';
-import { MockUser } from '../utils/Mock';
+import { Ticket } from '../../../../../model/Ticket';
+import AllTicketsPage from '../../../../../pages/dashboard/admin/tickets/AllTicketsPage';
+import { MockUser } from '../../../../../utils/Mock';
+import axiosInstance from '../../../../../utils/AxiosInstance';
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+jest.mock('../../../../../utils/AxiosInstance');
+const mockedAxios = axiosInstance as jest.Mocked<typeof axios>;
 
 const mockedTickets: Ticket[] = [
   {
@@ -38,10 +39,9 @@ const mockedResponse: AxiosResponse = {
   headers: {} as AxiosResponseHeaders,
   config: {} as InternalAxiosRequestConfig,
 };
-describe('TicketListPage', () => {
+describe('AllTicketsPage', () => {
   test('should display list of tickets', async () => {
     mockedAxios.get.mockResolvedValueOnce(mockedResponse);
-
     render(<AllTicketsPage />, { wrapper: BrowserRouter });
 
     await waitFor(() => {

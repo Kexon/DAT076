@@ -1,4 +1,3 @@
-// src/api/index.spec.ts
 import axios, {
   AxiosResponse,
   AxiosResponseHeaders,

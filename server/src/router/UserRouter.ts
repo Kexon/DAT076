@@ -244,7 +244,7 @@ userRouter.patch(
         .status(200)
         .send({ id: user.id, username: user.username, level: user.level });
     } catch (e: any) {
-      res.status(500).send(e.message);
+      res.status(500).send(`Caught error: ${e.message}`);
     }
   }
 );

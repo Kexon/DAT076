@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import NavBar from '../components/NavBar';
+import NavBar from '../../components/NavBar';
 
 test('the tickino button should navigate the user to the homepage', () => {
   render(<NavBar />, { wrapper: BrowserRouter });

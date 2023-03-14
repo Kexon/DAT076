@@ -59,4 +59,15 @@ export default class UserService {
     const { data } = await axiosInstance.post<string>('/user/logout');
     return data;
   }
+
+  static async changePassword(
+    currentPassword: string,
+    newPassword: string,
+  ): Promise<string> {
+    const { data } = await axiosInstance.patch<string>(`/user`, {
+      currentPassword,
+      newPassword,
+    });
+    return data;
+  }
 }

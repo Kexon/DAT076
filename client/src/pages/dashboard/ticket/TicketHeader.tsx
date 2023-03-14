@@ -15,7 +15,7 @@ export default function TicketHeader({ ticket, isTicketOpen }: Props) {
   if (!ticket) return <div>Loading...</div>;
 
   return (
-    <div className="flex flex-col gap-1  ">
+    <div className="flex flex-col gap-1">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h1 className="p-2 text-xl font-semibold">{ticket.title}</h1>

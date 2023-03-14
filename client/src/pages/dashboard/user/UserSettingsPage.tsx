@@ -1,5 +1,6 @@
 import { Label, TextInput, Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
+import UserService from '../../../services/UserService';
 
 /**
  * This page is used to change the user's password.
@@ -58,12 +59,11 @@ export default function UserSettingsPage() {
       setNewPasswordError('Passwords do not match');
       return;
     }
-    if (currentPassword !== 'test') {
+    /*  if (currentPassword !== 'test') {
       setCorrectPassword(false);
       return;
-    }
+    } */
     setSubmitted(true);
-    setSuccess(true);
   };
 
   const clearAllForms = () => {
@@ -73,9 +73,18 @@ export default function UserSettingsPage() {
   };
   useEffect(() => {
     if (!submitted) return;
-    setSuccess(true);
-    setSubmitted(false);
-    clearAllForms();
+    const changePassword = async () => {
+      try {
+        await UserService.changePassword(currentPassword, password1);
+        setSuccess(true);
+        setSubmitted(false);
+        clearAllForms();
+      } catch (error) {
+        setCorrectPassword(false);
+        setSubmitted(false);
+      }
+    };
+    changePassword();
   }, [submitted]);
 
   return (
@@ -94,11 +103,8 @@ export default function UserSettingsPage() {
               onChange={handlePassword3Change}
               value={currentPassword}
               required
-              helperText={
-                !correctPassword && (
-                  <p className="text-red-500">Password is wrong!</p>
-                )
-              }
+              color={correctPassword ? 'primary' : 'failure'}
+              helperText={!correctPassword && 'Password is wrong!'}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -109,11 +115,8 @@ export default function UserSettingsPage() {
               onChange={handlePassword1Change}
               value={password1}
               required
-              helperText={
-                !newPasswordValid && (
-                  <p className="text-red-500">{newPasswordError}</p>
-                )
-              }
+              color={newPasswordValid ? 'primary' : 'failure'}
+              helperText={!newPasswordValid && `${newPasswordError}`}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -124,11 +127,8 @@ export default function UserSettingsPage() {
               onChange={handlePassword2Change}
               value={password2}
               required
-              helperText={
-                !newPasswordValid && (
-                  <p className="text-red-500">{newPasswordError}</p>
-                )
-              }
+              color={newPasswordValid ? 'primary' : 'failure'}
+              helperText={!newPasswordValid && `${newPasswordError}`}
             />
           </div>
 

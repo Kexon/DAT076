@@ -10,7 +10,7 @@ export default interface IUserService {
    * we also want to return undefined if no user is found.
    */
   getUser(userId: string): Promise<UserInfo>;
-  getAllUsers(): Promise<UserInfo[]>;
+  getAllUsers(requester: UserInfo): Promise<UserInfo[]>;
   login(username: string, password: string): Promise<UserInfo>;
   register(username: string, password: string): Promise<UserInfo>;
   changePassword(

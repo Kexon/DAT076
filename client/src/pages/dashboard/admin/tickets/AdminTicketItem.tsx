@@ -1,9 +1,6 @@
 import { Badge } from 'flowbite-react';
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Ticket } from '../../../../model/Ticket';
-import { UserInfo } from '../../../../model/User';
-import UserService from '../../../../services/UserService';
 import isMobile from '../../../../utils/Utilities';
 
 /**
@@ -13,20 +10,7 @@ import isMobile from '../../../../utils/Utilities';
  */
 export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
   const { id, title, open } = ticket;
-  const [user, setUser] = useState<UserInfo>();
 
-  /**
-   * This effect is used to get the user that created the ticket.
-   */
-  useEffect(() => {
-    const getUser = async () => {
-      if (ticket) {
-        const data = await UserService.getUserById(ticket.owner.id); // Isn't this a bit redundant? ticket.owner already contains the user info.
-        setUser(data);
-      }
-    };
-    getUser();
-  }, [ticket?.id]);
   return (
     <div>
       {isMobile() ? (
@@ -64,7 +48,7 @@ export default function AdminTicketItem({ ticket }: { ticket: Ticket }) {
           <p className="col-span-3 ml-2 h-6 truncate text-left md:col-span-2">
             ...{id.substring(id.length - 5, id.length)}
           </p>
-          <p className="col-span-1 hidden md:flex">{user?.username}</p>
+          <p className="col-span-1 hidden md:flex">{ticket.owner.username}</p>
           <p className="col-span-5 h-6 truncate text-left sm:col-span-4">
             {title}
           </p>

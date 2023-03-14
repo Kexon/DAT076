@@ -14,12 +14,7 @@ userRouter.get("/all", async (req, res: Response<UserInfo[] | string>) => {
     res.status(401).send("You are not logged in");
     return;
   }
-  if (req.session.user.level < UserLevel.ADMIN) {
-    res.status(401).send("You are not authorized to do this");
-    return;
-  }
-
-  const users = await userService.getAllUsers();
+  const users = await userService.getAllUsers(req.session.user);
   if (!users) {
     res.status(401).send(`Failed to get users`);
     return;
@@ -34,19 +29,22 @@ userRouter.get(
     req: Request<{ id: string }, {}, {}>,
     res: Response<UserInfo | string>
   ) => {
-    // TODO: This only checks if the user is logged in, not if the user is the same as the one requested
-    // We most likely want to check if the user is admin or the same user
     if (!req.session.user) {
       res.status(401).send("You are not logged in");
       return;
     }
-    const user = await userService.getUser(req.params.id);
-    if (!user) {
-      res.status(401).send("User does not exist");
+    try {
+      const user = await userService.getUser(req.params.id);
+      res.status(200).send(user);
+      return;
+    } catch (e: any) {
+      if (e.message === "User not found") {
+        res.status(404).send(e.message);
+        return;
+      }
+      res.status(500).send(e.message);
       return;
     }
-    res.status(201).send(user);
-    return;
   }
 );
 
@@ -55,13 +53,14 @@ userRouter.get("/", async (req, res: Response<UserInfo | string>) => {
     res.status(401).send("You are not logged in");
     return;
   }
-  const user = await userService.getUser(req.session.user.id);
-  if (!user) {
-    res.status(401).send(`Failed to get user`);
+  try {
+    const user = await userService.getUser(req.session.user.id);
+    res.status(200).send(user);
+    return;
+  } catch (e: any) {
+    res.status(500).send(e.message);
     return;
   }
-  res.status(201).send(user);
-  return;
 });
 
 /*
@@ -97,19 +96,22 @@ userRouter.post(
       return;
     }
 
-    const user = await userService.register(
-      req.body.username,
-      req.body.password
-    );
-    if (!user) {
-      res
-        .status(409)
-        .send(`User with username ${req.body.username} already exists`);
+    try {
+      const user = await userService.register(
+        req.body.username,
+        req.body.password
+      );
+      req.session.user = user;
+      res.status(201).send(user);
+      return;
+    } catch (e: any) {
+      if (e.message === "Username already exists") {
+        res.status(409).send(e.message);
+      } else {
+        res.status(500).send(e.message);
+      }
       return;
     }
-    req.session.user = user;
-    res.status(201).send(user);
-    return;
   }
 );
 
@@ -159,9 +161,7 @@ userRouter.patch(
     res: Response<string>
   ) => {
     if (!req.session.user) {
-      res
-        .status(401)
-        .send(`Authentication failed. Please log in to change your password.`);
+      res.status(401).send("You are not logged in");
       return;
     }
 
@@ -215,7 +215,7 @@ userRouter.patch(
   ) => {
     if (!req.session.user || req.session.user.level !== UserLevel.SUPER_ADMIN) {
       // only super admins are allowed to use this endpoint
-      res.status(401).send(`Authentication failed.`);
+      res.status(401).send("You are not allowed to perform this operation");
       return;
     }
     if (!req.body.newPassword && !req.body.level) {
@@ -223,37 +223,29 @@ userRouter.patch(
       res.status(400).send(`Bad PATCH call to ${req.originalUrl}`);
       return;
     }
-    let user = await userService.getUser(req.params.id);
-    if (!user) {
-      res.status(401).send(`User does not exist`);
-      return;
-    }
-    if (req.body.newPassword) {
-      const updatedUser = await userService.changePassword(
-        req.session.user.id,
-        req.params.id,
-        req.body.newPassword
-      );
-      if (!updatedUser) {
-        res.status(401).send("Failed to change password");
-        return;
+    try {
+      let user = await userService.getUser(req.params.id);
+      if (req.body.newPassword) {
+        const updatedUser = await userService.changePassword(
+          req.session.user.id,
+          req.params.id,
+          req.body.newPassword
+        );
+        if (!updatedUser) {
+          res.status(401).send("Failed to change password");
+          return;
+        }
       }
-    }
-    if (req.body.level) {
-      const success = await userService.setUserLevel(
-        req.session.id,
-        user.id,
-        req.body.level
-      );
-      if (!success) {
-        res.status(401).send("Failed to change user level");
-        return;
+      if (req.body.level) {
+        await userService.setUserLevel(req.session.id, user.id, req.body.level);
+        user.level = req.body.level;
       }
-      user.level = req.body.level;
+      res
+        .status(200)
+        .send({ id: user.id, username: user.username, level: user.level });
+    } catch (e: any) {
+      res.status(500).send(e.message);
     }
-    res
-      .status(200)
-      .send({ id: user.id, username: user.username, level: user.level });
   }
 );
 

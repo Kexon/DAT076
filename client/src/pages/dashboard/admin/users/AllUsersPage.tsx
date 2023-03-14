@@ -149,7 +149,7 @@ export default function AllUsersPage() {
         <div className="grid grid-flow-col grid-cols-10 gap-x-1 text-lg font-semibold">
           <p className="col-span-5 ml-3 lg:col-span-3">ID</p>
           <p className="col-span-4 lg:col-span-6">User</p>
-          <p className="col-span-1 text-center">Status</p>
+          <p className="col-span-1 text-center">Level</p>
         </div>
       </div>
       {/* END OF DESKTOP VIEW */}

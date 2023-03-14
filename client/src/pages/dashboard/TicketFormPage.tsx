@@ -99,7 +99,11 @@ export default function TicketFormPage() {
           />{' '}
         </div>
         {!submitted && (
-          <Button gradientDuoTone="greenToBlue" type="submit">
+          <Button
+            gradientDuoTone="greenToBlue"
+            type="submit"
+            disabled={description.trim().length < 1 || title.trim().length < 1}
+          >
             Submit
           </Button>
         )}

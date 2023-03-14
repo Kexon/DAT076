@@ -38,8 +38,8 @@ export default function LoginPage() {
               <Label htmlFor="username" value="Username" />
             </div>
             <TextInput
-              id="username3"
-              placeholder="johndoe@chalmers.se"
+              id="username"
+              placeholder="johndoe"
               required
               rightIcon={MdOutlineAccountCircle}
               onChange={(e) => setUsername(e.target.value)}

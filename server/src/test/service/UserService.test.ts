@@ -1,7 +1,6 @@
 import { conn } from '../../db/conn';
 import { userService } from '../../service/services';
 import { NewUser, UserLevel } from '../../model/User';
-
 /*
  * Make sure to clear the database after each test
  * so that state from one test does not leak into another.
@@ -34,7 +33,12 @@ test('All registered users should be found in the db', async () => {
   await userService.register('user1', 'password');
   await userService.register('user2', 'password');
   await userService.register('user3', 'password');
-  const users = await userService.getAllUsers();
+  const users = await userService.getAllUsers({
+    // this method requires a super admin
+    id: '1',
+    username: 'mockadmin',
+    level: UserLevel.SUPER_ADMIN,
+  });
   expect(users.length).toBe(3);
   expect(users[0].username).toBe('user1');
   expect(users[1].username).toBe('user2');
@@ -42,7 +46,11 @@ test('All registered users should be found in the db', async () => {
 });
 
 test('No users should be found in the db', async () => {
-  const users = await userService.getAllUsers();
+  const users = await userService.getAllUsers({
+    id: '1',
+    username: 'mockadmin',
+    level: UserLevel.SUPER_ADMIN,
+  });
   expect(users.length).toBe(0);
 });
 
@@ -61,9 +69,9 @@ test('A user should be able to update their password', async () => {
 
 test('A user should not be able to update their password with an incorrect current password', async () => {
   const { id: id } = await userService.register('test123', 'test');
-  expect(
-    await userService.changePassword(id, id, 'newPassword', 'wrongPassword')
-  ).toBe(false);
+  await expect(
+    userService.changePassword(id, id, 'newPassword', 'wrongPassword')
+  ).rejects.toThrow('Failed to change password');
 });
 
 test('A super admin should be able to update another users password', async () => {
@@ -72,13 +80,13 @@ test('A super admin should be able to update another users password', async () =
     password: 'password',
     level: UserLevel.SUPER_ADMIN,
   };
-  const super_admin_id = (
+  const superAdminId = (
     await conn.collection('users').insertOne(super_admin)
   ).insertedId.toString();
-  const { id: user_id } = await userService.register('user', 'password');
+  const { id: userId } = await userService.register('user', 'password');
   await userService.changePassword(
-    super_admin_id,
-    user_id,
+    superAdminId,
+    userId,
     'newPassword',
     'password'
   );
@@ -86,16 +94,17 @@ test('A super admin should be able to update another users password', async () =
 });
 
 test('A super admin should be able to set a users user level', async () => {
-  const super_admin: NewUser = {
+  const superAdmin: NewUser = {
     username: 'super_admin',
     password: 'password',
     level: UserLevel.SUPER_ADMIN,
   };
-  const super_admin_id = (
-    await conn.collection('users').insertOne(super_admin)
+  const superAdminId = (
+    await conn.collection('users').insertOne(superAdmin)
   ).insertedId.toString();
-  const { id: user_id } = await userService.register('user', 'password');
-  await userService.setUserLevel(super_admin_id, user_id, UserLevel.ADMIN);
-  const user = await userService.getUser(user_id);
+
+  const { id: userId } = await userService.register('user', 'password');
+  await userService.setUserLevel(superAdminId, userId, UserLevel.ADMIN);
+  const user = await userService.getUser(userId);
   expect(user.level).toBe(UserLevel.ADMIN);
 });

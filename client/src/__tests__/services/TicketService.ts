@@ -4,12 +4,12 @@ import axios, {
   AxiosResponseHeaders,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { Ticket } from '../model/Ticket';
-import TicketService from '../services/TicketService';
-import { MockTicket } from '../utils/Mock';
-import axiosInstance from '../utils/AxiosInstance';
+import { Ticket } from '../../model/Ticket';
+import TicketService from '../../services/TicketService';
+import { MockTicket } from '../../utils/Mock';
+import axiosInstance from '../../utils/AxiosInstance';
 
-jest.mock('../utils/AxiosInstance');
+jest.mock('../../utils/AxiosInstance');
 const mockedAxios = axiosInstance as jest.Mocked<typeof axios>;
 
 describe('getTickets()', () => {
